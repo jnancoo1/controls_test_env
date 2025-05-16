@@ -4,7 +4,16 @@
 
 #ifndef MATRIX_MATH_HPP
 #define MATRIX_MATH_HPP
+struct LUResult {
+    Matrix L;
+    Matrix U;
+};
 
+
+struct QRresult {
+    Matrix L;
+    Matrix U;
+};
 
 
 
@@ -30,6 +39,7 @@ public:
         }
         return Vec;  
     }
+    static My_Vec ones(int a){}
     My_Vec operator- (const My_Vec& other) const{
 
         if(this->length!=other.length){
@@ -91,6 +101,24 @@ double dot (const My_Vec& other) const{
             }
             return *this;
         }
+
+
+    static My_Vec unit_vec(int i,int L){
+
+        My_Vec unit_vec(L);
+
+        for (int j=0;j<L;j++){
+
+            if(j==i){
+                unit_vec.myvector[j]=1;
+            }
+            else{
+                unit_vec.myvector[j]=0;
+            }
+        }
+
+        return unit_vec;
+    }
 
     
 };
@@ -218,9 +246,121 @@ class Matrix{
 
     }
 
+    static Matrix Zeros(int a,int b){ 
+        
+        Matrix Zeros(a,b);
+        for(int i=0;i<a;i++){
+
+            for(int j=0;j<b;j++){
+
+                Zeros.MyMAT[i][j]=0;
+            }
+
+        }
+        return Zeros;
+    }
 
 
-    Matrix operator*(const Matrix& other) const {
+    LUResult L_U() const{
+
+        if(this->rows!=this->cols){
+
+            throw std::invalid_argument("Not square");
+        }
+
+        Matrix L=eye(this->rows);
+        Matrix U=Zeros(this->rows,this->cols);
+
+    
+        for(int i=0;i<this->rows;i++){
+            for ( int j=0;j<this->cols;j++){
+                if(i==0){
+
+                    U.MyMAT[i][j]=this->MyMAT[i][j];
+
+                }
+
+
+                else{
+                    double sumterm=0;
+                    for(int k=0;k<i;k++){
+
+                        sumterm+=(L.MyMAT[i][k]*U.MyMAT[k][j]);
+                    }
+                    U.MyMAT[i][j]=this->MyMAT[i][j]-sumterm;
+                }
+            }
+
+        }
+
+
+        for(int i=0;i<this->rows;i++){
+            for(int j=0;j<this->cols;j++){
+                
+                if(j<=i){
+                    double sumterm2=0;
+                    for(int k=0;k<j;k++){
+                        sumterm2+=(L.MyMAT[i][k]*U.MyMAT[k][j]);
+                    }
+                    L.MyMAT[i][j]=(this->MyMAT[i][j]-sumterm2)/U.MyMAT[j][j];
+                }
+
+                else{
+
+                    L.MyMAT[i][j]=0;  
+                }
+            }
+           
+        }
+
+
+        LUResult ans;
+        ans.L=L;
+        ans.U=U;
+        return ans;
+    }
+
+    static My_Vec UV(int i,int L){
+
+        My_Vec unit_vec(L);
+
+        for (int j=0;j<L;j++){
+
+            if(j==i){
+                unit_vec.myvector[j]=1;
+            }
+            else{
+                unit_vec.myvector[j]=0;
+            }
+        }
+
+        return unit_vec;
+    }
+
+    QRresult QR_fact() const {
+
+        Matrix Q(this->rows,this->rows);
+        Matrix R(this->rows,this->cols);
+
+        for (int i=0;i<this->cols;i++){
+        My_Vec vecx;
+        for (int row=0;row<this->rows;row++){
+            vecx.myvector.push_back(this->MyMAT[row][i]);
+        }
+        double n=vecx.Norm();
+        My_Vec unit = UV(0,this->cols);
+        My_Vec reflec_vec(this->cols);
+        if(vecx.myvector[0]<0)
+            reflec_vec=vecx+unit.Scalar_Mul(n);
+        else
+            reflec_vec=vecx-unit.Scalar_Mul(n);
+        
+        double normalize_ref;
+        normalize_ref=reflec_vec.Norm();
+
+    }}
+        
+    Matrix operator*(const Matrix& other) const{
         if (this->cols != other.rows) {
             throw std::invalid_argument("Dimension mismatch");
         }
@@ -264,6 +404,4 @@ class Matrix{
         return ans;
     }
 };
-
-
 #endif
