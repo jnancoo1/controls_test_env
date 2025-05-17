@@ -387,19 +387,16 @@ class Matrix{
         Matrix Aupdate = *this;
         
         for (int i = 0; i < std::min(this->rows-1, this->cols); i++) {
-            // Extract the column vector we want to transform
+
             My_Vec vecx(this->rows - i);
             for (int row = i; row < this->rows; row++) {
                 vecx.myvector[row - i] = Aupdate.MyMAT[row][i];
             }
             
-            // Calculate the norm of the vector
             double n = vecx.Norm();
             
-            // Create the first unit vector e₁
             My_Vec unit = My_Vec::unit_vec(0, this->rows - i);  // Use consistent naming
             
-            // Create the reflection vector
             My_Vec reflec_vec;
             if (vecx.myvector[0] < 0) {
                 reflec_vec = vecx + unit.Scalar_Mul(n);
@@ -407,7 +404,6 @@ class Matrix{
                 reflec_vec = vecx - unit.Scalar_Mul(n);
             }
             
-            // Normalize the reflection vector
             double normalize_ref = reflec_vec.Norm();
             
             // Check for zero vector (avoid division by zero)
@@ -430,7 +426,6 @@ class Matrix{
                 }
             }
             
-            // Update A and accumulate Q
             Aupdate = Hprime * Aupdate;
             Q = Q * Hprime; 
         }
@@ -485,4 +480,15 @@ class Matrix{
         return ans;
     }
 };
+class LinearSolver {
+    public:
+        static My_Vec SolveLU(const Matrix& A, const My_Vec& b);
+        static My_Vec SolveQR(const Matrix& A, const My_Vec& b);
+        static Matrix Inverse(const Matrix& A);
+        private:
+            static My_Vec ForwardSubstitution(const Matrix& L, const My_Vec& b);
+            static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
+    
+    };
+    
 #endif
