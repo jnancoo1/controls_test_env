@@ -11,13 +11,13 @@ struct LUResult {
 
 
 struct QRresult {
-    Matrix L;
-    Matrix U;
+    Matrix Q;
+    Matrix R;
 };
 
 
 
- class My_Vec{
+class My_Vec{
 public:
     int length=1;
     std::vector<double> myvector;
@@ -39,7 +39,18 @@ public:
         }
         return Vec;  
     }
-    static My_Vec ones(int a){}
+    static My_Vec ones(int a){
+
+        My_Vec ones_vec(a);
+        for(int i=0;i<a;i++){
+
+            ones_vec.myvector[i]=1;
+        }
+
+        return ones_vec;
+
+
+    }
     My_Vec operator- (const My_Vec& other) const{
 
         if(this->length!=other.length){
@@ -120,6 +131,8 @@ double dot (const My_Vec& other) const{
         return unit_vec;
     }
 
+
+    
     
 };
 
@@ -194,6 +207,24 @@ class Matrix{
 
 
     }
+
+
+    static Matrix Outer_Product(const My_Vec& u,const My_Vec& v){
+
+        Matrix Output(u.length,v.length);
+
+        double temp=0;
+        for(int i=0;i<u.length;i++){
+
+            for(int j=0;j<v.length;j++){
+            temp=u.myvector[i]*v.myvector[j];
+            Output.MyMAT[i][j]=temp;
+            }
+        }
+    
+        return Output;
+    }
+
 
     Matrix Transpose() const{
         Matrix New_Mat(this->cols,this->rows);
@@ -337,29 +368,74 @@ class Matrix{
         return unit_vec;
     }
 
-    QRresult QR_fact() const {
+    static Matrix Embed(const Matrix& Householder,const Matrix& A){
+        Matrix Hp=eye(A.rows);
+        int i = A.rows - Householder.rows;
+        for (int a = 0; a < Householder.rows; a++) {
 
-        Matrix Q(this->rows,this->rows);
-        Matrix R(this->rows,this->cols);
+            for (int b = 0; b < Householder.cols; b++) {
 
-        for (int i=0;i<this->cols;i++){
-        My_Vec vecx;
-        for (int row=0;row<this->rows;row++){
-            vecx.myvector.push_back(this->MyMAT[row][i]);
+                Hp.MyMAT[i+a][i+b]=Householder.MyMAT[a][b];
+            }
         }
-        double n=vecx.Norm();
-        My_Vec unit = UV(0,this->cols);
-        My_Vec reflec_vec(this->cols);
-        if(vecx.myvector[0]<0)
-            reflec_vec=vecx+unit.Scalar_Mul(n);
-        else
-            reflec_vec=vecx-unit.Scalar_Mul(n);
-        
-        double normalize_ref;
-        normalize_ref=reflec_vec.Norm();
 
-    }}
+        return Hp;
+    }
+
+    QRresult QR_fact() const {
+        Matrix Q = eye(this->rows);
+        Matrix Aupdate = *this;
         
+        for (int i = 0; i < std::min(this->rows-1, this->cols); i++) {
+
+            My_Vec vecx(this->rows - i);
+            for (int row = i; row < this->rows; row++) {
+                vecx.myvector[row - i] = Aupdate.MyMAT[row][i];
+            }
+            
+            double n = vecx.Norm();
+            
+            My_Vec unit = My_Vec::unit_vec(0, this->rows - i);  // Use consistent naming
+            
+            My_Vec reflec_vec;
+            if (vecx.myvector[0] < 0) {
+                reflec_vec = vecx + unit.Scalar_Mul(n);
+            } else {
+                reflec_vec = vecx - unit.Scalar_Mul(n);
+            }
+            
+            double normalize_ref = reflec_vec.Norm();
+            
+            // Check for zero vector (avoid division by zero)
+            if (normalize_ref < 1e-10) {
+                continue;  // Skip this iteration if vector is too small
+            }
+            
+            My_Vec V = reflec_vec.Scalar_Mul(1.0 / normalize_ref);
+            
+            // Create Householder matrix H = I - 2*vv^T
+            Matrix I = Matrix::eye(V.length);
+            Matrix vvT = Matrix::Outer_Product(V, V);
+            Matrix Householder = I - vvT.Scalar_Mul(2.0);
+            
+            // Embed the Householder matrix into a larger identity matrix
+            Matrix Hprime = Matrix::eye(this->rows);
+            for (int r = 0; r < Householder.rows; r++) {
+                for (int c = 0; c < Householder.cols; c++) {
+                    Hprime.MyMAT[i + r][i + c] = Householder.MyMAT[r][c];
+                }
+            }
+            
+            Aupdate = Hprime * Aupdate;
+            Q = Q * Hprime; 
+        }
+        
+        QRresult QR;
+        QR.Q = Q.Transpose(); 
+        QR.R = Aupdate;
+        return QR;
+    }  
+    
     Matrix operator*(const Matrix& other) const{
         if (this->cols != other.rows) {
             throw std::invalid_argument("Dimension mismatch");
@@ -403,5 +479,17 @@ class Matrix{
 
         return ans;
     }
+};
+
+
+class Linear_Solvers{
+
+    static My_Vec SolveLU(const Matrix& A, const My_Vec& b);
+    static My_Vec SolveQR(const Matrix& A, const My_Vec& b);
+    static My_Vec Inverse(const Matrix& A);
+
+    static My_Vec ForwardSubstitution(const Matrix& L, const My_Vec& b);
+    static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
+
 };
 #endif
