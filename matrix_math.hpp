@@ -17,7 +17,7 @@ struct QRresult {
 
 
 
- class My_Vec{
+class My_Vec{
 public:
     int length=1;
     std::vector<double> myvector;
@@ -480,15 +480,16 @@ class Matrix{
         return ans;
     }
 };
-class LinearSolver {
-    public:
-        static My_Vec SolveLU(const Matrix& A, const My_Vec& b);
-        static My_Vec SolveQR(const Matrix& A, const My_Vec& b);
-        static Matrix Inverse(const Matrix& A);
-        private:
-            static My_Vec ForwardSubstitution(const Matrix& L, const My_Vec& b);
-            static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
-    
-    };
-    
+
+
+class Linear_Solvers{
+
+    static My_Vec SolveLU(const Matrix& A, const My_Vec& b);
+    static My_Vec SolveQR(const Matrix& A, const My_Vec& b);
+    static My_Vec Inverse(const Matrix& A);
+
+    static My_Vec ForwardSubstitution(const Matrix& L, const My_Vec& b);
+    static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
+
+};
 #endif
