@@ -132,6 +132,17 @@ double dot (const My_Vec& other) const{
         return unit_vec;
     }
 
+    static My_Vec Zeros(const int& i){
+
+        My_Vec unit_vec(i);
+
+        for (int j=0;j<i;j++){
+                unit_vec.myvector[j]=0;
+            
+        }
+
+        return unit_vec;
+    }
 
     
     
