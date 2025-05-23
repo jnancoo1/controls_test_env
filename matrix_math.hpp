@@ -292,6 +292,7 @@ class Matrix{
         return Zeros;
     }
 
+
 LUResult L_U() const {
     // Check for square matrix
     if(this->rows != this->cols) {
@@ -300,7 +301,7 @@ LUResult L_U() const {
     
     Matrix L = eye(this->rows);
     Matrix U = Zeros(this->rows, this->cols);
-    std::vector<int> P(this->rows);  
+    std::vector<int> P(this->rows);
     for(int i = 0; i < this->rows; i++) {
         P[i] = i;  
     }
@@ -319,6 +320,7 @@ LUResult L_U() const {
         }
         
         if(pivot_row != j) {
+
             for(int k = 0; k < this->cols; k++) {
                 std::swap(A_work.MyMAT[j][k], A_work.MyMAT[pivot_row][k]);
             }
@@ -356,10 +358,140 @@ LUResult L_U() const {
     LUResult result;
     result.L = L;
     result.U = U;
-    result.P=P;
-    
+    result.P=P;    
     return result;
 }
+
+    static My_Vec UV(int i,int L){
+
+        My_Vec unit_vec(L);
+
+        for (int j=0;j<L;j++){
+
+            if(j==i){
+                unit_vec.myvector[j]=1;
+            }
+            else{
+                unit_vec.myvector[j]=0;
+            }
+        }
+
+        return unit_vec;
+    }
+
+    static Matrix Embed(const Matrix& Householder,const Matrix& A){
+        Matrix Hp=eye(A.rows);
+        int i = A.rows - Householder.rows;
+        for (int a = 0; a < Householder.rows; a++) {
+
+            for (int b = 0; b < Householder.cols; b++) {
+
+                Hp.MyMAT[i+a][i+b]=Householder.MyMAT[a][b];
+            }
+        }
+
+        return Hp;
+    }
+
+    QRresult QR_fact() const {
+        Matrix Q = eye(this->rows);
+        Matrix Aupdate = *this;
+        
+        for (int i = 0; i < std::min(this->rows-1, this->cols); i++) {
+
+            My_Vec vecx(this->rows - i);
+            for (int row = i; row < this->rows; row++) {
+                vecx.myvector[row - i] = Aupdate.MyMAT[row][i];
+            }
+            
+            double n = vecx.Norm();
+            
+            My_Vec unit = My_Vec::unit_vec(0, this->rows - i);  // Use consistent naming
+            
+            My_Vec reflec_vec;
+            if (vecx.myvector[0] < 0) {
+                reflec_vec = vecx + unit.Scalar_Mul(n);
+            } else {
+                reflec_vec = vecx - unit.Scalar_Mul(n);
+            }
+            
+            double normalize_ref = reflec_vec.Norm();
+            
+            // Check for zero vector (avoid division by zero)
+            if (normalize_ref < 1e-10) {
+                continue;  // Skip this iteration if vector is too small
+            }
+            
+            My_Vec V = reflec_vec.Scalar_Mul(1.0 / normalize_ref);
+            
+            // Create Householder matrix H = I - 2*vv^T
+            Matrix I = Matrix::eye(V.length);
+            Matrix vvT = Matrix::Outer_Product(V, V);
+            Matrix Householder = I - vvT.Scalar_Mul(2.0);
+            
+            // Embed the Householder matrix into a larger identity matrix
+            Matrix Hprime = Matrix::eye(this->rows);
+            for (int r = 0; r < Householder.rows; r++) {
+                for (int c = 0; c < Householder.cols; c++) {
+                    Hprime.MyMAT[i + r][i + c] = Householder.MyMAT[r][c];
+                }
+            }
+            
+            Aupdate = Hprime * Aupdate;
+            Q = Q * Hprime; 
+        }
+        
+        QRresult QR;
+        QR.Q = Q.Transpose(); 
+        QR.R = Aupdate;
+        return QR;
+    }  
+    
+    Matrix operator*(const Matrix& other) const{
+        if (this->cols != other.rows) {
+            throw std::invalid_argument("Dimension mismatch");
+        }
+    
+        Matrix Ans(this->rows, other.cols); // Ensure constructor handles allocation
+    
+        for (int i = 0; i < this->rows; ++i) {
+            for (int j = 0; j < other.cols; ++j) {
+                double sum_of_multiples = 0.0;
+                for (int k = 0; k < this->cols; ++k) {
+                    sum_of_multiples += this->MyMAT[i][k] * other.MyMAT[k][j];
+                }
+                Ans.MyMAT[i][j] = sum_of_multiples;
+            }
+        }
+    
+        return Ans;
+    }
+    
+
+    My_Vec multiply(const My_Vec& x) const{
+
+        if(this->cols != x.length){
+            throw std::invalid_argument("Dimension mismatch");
+        }
+
+        My_Vec ans(this->rows);
+
+        for (int i=0;i<this->rows;i++){
+
+            double dot_prod=0;
+            for(int j=0;j<this->cols;j++){
+
+                dot_prod+=this->MyMAT[i][j]*x.myvector[j];
+
+            }
+
+            ans.myvector[i]=dot_prod;
+        }
+
+        return ans;
+    }
+};
+
 
 class Linear_Solvers{
 
@@ -371,5 +503,4 @@ class Linear_Solvers{
     static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
 
 };
-
 #endif
