@@ -14,7 +14,8 @@ public:
     static My_Vec SolveLU(const Matrix& A, const My_Vec& b){
 
         LUResult LU=A.L_U();
-        My_Vec fwd_sub=ForwardSubstitution(LU.L,b);
+        My_Vec pb= ApplyPermutation(LU.P,b);
+        My_Vec fwd_sub=ForwardSubstitution(LU.L,pb);
         My_Vec bck_sub=BackwardSubstitution(LU.U,fwd_sub);
 
         return bck_sub;
@@ -38,8 +39,9 @@ public:
         for(int j=0;j<I.cols;j++){
             e_i.Scalar_Mul(0);
             e_i.myvector[j] = 1;
+            My_Vec Pe_j = ApplyPermutation(decomp.P, e_i);
 
-            My_Vec F1=ForwardSubstitution(L,e_i);
+            My_Vec F1=ForwardSubstitution(L,Pe_j);
             My_Vec B1=BackwardSubstitution(U,F1);
             for (int row = 0; row < A.rows; row++) {
                 inverse_matrix.MyMAT[row][j] = B1.myvector[row];
@@ -98,18 +100,18 @@ public:
  
         return solution_VEC;
  
- 
+
      };
      static My_Vec ApplyPermutation(const std::vector<int>& P,const My_Vec& V){
-            
         if (P.size() != V.myvector.size()) {
             throw std::invalid_argument("Permutation size must match vector size");
         }
+        My_Vec result;
 
-        My_Vec result = My_Vec::zeros(v.myvector.size());
+        My_Vec result = My_Vec::Zeros(V.myvector.size());
         
         for (size_t i = 0; i < P.size(); i++) {
-            result.myvector[i] = v.myvector[P[i]];
+            result.myvector[i] = V.myvector[P[i]];
         }
         
         return result;
