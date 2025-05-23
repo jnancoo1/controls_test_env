@@ -1,9 +1,11 @@
-#include <iostream>
-#include <cmath>
-#include "matrix_math.hpp"
 
 #ifndef LINEAR_SOLVER_HPP
 #define LINEAR_SOLVER_HPP
+
+
+#include <iostream>
+#include <cmath>
+#include "matrix_math.hpp"
 
 
 
@@ -98,5 +100,19 @@ public:
  
  
      };
+     static My_Vec ApplyPermutation(const std::vector<int>& P,const My_Vec& V){
+            
+        if (P.size() != V.myvector.size()) {
+            throw std::invalid_argument("Permutation size must match vector size");
+        }
+
+        My_Vec result = My_Vec::zeros(v.myvector.size());
+        
+        for (size_t i = 0; i < P.size(); i++) {
+            result.myvector[i] = v.myvector[P[i]];
+        }
+        
+        return result;
+    }
     };
 #endif
