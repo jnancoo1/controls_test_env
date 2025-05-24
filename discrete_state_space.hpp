@@ -10,12 +10,12 @@
 
 
 
-class StateSpace_System
+class Discrete_StateSpace_System
 {
     public:
 
         Eigen::MatrixXd A,B,C,D;
-            StateSpace_System(const int& n_states=3,const int& n_inputs=1, const int& n_outputs=3){
+            Discrete_StateSpace_System(const int& n_states=3,const int& n_inputs=1, const int& n_outputs=3){
                 A.resize(n_states,n_states);
                 B.resize(n_states,n_inputs);
                 C.resize(n_outputs,n_states);
@@ -52,19 +52,16 @@ class StateSpace_System
         Eigen::MatrixXd sim_seq_outputs(const Eigen::VectorXd& x_init,const int& no_of_steps,const Eigen::MatrixXd& u_seq,
 
                                         const int& n_outputs){
-        int i= no_of_steps;
-        int checker=0;
         Eigen::VectorXd X_next=x_init;
         Eigen::MatrixXd Out(n_outputs, no_of_steps);
-        if(u_seq.cols() == no_of_steps && u_seq.rows() == B.cols ){
+        if(u_seq.cols() == no_of_steps && u_seq.rows() == B.cols()){
 
-            while(i>0){
+            for(int k=0;k<no_of_steps;k++){
 
-                X_next=simulate_step(X_next,u_seq.col(checker));
-                i--;
-                checker++;
-                Out.col(checker-1)=get_output(X_next,u_seq.col(checker));
-                
+                Out.col(k)=get_output(X_next,u_seq.col(k));
+                X_next=simulate_step(X_next,u_seq.col(k));
+
+
             }
 
             return Out;
@@ -82,15 +79,15 @@ class StateSpace_System
         Eigen::MatrixXd Out(n_states, no_of_steps);
         if(u_seq.cols() == no_of_steps && u_seq.rows() == B.cols()){
 
-            while(i>0){
+            for(int k=0;k<no_of_steps;k++){
 
-                X_next=simulate_step(X_next,u_seq.col(checker));
-                Out.col(checker)=X_next;
-                i--
-                checker++;
+                Out.col(k)=X_next;
+                X_next=simulate_step(X_next,u_seq.col(k));
+
+
             }
 
-            return X_next;
+            return Out;
         }
         throw std::invalid_argument("Invalid inputs");
 
