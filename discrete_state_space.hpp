@@ -15,16 +15,17 @@ class Discrete_StateSpace_System
     public:
 
         Eigen::MatrixXd A,B,C,D;
-            Discrete_StateSpace_System(const int& n_states=3,const int& n_inputs=1, const int& n_outputs=3){
-                A.resize(n_states,n_states);
-                B.resize(n_states,n_inputs);
-                C.resize(n_outputs,n_states);
-                D.resize(n_outputs,n_inputs);
-                A.setZero();
-                B.setZero();
-                C.setZero();
-                D.setZero();
-        }
+            int n_states, n_inputs, n_outputs;
+
+            Discrete_StateSpace_System(int n_states_, int n_inputs_, int n_outputs_)
+                : n_states(n_states_), n_inputs(n_inputs_), n_outputs(n_outputs_)
+            {
+                A = Eigen::MatrixXd::Zero(n_states, n_states);
+                B = Eigen::MatrixXd::Zero(n_states, n_inputs);
+                C = Eigen::MatrixXd::Zero(n_outputs, n_states);
+                D = Eigen::MatrixXd::Zero(n_outputs, n_inputs);
+            }
+
 
         Eigen::VectorXd  simulate_step (const Eigen::VectorXd& x, const Eigen::VectorXd& u){
 
@@ -91,7 +92,44 @@ class Discrete_StateSpace_System
         }
         throw std::invalid_argument("Invalid inputs");
 
+    };
+
+
+    Eigen::VectorXd simulate_rk4_step(const Eigen::VectorXd& x, const Eigen::VectorXd& u,const double& dt){
+        Eigen::VectorXd k1,k2,k3,k4,x_next;
+    
+
+    k1 = A*x + B*u;
+    k2 = A*(x + 0.5*dt*k1) + B*u;
+    k3 = A*(x + 0.5*dt*k2) + B*u;
+    k4 = A*(x + dt*k3) + B*u;
+    x_next = x + dt/6 * (k1 + 2*k2 + 2*k3 + k4);
+    return x_next;
     }
+
+
+
+    Eigen::MatrixXd sim_seq_rk4_states(const Eigen::VectorXd& x_init,
+                                   const Eigen::MatrixXd& u_seq,
+                                   double dt,
+                                   int n_steps) {
+    int n_states = A.rows();
+    Eigen::MatrixXd X_seq(n_states, n_steps);
+    Eigen::VectorXd x = x_init;
+
+    if (u_seq.cols() != n_steps || u_seq.rows() != B.cols()) {
+        throw std::invalid_argument("Invalid input sequence size.");
+    }
+
+    for (int k = 0; k < n_steps; ++k) {
+        X_seq.col(k) = x;
+        x = simulate_rk4_step(x, u_seq.col(k), dt);
+    }
+
+    return X_seq;
+}
+
+
     private:
 
 };
