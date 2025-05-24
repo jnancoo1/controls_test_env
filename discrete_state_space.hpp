@@ -129,7 +129,66 @@ class Discrete_StateSpace_System
     return X_seq;
 }
 
+Eigen::VectorXd sim_euler_step(const Eigen::VectorXd& x, const Eigen::VectorXd& u,const double& dt){
+    Eigen::VectorXd fxk;
+    fxk=A*x+B*u;
+    Eigen::VectorXd x_kp=x+dt*fxk;
+    return x_kp;
+}
 
+
+    Eigen::MatrixXd sim_seq_euler_states(const Eigen::VectorXd& x_init,
+                                   const Eigen::MatrixXd& u_seq,
+                                   double dt,
+                                   int n_steps) {
+    int n_states = A.rows();
+    Eigen::MatrixXd X_seq(n_states, n_steps);
+    Eigen::VectorXd x = x_init;
+
+    if (u_seq.cols() != n_steps || u_seq.rows() != B.cols()) {
+        throw std::invalid_argument("Invalid input sequence size.");
+    }
+
+    for (int k = 0; k < n_steps; ++k) {
+        X_seq.col(k) = x;
+        x = sim_euler_step(x, u_seq.col(k), dt);
+    }
+
+    return X_seq;
+}
+
+
+
+Eigen::VectorXd sim_crank_nelson_step(const Eigen::VectorXd& x, const Eigen::VectorXd& u_k,const Eigen::VectorXd& u_k1,const double& dt){
+    
+    Eigen::MatrixXd I=Eigen::MatrixXd::Identity(A.rows(),A.cols());
+    Eigen::MatrixXd M=(I-(dt/2)*A);
+    
+    
+    Eigen::VectorXd RHS=(I+(dt/2)*A)*x+((dt/2)*B)*(u_k+u_k1);
+    Eigen::VectorXd output=M.colPivHouseholderQr().solve(RHS);
+
+    return output;
+}
+
+Eigen::VectorXd sim_backward_euler_step(const Eigen::VectorXd& x, const Eigen::VectorXd& u, const double& dt){
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(A.rows(), A.cols());
+    Eigen::MatrixXd M = (I - dt*A);
+    Eigen::VectorXd RHS = x + dt*B*u;
+    return M.colPivHouseholderQr().solve(RHS);
+}
+
+
+Eigen::VectorXd sim_heun_step(const Eigen::VectorXd& x, const Eigen::VectorXd& u, const double& dt){
+    Eigen::VectorXd k1 = A*x + B*u;
+    Eigen::VectorXd x_pred = x + dt*k1;
+    Eigen::VectorXd k2 = A*x_pred + B*u;
+    return x + dt*0.5*(k1 + k2);
+}
+
+
+
+   
     private:
 
 };
