@@ -47,6 +47,33 @@ public:
         Eigen::FullPivLU<Eigen::MatrixXd> lu(observability_mat);
         return lu.rank() == System.n_states;
     }
+	bool Linear_Stability_discrete(const Discrete_StateSpace_System& System)
+	{
+		Eigen::VectorXcd eigenvals=System.A.eigenvalues();
+		for(int i=0;i<eigenvals.size();i++){
+			
+			
+			if(std::abs(eigenvals[i])>=1.0){
+				return false;
+			}
+		}
+	return true;}
+
+bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
+	{
+    Eigen::VectorXcd eigenvals = System.A.eigenvalues();
+    for (int i = 0; i < eigenvals.size(); ++i) {
+        if (eigenvals[i].real() >= 0.0) {
+            return false;  // Unstable or marginally stable
+        }
+    }
+    return true;
+	}
+
+		
+		
+		
+	}
 
 private:
 
