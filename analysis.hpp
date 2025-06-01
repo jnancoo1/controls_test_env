@@ -5,6 +5,7 @@
 #include <cmath>
 #include <Eigen/Dense>
 #include "discrete_state_space.hpp"
+#include <Eigen/SVD>
 
 class Analysis {
 public:
@@ -69,6 +70,7 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
     return true;
 	}
+
 
 
     bool is_stabalizable_cont(const Discrete_StateSpace_System &System){
@@ -142,8 +144,65 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
             return false;
         }
     }
+
+    std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> controllability_decomposition(const Discrete_StateSpace_System& System){
+        Eigen::MatrixXd cont_mat=compute_controllability_matrix(System);
+        int n=cont_mat.rows();
+        Eigen::ColPivHouseholderQR <Eigen::MatrixXd> QR(cont_mat);
+        Eigen::MatrixXd Q=QR.householderQ();
+        int r=QR.rank();
+        Eigen::MatrixXd T(n, n);
+        T << Q.leftCols(r), Q.rightCols(n - r);
+
+        Eigen::MatrixXd Aprime=(T.inverse())*System.A*T;
+        Eigen::MatrixXd Bprime=(T.inverse())*System.B;
+        Eigen::MatrixXd Cprime=System.C*T;
+
+        Eigen::MatrixXd A_cc=Aprime.topLeftCorner(r,r);
+        Eigen::MatrixXd A_cu=Aprime.topRightCorner(r,n-r);
+        std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Ans={A_cc,A_cu};
+
+        return Ans;
+    }
+
+
+
+    std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> observability_decomposition(const Discrete_StateSpace_System& System){
+
+        Eigen::MatrixXd obs_mat=compute_observability_matrix(System);
+        int n=System.A.rows();
+        Eigen::JacobiSVD<Eigen::MatrixXd> SVD(obs_mat);
+
+        Eigen::MatrixXd V=SVD.matrixV();
+        Eigen::MatrixXd VT=V.transpose();
+        double tol = 1e-9;
+        int r = (SVD.singularValues().array() > tol).count();
+
+        Eigen::MatrixXd T(n, n);
+        T << V.leftCols(r), V.rightCols(n - r);
+
+        Eigen::MatrixXd Aprime=(T.inverse())*System.A*T;
+        Eigen::MatrixXd Bprime=(T.inverse())*System.B;
+        Eigen::MatrixXd Cprime=System.C*T;
+
+        Eigen::MatrixXd A_cc=Aprime.topLeftCorner(r,r);
+        Eigen::MatrixXd A_cu=Aprime.topRightCorner(r,n-r);
+        std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Ans={A_oo,A_ou};
+
+        return Ans;
+
+
+    }
+
 		
-		
+    Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System); 
+
+    Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System);
+    
+    double gramian_condition_number(const Discrete_StateSpace_System& System);
+
+
+
 	private:	
 	};
 
