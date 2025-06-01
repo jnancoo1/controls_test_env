@@ -1,22 +1,26 @@
+//gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
 #include <iostream>
 #include <vector>
 #include <cmath>
 
 #ifndef MATRIX_MATH_HPP
 #define MATRIX_MATH_HPP
+//struct to store LU Decomposition Result
 struct LUResult {
-    std::vector<std::vector<double>> L;
-     std::vector<std::vector<double>> U;
-    std::vector<int> P;
+    std::vector<std::vector<double>> L;//Lower Triangular Matrix
+    std::vector<std::vector<double>> U;//Upper Triangular Matrix
+    std::vector<int> P;//Permutation vector
 };
 
-
+//struct to store QR Decomposition Result
 struct QRresult {
-     std::vector<std::vector<double>> Q;
-     std::vector<std::vector<double>> R;
+     std::vector<std::vector<double>> Q;//Q matrix
+     std::vector<std::vector<double>> R;//R matrix
 };
 
 
+
+//Vector Data_type
 
 class My_Vec{
 public:
@@ -453,8 +457,11 @@ LUResult L_U() const {
         }
         
         QRresult QR;
-        QR.Q = Q.Transpose(); 
-        QR.R = Aupdate;
+        std::vector<std::vector<double>> Q_n=Q.Transpose().MyMAT;
+        std::vector<std::vector<double>> R_n=Aupdate.MyMAT;
+
+        QR.Q = Q_n; 
+        QR.R = R_n;
         return QR;
     }  
     
