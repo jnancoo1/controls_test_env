@@ -116,5 +116,24 @@ public:
         
         return result;
     }
+
+    static double determinant(const Matrix& A) {
+    LUResult lu = A.L_U();
+    double det = 1.0;
+    for(int i = 0; i < A.rows; i++) {
+        det *= lu.U.MyMAT[i][i];
+    }
+    return det;
+}
+
+
+static My_Vec solve_linear_system_LU(const Matrix& A, const My_Vec& b) {
+    return SolveLU(A, b);  
+}
+
+static My_Vec solve_linear_system_QR(const Matrix& A, const My_Vec& b) {
+    return SolveQR(A, b);  
+}
+
     };
 #endif

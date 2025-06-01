@@ -5,15 +5,15 @@
 #ifndef MATRIX_MATH_HPP
 #define MATRIX_MATH_HPP
 struct LUResult {
-    std::vector<std::vector<int>> L;
-     std::vector<std::vector<int>> U;
+    std::vector<std::vector<double>> L;
+     std::vector<std::vector<double>> U;
     std::vector<int> P;
 };
 
 
 struct QRresult {
-     std::vector<std::vector<int>> Q;
-     std::vector<std::vector<int>> R;
+     std::vector<std::vector<double>> Q;
+     std::vector<std::vector<double>> R;
 };
 
 
@@ -367,8 +367,8 @@ LUResult L_U() const {
     }
     
     LUResult result;
-    result.L = L;
-    result.U = U;
+    result.L = L.MyMAT;
+    result.U = U.MyMAT;
     result.P=P;    
     return result;
 }
@@ -516,4 +516,66 @@ class Linear_Solvers{
     static My_Vec BackwardSubstitution(const Matrix& U, const My_Vec& y);
 
 };
+
+struct LUResult_to_pass {
+   Matrix L;
+   Matrix U;
+   std::vector<int> P;
+};
+
+
+struct QR_result_to_pass {
+     Matrix Q;
+     Matrix R;
+};
+
+
+LUResult_to_pass conv_LU(const LUResult& LU){
+
+    int a=LU.L.size();
+    int b=LU.L[0].size();
+
+    Matrix L(a,b);
+    L.MyMAT=LU.L;
+
+
+    int c=LU.U.size();
+    int d=LU.U[0].size();
+    
+    Matrix U(c,d);
+    U.MyMAT=LU.U;
+    
+    LUResult_to_pass LU_new;
+
+    LU_new.L=L;
+    LU_new.U=U;
+    LU_new.P=LU.P;
+    return LU_new;
+
+}
+
+
+QR_result_to_pass conv_QR(const QRresult& QR){
+
+int a=QR.Q.size();
+    int b=QR.Q[0].size();
+
+    Matrix Q(a,b);
+    Q.MyMAT=QR.Q;
+
+
+    int c=QR.R.size();
+    int d=QR.R[0].size();
+    
+    Matrix R(c,d);
+    R.MyMAT=QR.R;
+    
+    QR_result_to_pass QR_new;
+
+    QR_new.Q=Q;
+    QR_new.R=R;
+    return QR_new;
+}
+
+
 #endif
