@@ -72,11 +72,7 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
 		
 		
-		
-	}
-
-private:
-
-};
+	private:	
+	};
 
 #endif
