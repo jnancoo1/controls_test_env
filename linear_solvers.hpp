@@ -13,7 +13,8 @@ class Linear_Solvers{
 public:
     static My_Vec SolveLU(const Matrix& A, const My_Vec& b){
 
-        LUResult LU=A.L_U();
+        LUResult LU_temp=A.L_U();
+        LUResult_to_pass LU=conv_LU(LU_temp);
         My_Vec pb= ApplyPermutation(LU.P,b);
         My_Vec fwd_sub=ForwardSubstitution(LU.L,pb);
         My_Vec bck_sub=BackwardSubstitution(LU.U,fwd_sub);
@@ -23,7 +24,8 @@ public:
     }
     static My_Vec SolveQR(const Matrix& A, const My_Vec& b){
 
-        QRresult decomp=A.QR_fact();
+        QRresult decomp_temp=A.QR_fact();
+        QR_result_to_pass decomp=conv_QR(decomp_temp);
         My_Vec qTb=(decomp.Q.Transpose()).multiply(b);
         My_Vec x=BackwardSubstitution(decomp.R,qTb);
         return x;
@@ -31,7 +33,8 @@ public:
     static Matrix Inverse(const Matrix& A){
 
         Matrix I=Matrix::eye(A.rows);
-        LUResult decomp=A.L_U();
+        LUResult decomp_temp=A.L_U();
+        LUResult_to_pass decomp=conv_LU(decomp_temp);
         Matrix L=decomp.L;
         Matrix U=decomp.U;
         My_Vec e_i = My_Vec::ones(A.rows);
@@ -103,7 +106,7 @@ public:
 
      };
      static My_Vec ApplyPermutation(const std::vector<int>& P,const My_Vec& V){
-        if (P.size() != V.myvector.size()) {
+        if (P.size() != V.myvector. size()) {
             throw std::invalid_argument("Permutation size must match vector size");
         }
         My_Vec result;
@@ -118,7 +121,8 @@ public:
     }
 
     static double determinant(const Matrix& A) {
-    LUResult lu = A.L_U();
+    LUResult lu_temp = A.L_U();
+    LUResult_to_pass lu=conv_LU(lu_temp);
     double det = 1.0;
     for(int i = 0; i < A.rows; i++) {
         det *= lu.U.MyMAT[i][i];
