@@ -5,15 +5,15 @@
 #ifndef MATRIX_MATH_HPP
 #define MATRIX_MATH_HPP
 struct LUResult {
-    Matrix L;
-    Matrix U;
+    std::vector<std::vector<int>> L;
+     std::vector<std::vector<int>> U;
     std::vector<int> P;
 };
 
 
 struct QRresult {
-    Matrix Q;
-    Matrix R;
+     std::vector<std::vector<int>> Q;
+     std::vector<std::vector<int>> R;
 };
 
 
