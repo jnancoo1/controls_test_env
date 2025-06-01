@@ -70,6 +70,78 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     return true;
 	}
 
+
+    bool is_stabalizable_cont(const Discrete_StateSpace_System &System){
+        Eigen::VectorXcd eigs=System.A.eigenvalues();
+        int f=eigs.size();
+        std::vector<bool> unstable_flag;
+        int a=System.A.rows();
+        int b=System.A.cols();
+        for(int i=0;i<eigs.size();i++){
+            if(eigs[i].real()>0){
+                Eigen::MatrixXcd eye(a,b);  
+                eye=Eigen::MatrixXcd::Identity(a,b);
+                Eigen::MatrixXcd PBH_part_1=eigs[i]*eye-System.A;
+                int n=System.B.rows();
+                int m=System.B.cols();
+                Eigen::MatrixXcd PBH(n,n+m);
+                PBH.block(0, 0, n, n) = PBH_part_1;
+                PBH.block(0, n, n, m) = System.B.cast<std::complex<double>>();
+                Eigen::FullPivLU<Eigen::MatrixXcd> lu(PBH);
+                if(lu.rank()<n){
+                    return false;
+                }
+
+
+            }
+        
+        }
+        
+        return true;
+
+    }
+
+
+    bool is_detectable_cont(const Discrete_StateSpace_System &System){
+        Eigen::VectorXcd eigs=System.A.eigenvalues();
+        int f=eigs.size();
+        std::vector<bool> unstable_flag;
+        int a=System.A.rows();
+        int b=System.A.cols();
+        for(int i=0;i<eigs.size();i++){
+            if(eigs[i].real()>0){
+                Eigen::MatrixXcd eye = Eigen::MatrixXcd::Identity(a, b);
+                Eigen::MatrixXcd PBH_part_1=eigs[i]*eye-System.A;
+                int n=System.A.rows();
+                int p=System.C.rows();
+                Eigen::MatrixXcd PBH(n + p, n);
+                PBH.block(0, 0, n, n) = PBH_part_1;
+                PBH.block(n, 0, p, n) = System.C.cast<std::complex<double>>();
+                Eigen::FullPivLU<Eigen::MatrixXcd> lu(PBH);
+                if(lu.rank()<n){
+                    return false;
+                }
+
+
+            }
+        
+        }
+        
+        return true;
+
+    }
+
+
+    bool minimality_test_cont(const Discrete_StateSpace_System &System){
+
+        if (is_controllable(System) && is_observable(System)) {
+
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 		
 		
 	private:	
