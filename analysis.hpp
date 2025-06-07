@@ -196,18 +196,40 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
 
 		
-    Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System){
-      Eigen::MatrixXd Q=System.B*System.B.transpose();
-      Eigen::MatrixXd eye1= Eigen::MatrixXd::Identity(System.A.rows(),System.A.cols());
-      Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
-         
-      Eigen::MatrixXd kron1=Eigen::kroneckerProduct(System.A,eye1);
-      Eigen::MatrixXd kron2=Eigen::kroneckerProduct(eye1,);
+    Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System) {
+   
+        Eigen::MatrixXd Q = System.B * System.B.transpose();
+        int n = System.A.rows();
+        Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n, n);
+        Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
 
-    }; 
+        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(System.A, I);
+        Eigen::MatrixXd kron2 = Eigen::kroneckerProduct(I, System.A);
 
-    Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System);
-    
+        Eigen::VectorXd w = (kron1 + kron2).fullPivLu().solve(-vecQ);
+
+        Eigen::MatrixXd W = Eigen::Map<Eigen::MatrixXd>(w.data(), n, n);
+
+        return W;
+}
+ 
+
+    Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System){
+       
+        Eigen::MatrixXd Q = (System.C) * System.C.transpose();
+        int n = System.A.rows();
+        Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n, n);
+        Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
+
+        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(System.A, I);
+        Eigen::MatrixXd kron2 = Eigen::kroneckerProduct(I, System.A);
+
+        Eigen::VectorXd w = (kron1 + kron2).fullPivLu().solve(-vecQ);
+
+        Eigen::MatrixXd W = Eigen::Map<Eigen::MatrixXd>(w.data(), n, n);
+
+        return W;
+    }
     double gramian_condition_number(const Discrete_StateSpace_System& System);
 
 
