@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include "discrete_state_space.hpp"
 #include <Eigen/SVD>
+#include <eigen3/unsupported/Eigen/KroneckerProduct>
 
 class Analysis {
 public:
@@ -185,8 +186,8 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         Eigen::MatrixXd Bprime=(T.inverse())*System.B;
         Eigen::MatrixXd Cprime=System.C*T;
 
-        Eigen::MatrixXd A_cc=Aprime.topLeftCorner(r,r);
-        Eigen::MatrixXd A_cu=Aprime.topRightCorner(r,n-r);
+        Eigen::MatrixXd A_oo=Aprime.topLeftCorner(r,r);
+        Eigen::MatrixXd A_ou=Aprime.topRightCorner(r,n-r);
         std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Ans={A_oo,A_ou};
 
         return Ans;
@@ -195,7 +196,15 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
 
 		
-    Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System); 
+    Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System){
+      Eigen::MatrixXd Q=System.B*System.B.transpose();
+      Eigen::MatrixXd eye1= Eigen::MatrixXd::Identity(System.A.rows(),System.A.cols());
+      Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
+         
+      Eigen::MatrixXd kron1=Eigen::kroneckerProduct(System.A,eye1);
+      Eigen::MatrixXd kron2=Eigen::kroneckerProduct(eye1,);
+
+    }; 
 
     Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System);
     
