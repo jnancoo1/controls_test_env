@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <complex>
 #include <Eigen/Dense>
 #include "discrete_state_space.hpp"
 #include <Eigen/SVD>
@@ -230,9 +231,74 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
         return W;
     }
-    double gramian_condition_number(const Discrete_StateSpace_System& System);
+
+    std::vector<std::complex<double>> poles(const Discrete_StateSpace_System& System){
+
+        Eigen::Eigensolver<Eigen::MartrixXd> eigen_solver(System.A);
+        std::vector<std::complex<double>> eigs=eigen_solver.eigenvalues();
+
+        return eigs;
 
 
+    }
+
+    std::vector<std::complex<double>> generate_z_grid(
+    double r_min, double r_max,
+    int r_samples,
+    int theta_samples) 
+    {
+    std::vector<std::complex<double>> z_grid;
+        z_grid.reserve(r_samples * theta_samples);
+
+        for (int i = 0; i < r_samples; ++i) {
+            double r = r_min + i * (r_max - r_min) / (r_samples - 1);
+            for (int j = 0; j < theta_samples; ++j) {
+                double theta = 2.0 * M_PI * j / theta_samples;
+                std::complex<double> z = std::polar(r, theta);
+                z_grid.push_back(z);
+            }
+        }
+        return z_grid;
+}
+
+    std::vector<std::complex<double>> zeros(
+        const Discrete_StateSpace_System& System,
+        const double& r_min, const double& r_max,
+        const int& r_samples,
+        const int& theta_samples){
+
+        
+        int n =System.A.rows();
+        int p= System.C.rows();
+        int m= System.B.cols();
+        Eigen::MatrixXcd R(n + p, n + m);
+
+        std::vector<std::complex<double>> zgrid=generate_z_grid(r_min,r_max,r_samples,theta_samples);
+        std::vector<std::complex<double>> zeros;
+        Eigen::MatrixXcd zI_minus_A;
+
+        Eigen::MatrixXcd eye=Eigen::MatrixXd::Identity(n, n);
+        int r;
+        double tol = 1e-9;
+        for(int i=0;i<zgrid.size();i++){
+            zI_minus_A=(zgrid[i]*eye)-(System.A.cast<std::complex<double>>);
+            R.block(0, 0, n, n) = zI_minus_A;
+            R.block(0, n, n, m) = -System.B.cast<std::complex<double>>();
+            R.block(n, 0, p, n) = System.C.cast<std::complex<double>>();
+            R.block(n, n, p, m) = System.D.cast<std::complex<double>>();
+
+            Eigen::JacobiSVD<Eigen::MatrixXcd>SVD(R);
+            r = (SVD.singularValues().array() > tol).count();
+            if(r<n+p){
+
+                zeros.push_back(zgrid[i]);
+            }
+
+
+        }
+
+        return zeros;
+    }
 
 	private:	
 	};
