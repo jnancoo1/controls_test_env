@@ -234,11 +234,11 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
     std::vector<std::complex<double>> poles(const Discrete_StateSpace_System& System){
 
-        Eigen::Eigensolver<Eigen::MartrixXd> eigen_solver(System.A);
-        std::vector<std::complex<double>> eigs=eigen_solver.eigenvalues();
+        Eigen::EigenSolver<Eigen::MatrixXd> eigen_solver(System.A);
+        Eigen::VectorXcd eigvals = eigen_solver.eigenvalues();
+        std::vector<std::complex<double>> eigs(eigvals.data(), eigvals.data() + eigvals.size());
 
         return eigs;
-
 
     }
 
