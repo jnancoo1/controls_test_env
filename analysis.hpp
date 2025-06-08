@@ -300,6 +300,29 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         return zeros;
     }
 
+    Discrete_StateSpace_System Kalman_Decomp( const Discrete_StateSpace_System& System){
+
+
+        std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Cont,Obs;
+        
+        Obs=observability_decomposition(System);
+        Cont=controllability_decomposition(System);
+        
+        Eigen::MatrixXd Obs_subspace=std::get<0>(Obs);
+        Eigen::MatrixXd Cont_subspace=std::get<0>(Cont);
+        Eigen::MatrixXd Diff(Obs_subspace.rows(), Obs_subspace.cols() + Cont_subspace.cols());
+        Diff << Obs_subspace, -Cont_subspace;
+        Eigen::MatrixXd Null_S=Diff.FullPivLU.kernel();
+
+
+        int k=Obs_subspace.cols()
+
+        Eigen::MatrixXd Null_S_S=Null_S.toprows(k);
+        Eigen::MatrixXd Basis_1=Null_S_S*Obs_subspace;
+
+
+    }
+
 	private:	
 	};
 
