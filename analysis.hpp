@@ -302,7 +302,6 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
     Discrete_StateSpace_System Kalman_Decomp( const Discrete_StateSpace_System& System){
 
-
         std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Cont,Obs;
         
         Obs=observability_decomposition(System);
@@ -315,12 +314,45 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         Eigen::MatrixXd Null_S=Diff.FullPivLU.kernel();
 
 
-        int k=Obs_subspace.cols()
+        int k=Obs_subspace.cols();
 
         Eigen::MatrixXd Null_S_S=Null_S.toprows(k);
         Eigen::MatrixXd Basis_1=Null_S_S*Obs_subspace;
 
 
+        Eigen::MatrixXd Obs_ortho=(Obs_subspace.transpose()).fullPivLu().kernel();
+        Eigen::MatrixXd Cont_ortho=(Cont_subspace.transpose()).fullPivLu().kernel();
+
+        Eigen::MatrixXd Diff2(Obs_ortho.rows(), Obs_ortho.cols() + Cont_subspace.cols());
+        Diff2 << Obs_ortho, -Cont_subspace;
+        Eigen::MatrixXd Null_S2=Diff2.FullPivLU.kernel();
+
+        int l=Obs_ortho.cols();
+
+        
+        Eigen::MatrixXd Null_S_S2=Null_S2.toprows(l);
+        Eigen::MatrixXd Basis_2=Null_S_S2*Obs_ortho;
+
+
+        Eigen::MatrixXd Diff3(Obs_subspace.rows(), Obs_subspace.cols() + Cont_ortho.cols());
+        Diff3 << Obs_subspace, -Cont_ortho;
+        Eigen::MatrixXd Null_S3=Diff3.FullPivLU.kernel();
+
+                
+        Eigen::MatrixXd Null_S_S3=Null_S3.toprows(k);
+        Eigen::MatrixXd Basis_3=Null_S_S3*Obs_subspace;
+
+
+        
+        Eigen::MatrixXd Diff4(Obs_ortho.rows(), Obs_subspace.cols() + Cont_ortho.cols());
+        Diff4<< Obs_ortho, -Cont_ortho;
+        Eigen::MatrixXd Null_S4=Diff3.FullPivLU.kernel();
+
+                        
+        Eigen::MatrixXd Null_S_S4=Null_S4.toprows(l);
+        Eigen::MatrixXd Basis_4=Null_S_S4*Obs_ortho;
+
+        
     }
 
 	private:	
