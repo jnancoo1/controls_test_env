@@ -311,12 +311,13 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         Eigen::MatrixXd Cont_subspace=std::get<0>(Cont);
         Eigen::MatrixXd Diff(Obs_subspace.rows(), Obs_subspace.cols() + Cont_subspace.cols());
         Diff << Obs_subspace, -Cont_subspace;
-        Eigen::MatrixXd Null_S=Diff.FullPivLU.kernel();
+        Eigen::FullPivLU<Eigen::MatrixXd> lu1(Diff);
+        Eigen::MatrixXd Null_S = lu1.kernel();
 
 
         int k=Obs_subspace.cols();
 
-        Eigen::MatrixXd Null_S_S=Null_S.toprows(k);
+        Eigen::MatrixXd Null_S_S=Null_S.topRows(k);
         Eigen::MatrixXd Basis_1=Null_S_S*Obs_subspace;
 
 
@@ -325,34 +326,63 @@ bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
         Eigen::MatrixXd Diff2(Obs_ortho.rows(), Obs_ortho.cols() + Cont_subspace.cols());
         Diff2 << Obs_ortho, -Cont_subspace;
-        Eigen::MatrixXd Null_S2=Diff2.FullPivLU.kernel();
+        Eigen::MatrixXd Null_S2=Diff2.fullPivLu().kernel();
 
         int l=Obs_ortho.cols();
 
         
-        Eigen::MatrixXd Null_S_S2=Null_S2.toprows(l);
+        Eigen::MatrixXd Null_S_S2=Null_S2.topRows(l);
         Eigen::MatrixXd Basis_2=Null_S_S2*Obs_ortho;
 
 
         Eigen::MatrixXd Diff3(Obs_subspace.rows(), Obs_subspace.cols() + Cont_ortho.cols());
         Diff3 << Obs_subspace, -Cont_ortho;
-        Eigen::MatrixXd Null_S3=Diff3.FullPivLU.kernel();
+        Eigen::MatrixXd Null_S3=Diff3.fullPivLu().kernel();
 
                 
-        Eigen::MatrixXd Null_S_S3=Null_S3.toprows(k);
+        Eigen::MatrixXd Null_S_S3=Null_S3.topRows(k);
         Eigen::MatrixXd Basis_3=Null_S_S3*Obs_subspace;
 
 
         
         Eigen::MatrixXd Diff4(Obs_ortho.rows(), Obs_subspace.cols() + Cont_ortho.cols());
         Diff4<< Obs_ortho, -Cont_ortho;
-        Eigen::MatrixXd Null_S4=Diff3.FullPivLU.kernel();
+        Eigen::MatrixXd Null_S4=Diff3.fullPivLu().kernel();
 
                         
-        Eigen::MatrixXd Null_S_S4=Null_S4.toprows(l);
+        Eigen::MatrixXd Null_S_S4=Null_S4.topRows(l);
         Eigen::MatrixXd Basis_4=Null_S_S4*Obs_ortho;
 
-        
+        int n=Basis_1.rows();
+        Eigen::MatrixXd T(n, n);
+        T << Basis_1, Basis_2, Basis_3, Basis_4;
+
+        if (T.fullPivLu().isInvertible()) {
+        } 
+        else {
+            Eigen::MatrixXd Q = QR.householderQ();
+    T = Q.leftCols(n);  // Truncate if necessary
+
+            }
+
+            Eigen::MatrixXd T_inv = T.inverse();
+
+
+            Eigen::Matrix A_new=T_inv*System.A*T;
+            Eigen::Matrix B_new=T_inv*System.B;
+            Eigen::Matrix C_new=System.C*T;
+            Eigen::Matrix D_new=System.D;
+
+
+            Discrete_StateSpace_System Decomp;
+            Decomp.A=A_new;
+            Decomp.B=B_new;
+            Decomp.C=C_new;
+            Decomp.D=D_new;
+
+            return Decomp;
+
+
     }
 
 	private:	
