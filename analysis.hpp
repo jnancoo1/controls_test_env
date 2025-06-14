@@ -11,7 +11,7 @@
 
 class Analysis {
 public:
-    Eigen::MatrixXd compute_controllability_matrix(const Discrete_StateSpace_System& System)
+    static Eigen::MatrixXd compute_controllability_matrix(const Discrete_StateSpace_System& System)
     {
         int n = System.A.rows();
         int m = System.B.cols();
@@ -31,7 +31,7 @@ public:
         return lu.rank() == System.n_states;
     }
 
-    Eigen::MatrixXd compute_observability_matrix(const Discrete_StateSpace_System& System)
+    static Eigen::MatrixXd compute_observability_matrix(const Discrete_StateSpace_System& System)
     {
         int n = System.A.rows();
         int p = System.C.rows();
