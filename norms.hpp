@@ -2,26 +2,67 @@
 #define NORMS_HPP
 
 #include <Eigen/Dense>
+#include "discrete_state_space.hpp"
+#include <cmath>
+#include <eigen3/unsupported/Eigen/KroneckerProduct>
+
 
 class Norms {
 public:
     // Compute H2 norm for stable continuous-time systems: sqrt(trace(C * P * C^T))
-    static double H2_norm_continuous(const Eigen::MatrixXd& A, const Eigen::MatrixXd& C);
+    static double H2_norm_continuous(const Discrete_StateSpace_System& System){
 
+        Eigen::MatrixXd Q=System.B*System.B.transpose();
+        Eigen::MatrixXd X=(solve_lyapunov(System.A,Q));
+
+        double norm=sqrt((System.C*X*System.C.transpose()).diagonal().sum());
+
+        return norm;
+    }
     // Compute H2 norm for stable discrete-time systems
-    static double H2_norm_discrete(const Eigen::MatrixXd& A, const Eigen::MatrixXd& C);
+    static double H2_norm_discrete(const Discrete_StateSpace_System& System) {
+        Eigen::MatrixXd Q = System.B * System.B.transpose();
+        Eigen::MatrixXd X = solve_discrete_lyapunov(System.A, Q);
+
+        double norm = std::sqrt((System.C * X * System.C.transpose()).trace());
+
+        return norm;
+    }
 
     // Solve continuous Lyapunov equation A'P + PA + Q = 0
-    static Eigen::MatrixXd solve_lyapunov(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Q);
+    static Eigen::MatrixXd solve_lyapunov(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Q){
+
+        int n=A.rows();
+        Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
+         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n, n);
+
+        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(A, I);
+        Eigen::MatrixXd kron2 = Eigen::kroneckerProduct(I,A);
+
+        Eigen::VectorXd w = (kron1 + kron2).fullPivLu().solve(-vecQ);
+
+        Eigen::MatrixXd P = Eigen::Map<Eigen::MatrixXd>(w.data(), n, n);
+
+        return P;
+    };
 
     // Solve discrete Lyapunov equation P = A*P*A' + Q
-    static Eigen::MatrixXd solve_discrete_lyapunov(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Q);
+    static Eigen::MatrixXd solve_discrete_lyapunov(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Q){
 
-    // Check if continuous-time system matrix A is stable (all eigenvalues real part < 0)
-    static bool is_stable_continuous(const Eigen::MatrixXd& A);
+        int n=A.rows();
 
-    // Check if discrete-time system matrix A is stable (all eigenvalues magnitude < 1)
-    static bool is_stable_discrete(const Eigen::MatrixXd& A);
+        Eigen::VectorXd vecQ=Eigen::Map<const Eigen::VectorXd>(Q.data(),Q.size());
+        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(A,A);
+
+        Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n * n, n * n);
+        Eigen::MatrixXd K = kron1 - I;
+
+
+        Eigen::VectorXd p=K.fullPivLu().solve(-vecQ);
+        Eigen::MatrixXd P = Eigen::Map<Eigen::MatrixXd>(p.data(), n, n);
+
+        return P;
+    };
 
     // Compute Frobenius norm of a matrix
     static double frobenius_norm(const Eigen::MatrixXd& M);
