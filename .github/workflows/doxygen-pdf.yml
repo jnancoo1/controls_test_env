@@ -3,7 +3,7 @@ name: Generate Doxygen PDF
 on:
   push:
     branches:
-      - main # Trigger on pushes to your main branch
+      - master # Trigger on pushes to your main branch
   workflow_dispatch: # Allows you to manually run the workflow from GitHub's UI
 
 permissions:
