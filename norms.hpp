@@ -6,7 +6,7 @@
 #include <cmath>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
 #include <complex>
-
+#include "analysis.hpp"
 class Norms {
 public:
     // Compute H2 norm for stable continuous-time systems: sqrt(trace(C * P * C^T))
@@ -172,8 +172,8 @@ public:
 
     }
 
-    // Approximate H-infinity norm (upper bound estimate)
-    static double Hinf_norm_approximate(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
+    static double H_inf_norm(const Discrete_StateSpace_System& System);
+
 
     // Compute L2 norm of impulse response (energy)
     static double impulse_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);

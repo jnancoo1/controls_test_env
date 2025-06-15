@@ -62,7 +62,7 @@ public:
 		}
 	return true;}
 
-bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
+static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 	{
     Eigen::VectorXcd eigenvals = System.A.eigenvalues();
     for (int i = 0; i < eigenvals.size(); ++i) {
