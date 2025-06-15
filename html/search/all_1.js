@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dot_0',['dot',['../classMy__Vec.html#aecb1cca00365138b6540cc8564a76034',1,'My_Vec']]]
+  ['backwardsubstitution_0',['BackwardSubstitution',['../classLinear__Solvers.html#aefc1fe57a9ab20bb6915ba1b6242ccc7',1,'Linear_Solvers']]]
 ];

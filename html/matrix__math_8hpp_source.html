@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: matrix_math.hpp Source File</title>
+<title>C++ controls toolbox test: matrix_math.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">C++ controls toolbox test
    </div>
   </td>
  </tr>
@@ -369,8 +369,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
 <div class="foldopen" id="foldopen00377" data-start="{" data-end="}">
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno"><a class="line" href="classMatrix.html#a894b0e19cc83b572e7d5eac53817baf1">  377</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classMatrix.html">Matrix</a> <a class="code hl_function" href="classMatrix.html#a894b0e19cc83b572e7d5eac53817baf1">Embed</a>(<span class="keyword">const</span> <a class="code hl_class" href="classMatrix.html">Matrix</a>&amp; Householder, <span class="keyword">const</span> <a class="code hl_class" href="classMatrix.html">Matrix</a>&amp; A) {</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        <a class="code hl_class" href="classMatrix.html">Matrix</a> Hp = <a class="code hl_function" href="classMatrix.html#ac6bb9a8d37616ef221e21e9cf48c8a4c">eye</a>(A.<a class="code hl_variable" href="classMatrix.html#a994b1578e9a64d5cc3c4d0b11d7532a9">rows</a>);</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        <span class="keywordtype">int</span> i = A.<a class="code hl_variable" href="classMatrix.html#a994b1578e9a64d5cc3c4d0b11d7532a9">rows</a> - Householder.<a class="code hl_variable" href="classMatrix.html#a994b1578e9a64d5cc3c4d0b11d7532a9">rows</a>;</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        <a class="code hl_class" href="classMatrix.html">Matrix</a> Hp = <a class="code hl_function" href="classMatrix.html#ac6bb9a8d37616ef221e21e9cf48c8a4c">eye</a>(A.rows);</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        <span class="keywordtype">int</span> i = A.rows - Householder.<a class="code hl_variable" href="classMatrix.html#a994b1578e9a64d5cc3c4d0b11d7532a9">rows</a>;</div>
 <div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> a = 0; a &lt; Householder.<a class="code hl_variable" href="classMatrix.html#a994b1578e9a64d5cc3c4d0b11d7532a9">rows</a>; a++) {</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> b = 0; b &lt; Householder.<a class="code hl_variable" href="classMatrix.html#a2067cc7ed367cc427cd869b3e1074ad7">cols</a>; b++) {</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>                Hp.<a class="code hl_variable" href="classMatrix.html#a03a28ec60fe1be4f341ebf9ed5cace08">MyMAT</a>[i+a][i+b] = Householder.<a class="code hl_variable" href="classMatrix.html#a03a28ec60fe1be4f341ebf9ed5cace08">MyMAT</a>[a][b];</div>

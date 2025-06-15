@@ -1,0 +1,23 @@
+\doxysection{linear\+\_\+solvers.\+hpp File Reference}
+\hypertarget{linear__solvers_8hpp}{}\label{linear__solvers_8hpp}\index{linear\_solvers.hpp@{linear\_solvers.hpp}}
+
+
+Linear system solvers implementation.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include "{}matrix\+\_\+math.\+hpp"{}}\newline
+Include dependency graph for linear\+\_\+solvers.\+hpp\+:
+% FIG 0
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classLinear__Solvers}{Linear\+\_\+\+Solvers}}
+\begin{DoxyCompactList}\small\item\em Class containing static methods for solving linear systems. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Linear system solvers implementation. 
+
+Contains implementations of various methods for solving linear systems, including LU decomposition, QR decomposition, and direct matrix inversion. 

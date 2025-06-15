@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dot_0',['dot',['../classMy__Vec.html#aecb1cca00365138b6540cc8564a76034',1,'My_Vec']]]
+  ['applypermutation_0',['ApplyPermutation',['../classLinear__Solvers.html#a03470944c99669cdcaf47ac4005c8df6',1,'Linear_Solvers']]]
 ];

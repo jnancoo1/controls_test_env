@@ -1,0 +1,397 @@
+\doxysection{analysis.\+hpp}
+\hypertarget{analysis_8hpp_source}{}\label{analysis_8hpp_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANALYSIS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANALYSIS\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <complex>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <Eigen/Dense>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}discrete\_state\_space.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <Eigen/SVD>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <eigen3/unsupported/Eigen/KroneckerProduct>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAnalysis}{Analysis}}\ \{}
+\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ Eigen::MatrixXd\ \mbox{\hyperlink{classAnalysis_ae25a24b6624cc7c55720dba254502e74}{compute\_controllability\_matrix}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ System.A.rows();}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ m\ =\ System.B.cols();}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ controllability\_mat(n,\ n\ *\ m);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ n;\ ++i)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ controllability\_mat.block(0,\ i\ *\ m,\ n,\ m)\ =\ System.A.pow(i)\ *\ System.B;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ controllability\_mat;}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_a94b56b189ff8c6fa06c7bbfb86e12d97}{is\_controllable}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\ }
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ controllability\_mat\ =\ \mbox{\hyperlink{classAnalysis_ae25a24b6624cc7c55720dba254502e74}{compute\_controllability\_matrix}}(System);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ Eigen::FullPivLU<Eigen::MatrixXd>\ lu(controllability\_mat);}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lu.rank()\ ==\ System.n\_states;}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{static}\ Eigen::MatrixXd\ \mbox{\hyperlink{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a}{compute\_observability\_matrix}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ System.A.rows();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ p\ =\ System.C.rows();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ observability\_mat(p\ *\ n,\ System.A.cols());}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ n;\ ++i)\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ observability\_mat.block(i\ *\ p,\ 0,\ p,\ System.A.cols())\ =\ System.C\ *\ System.A.pow(i);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ observability\_mat;}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_ae7495f993f5a8fa00f7c7ea21de25416}{is\_observable}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\ }
+\DoxyCodeLine{00139\ \ \ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ observability\_mat\ =\ \mbox{\hyperlink{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a}{compute\_observability\_matrix}}(System);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ Eigen::FullPivLU<Eigen::MatrixXd>\ lu(observability\_mat);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lu.rank()\ ==\ System.n\_states;}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_ab0d41bc4e251b302e1e741951575f13c}{Linear\_Stability\_discrete}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)}
+\DoxyCodeLine{00165\ \ \ \ \ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ Eigen::VectorXcd\ eigenvals=System.A.eigenvalues();}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<eigenvals.size();i++)\{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(std::abs(eigenvals[i])>=1.0)\{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_a1e182155106a782f71c899e9e77cb127}{Linear\_Stability\_cont}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)}
+\DoxyCodeLine{00196\ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ Eigen::VectorXcd\ eigenvals\ =\ System.A.eigenvalues();}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ eigenvals.size();\ ++i)\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (eigenvals[i].real()\ >=\ 0.0)\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \ \textcolor{comment}{//\ Unstable\ or\ marginally\ stable}}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_a293ee86f21954d6fa845bc9712d29bb1}{is\_stabalizable\_cont}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\ \&System)\{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ Eigen::VectorXcd\ eigs=System.A.eigenvalues();}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ f=eigs.size();}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ std::vector<bool>\ unstable\_flag;}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ a=System.A.rows();}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ b=System.A.cols();}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<eigs.size();i++)\{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(eigs[i].real()>0)\{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ eye(a,b);\ \ }
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eye=Eigen::MatrixXcd::Identity(a,b);}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ PBH\_part\_1=eigs[i]*eye-\/System.A;}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n=System.B.rows();}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ m=System.B.cols();}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ PBH(n,n+m);}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PBH.block(0,\ 0,\ n,\ n)\ =\ PBH\_part\_1;}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PBH.block(0,\ n,\ n,\ m)\ =\ System.B.cast<std::complex<double>>();}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::FullPivLU<Eigen::MatrixXcd>\ lu(PBH);}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(lu.rank()<n)\{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ \}}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_ad5179b7d195fb36c2a86c4b98031117b}{is\_detectable\_cont}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\ \&System)\{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ Eigen::VectorXcd\ eigs=System.A.eigenvalues();}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ f=eigs.size();}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ std::vector<bool>\ unstable\_flag;}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ a=System.A.rows();}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ b=System.A.cols();}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<eigs.size();i++)\{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(eigs[i].real()>0)\{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ eye\ =\ Eigen::MatrixXcd::Identity(a,\ b);}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ PBH\_part\_1=eigs[i]*eye-\/System.A;}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n=System.A.rows();}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ p=System.C.rows();}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ PBH(n\ +\ p,\ n);}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PBH.block(0,\ 0,\ n,\ n)\ =\ PBH\_part\_1;}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PBH.block(n,\ 0,\ p,\ n)\ =\ System.C.cast<std::complex<double>>();}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::FullPivLU<Eigen::MatrixXcd>\ lu(PBH);}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(lu.rank()<n)\{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ \}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAnalysis_a7000ec1dd0d7a48150b9eb2ad00a0370}{minimality\_test\_cont}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\ \&System)\{}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classAnalysis_a94b56b189ff8c6fa06c7bbfb86e12d97}{is\_controllable}}(System)\ \&\&\ \mbox{\hyperlink{classAnalysis_ae7495f993f5a8fa00f7c7ea21de25416}{is\_observable}}(System))\ \{}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00326\ \ \ \ \ std::tuple<Eigen::MatrixXd,\ Eigen::MatrixXd>\ \mbox{\hyperlink{classAnalysis_a1c4bc000dfb8e376cea20cdbc0d9b77d}{controllability\_decomposition}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ cont\_mat=\mbox{\hyperlink{classAnalysis_ae25a24b6624cc7c55720dba254502e74}{compute\_controllability\_matrix}}(System);}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n=cont\_mat.rows();}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ Eigen::ColPivHouseholderQR\ <Eigen::MatrixXd>\ QR(cont\_mat);}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Q=QR.householderQ();}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r=QR.rank();}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ T(n,\ n);}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ T\ <<\ Q.leftCols(r),\ Q.rightCols(n\ -\/\ r);}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Aprime=(T.inverse())*System.A*T;}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Bprime=(T.inverse())*System.B;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Cprime=System.C*T;}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ A\_cc=Aprime.topLeftCorner(r,r);}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ A\_cu=Aprime.topRightCorner(r,n-\/r);}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ std::tuple<Eigen::MatrixXd,\ Eigen::MatrixXd>\ Ans=\{A\_cc,A\_cu\};}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Ans;}
+\DoxyCodeLine{00344\ \ \ \ \ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00357\ \ \ \ \ std::tuple<Eigen::MatrixXd,\ Eigen::MatrixXd>\ \mbox{\hyperlink{classAnalysis_a9b58ab4ed9082da4bb92d41f0e545f40}{observability\_decomposition}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\{}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ obs\_mat=\mbox{\hyperlink{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a}{compute\_observability\_matrix}}(System);}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n=System.A.rows();}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ Eigen::JacobiSVD<Eigen::MatrixXd>\ SVD(obs\_mat);}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ V=SVD.matrixV();}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ VT=V.transpose();}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tol\ =\ 1e-\/9;}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ (SVD.singularValues().array()\ >\ tol).count();}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ T(n,\ n);}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ T\ <<\ V.leftCols(r),\ V.rightCols(n\ -\/\ r);}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Aprime=(T.inverse())*System.A*T;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Bprime=(T.inverse())*System.B;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Cprime=System.C*T;}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ A\_oo=Aprime.topLeftCorner(r,r);}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ A\_ou=Aprime.topRightCorner(r,n-\/r);}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ std::tuple<Eigen::MatrixXd,\ Eigen::MatrixXd>\ Ans=\{A\_oo,A\_ou\};}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Ans;}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00395\ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{classAnalysis_a05db86c28140d109d60d0d2277c85b3f}{compute\_controllability\_gramian}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\ \{}
+\DoxyCodeLine{00396\ \ \ \ }
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Q\ =\ System.B\ *\ System.B.transpose();}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ System.A.rows();}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ I\ =\ Eigen::MatrixXd::Identity(n,\ n);}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ vecQ\ =\ Eigen::Map<const\ Eigen::VectorXd>(Q.data(),\ Q.size());}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ kron1\ =\ Eigen::kroneckerProduct(System.A,\ I);}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ kron2\ =\ Eigen::kroneckerProduct(I,\ System.A);}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ w\ =\ (kron1\ +\ kron2).fullPivLu().solve(-\/vecQ);}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ W\ =\ Eigen::Map<Eigen::MatrixXd>(w.data(),\ n,\ n);}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ W;}
+\DoxyCodeLine{00410\ \}}
+\DoxyCodeLine{00411\ \ }
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00423\ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{classAnalysis_ac24f7b8ecb30ddd0e310fe0d1fb77c29}{compute\_observability\_gramian}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\{}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Q\ =\ (System.C)\ *\ System.C.transpose();}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ System.A.rows();}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ I\ =\ Eigen::MatrixXd::Identity(n,\ n);}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ vecQ\ =\ Eigen::Map<const\ Eigen::VectorXd>(Q.data(),\ Q.size());}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ kron1\ =\ Eigen::kroneckerProduct(System.A,\ I);}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ kron2\ =\ Eigen::kroneckerProduct(I,\ System.A);}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ w\ =\ (kron1\ +\ kron2).fullPivLu().solve(-\/vecQ);}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ W\ =\ Eigen::Map<Eigen::MatrixXd>(w.data(),\ n,\ n);}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ W;}
+\DoxyCodeLine{00438\ \ \ \ \ \}}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00446\ \ \ \ \ std::vector<std::complex<double>>\ \mbox{\hyperlink{classAnalysis_aa7a3ebd829a90065ebd03c314115d556}{poles}}(\textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\{}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ Eigen::EigenSolver<Eigen::MatrixXd>\ eigen\_solver(System.A);}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ Eigen::VectorXcd\ eigvals\ =\ eigen\_solver.eigenvalues();}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ std::vector<std::complex<double>>\ eigs(eigvals.data(),\ eigvals.data()\ +\ eigvals.size());}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ eigs;}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \ \ \ \ \}}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00465\ \ \ \ \ std::vector<std::complex<double>>\ \mbox{\hyperlink{classAnalysis_a5a3ca3f22e0acdea5e15626b1fb54258}{generate\_z\_grid}}(}
+\DoxyCodeLine{00466\ \ \ \ \ \textcolor{keywordtype}{double}\ r\_min,\ \textcolor{keywordtype}{double}\ r\_max,}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordtype}{int}\ r\_samples,}
+\DoxyCodeLine{00468\ \ \ \ \ \textcolor{keywordtype}{int}\ theta\_samples)\ }
+\DoxyCodeLine{00469\ \ \ \ \ \{}
+\DoxyCodeLine{00470\ \ \ \ \ std::vector<std::complex<double>>\ z\_grid;}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ z\_grid.reserve(r\_samples\ *\ theta\_samples);}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ r\_samples;\ ++i)\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ r\ =\ r\_min\ +\ i\ *\ (r\_max\ -\/\ r\_min)\ /\ (r\_samples\ -\/\ 1);}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ theta\_samples;\ ++j)\ \{}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ theta\ =\ 2.0\ *\ M\_PI\ *\ j\ /\ theta\_samples;}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::complex<double>\ z\ =\ std::polar(r,\ theta);}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ z\_grid.push\_back(z);}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ z\_grid;}
+\DoxyCodeLine{00482\ \}}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00494\ \ \ \ \ std::vector<std::complex<double>>\ \mbox{\hyperlink{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}{zeros}}(}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System,}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\&\ r\_min,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\&\ r\_max,}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ r\_samples,}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ theta\_samples)\{}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =System.A.rows();}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ p=\ System.C.rows();}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ m=\ System.B.cols();}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ R(n\ +\ p,\ n\ +\ m);}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ std::vector<std::complex<double>>\ zgrid=\mbox{\hyperlink{classAnalysis_a5a3ca3f22e0acdea5e15626b1fb54258}{generate\_z\_grid}}(r\_min,r\_max,r\_samples,theta\_samples);}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ std::vector<std::complex<double>>\ \mbox{\hyperlink{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}{zeros}};}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ zI\_minus\_A;}
+\DoxyCodeLine{00509\ }
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ Eigen::MatrixXcd\ eye=Eigen::MatrixXd::Identity(n,\ n);}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r;}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tol\ =\ 1e-\/9;}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<zgrid.size();i++)\{}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ zI\_minus\_A=(zgrid[i]*eye)-\/(System.A.cast<std::complex<double>>);}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ R.block(0,\ 0,\ n,\ n)\ =\ zI\_minus\_A;}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ R.block(0,\ n,\ n,\ m)\ =\ -\/System.B.cast<std::complex<double>>();}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ R.block(n,\ 0,\ p,\ n)\ =\ System.C.cast<std::complex<double>>();}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ R.block(n,\ n,\ p,\ m)\ =\ System.D.cast<std::complex<double>>();}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::JacobiSVD<Eigen::MatrixXcd>SVD(R);}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ r\ =\ (SVD.singularValues().array()\ >\ tol).count();}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(r<n+p)\{}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}{zeros}}.push\_back(zgrid[i]);}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ }
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}{zeros}};}
+\DoxyCodeLine{00531\ \ \ \ \ \}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00542\ \ \ \ \ Discrete\_StateSpace\_System\ \mbox{\hyperlink{classAnalysis_a85fc5bc28fafaca32123b5097d3081df}{Kalman\_Decomp}}(\ \textcolor{keyword}{const}\ Discrete\_StateSpace\_System\&\ System)\{}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ std::tuple<Eigen::MatrixXd,\ Eigen::MatrixXd>\ Cont,Obs;}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ Obs=\mbox{\hyperlink{classAnalysis_a9b58ab4ed9082da4bb92d41f0e545f40}{observability\_decomposition}}(System);}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ Cont=\mbox{\hyperlink{classAnalysis_a1c4bc000dfb8e376cea20cdbc0d9b77d}{controllability\_decomposition}}(System);}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Obs\_subspace=std::get<0>(Obs);}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Cont\_subspace=std::get<0>(Cont);}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Diff(Obs\_subspace.rows(),\ Obs\_subspace.cols()\ +\ Cont\_subspace.cols());}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ Diff\ <<\ Obs\_subspace,\ -\/Cont\_subspace;}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ Eigen::FullPivLU<Eigen::MatrixXd>\ lu1(Diff);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S\ =\ lu1.kernel();}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ k=Obs\_subspace.cols();}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S\_S=Null\_S.topRows(k);}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Basis\_1=Null\_S\_S*Obs\_subspace;}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Obs\_ortho=(Obs\_subspace.transpose()).fullPivLu().kernel();}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Cont\_ortho=(Cont\_subspace.transpose()).fullPivLu().kernel();}
+\DoxyCodeLine{00565\ }
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Diff2(Obs\_ortho.rows(),\ Obs\_ortho.cols()\ +\ Cont\_subspace.cols());}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ Diff2\ <<\ Obs\_ortho,\ -\/Cont\_subspace;}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S2=Diff2.fullPivLu().kernel();}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ l=Obs\_ortho.cols();}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S\_S2=Null\_S2.topRows(l);}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Basis\_2=Null\_S\_S2*Obs\_ortho;}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Diff3(Obs\_subspace.rows(),\ Obs\_subspace.cols()\ +\ Cont\_ortho.cols());}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ Diff3\ <<\ Obs\_subspace,\ -\/Cont\_ortho;}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S3=Diff3.fullPivLu().kernel();}
+\DoxyCodeLine{00580\ }
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S\_S3=Null\_S3.topRows(k);}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Basis\_3=Null\_S\_S3*Obs\_subspace;}
+\DoxyCodeLine{00584\ }
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Diff4(Obs\_ortho.rows(),\ Obs\_subspace.cols()\ +\ Cont\_ortho.cols());}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ Diff4<<\ Obs\_ortho,\ -\/Cont\_ortho;}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S4=Diff3.fullPivLu().kernel();}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Null\_S\_S4=Null\_S4.topRows(l);}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Basis\_4=Null\_S\_S4*Obs\_ortho;}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n=Basis\_1.rows();}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ T(n,\ n);}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ T\ <<\ Basis\_1,\ Basis\_2,\ Basis\_3,\ Basis\_4;}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (T.fullPivLu().isInvertible())\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ Q\ =\ QR.householderQ();}
+\DoxyCodeLine{00603\ \ \ \ \ T\ =\ Q.leftCols(n);\ \ \textcolor{comment}{//\ Truncate\ if\ necessary}}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ T\_inv\ =\ T.inverse();}
+\DoxyCodeLine{00608\ }
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::Matrix\ A\_new=T\_inv*System.A*T;}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::Matrix\ B\_new=T\_inv*System.B;}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::Matrix\ C\_new=System.C*T;}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ Eigen::Matrix\ D\_new=System.D;}
+\DoxyCodeLine{00614\ }
+\DoxyCodeLine{00615\ }
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ Discrete\_StateSpace\_System\ Decomp;}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ Decomp.A=A\_new;}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ Decomp.B=B\_new;}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ Decomp.C=C\_new;}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ Decomp.D=D\_new;}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Decomp;}
+\DoxyCodeLine{00623\ }
+\DoxyCodeLine{00624\ }
+\DoxyCodeLine{00625\ \ \ \ \ \}}
+\DoxyCodeLine{00626\ }
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keyword}{private}:\ \ \ \ }
+\DoxyCodeLine{00628\ \ \ \ \ \};}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

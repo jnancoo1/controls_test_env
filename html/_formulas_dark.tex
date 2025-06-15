@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage{ifthen}
+\usepackage{epsfig}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\color{white}
+\pagecolor{black}
+% Packages requested by user
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{unicode-math}
+
+\usepackage{newunicodechar}
+  \makeatletter
+    \def\doxynewunicodechar#1#2{%
+    \@tempswafalse
+    \edef\nuc@tempa{\detokenize{#1}}%
+    \if\relax\nuc@tempa\relax
+      \nuc@emptyargerr
+    \else
+      \edef\@tempb{\expandafter\@car\nuc@tempa\@nil}%
+      \nuc@check
+      \if@tempswa
+        \@namedef{u8:\nuc@tempa}{#2}%
+      \fi
+    \fi
+  }
+  \makeatother
+  \doxynewunicodechar{⁻}{${}^{-}$}% Superscript minus
+  \doxynewunicodechar{²}{${}^{2}$}% Superscript two
+  \doxynewunicodechar{³}{${}^{3}$}% Superscript three
+
+\pagestyle{empty}
+\begin{document}
+\[
+T = Q^TAQ
+\]
+\pagebreak
+
+\[
+A = PDP^{-1}
+\]
+\pagebreak
+
+\[
+A = \begin{bmatrix} 
+0 & 1 & 0 & \cdots & 0 \\
+0 & 0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1 \\
+-a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
+\end{bmatrix}
+\]
+\pagebreak
+
+$a_i$
+\pagebreak
+
+\[
+p(s) = s^n + a_{n-1}s^{n-1} + \cdots + a_1s + a_0
+\]
+\pagebreak
+
+\[
+T = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+\]
+\pagebreak
+
+\begin{equation*}
+A = \begin{pmatrix} 
+-a_{n-1} & -a_{n-2} & \cdots & -a_1 & -a_0 \\
+1 & 0 & \cdots & 0 & 0 \\
+0 & 1 & \cdots & 0 & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \cdots & 1 & 0
+\end{pmatrix}
+\end{equation*}
+\pagebreak
+
+\[
+T = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
+\]
+\pagebreak
+
+\[
+x = \begin{bmatrix} y \\ \Delta y \\ \Delta^2 y \\ \vdots \\ \Delta^{n-1} y \end{bmatrix}
+\]
+\pagebreak
+
+\begin{eqnarray*}
+    x[k+1] &=& Ax[k] + Bu[k] \\
+    y[k] &=& Cx[k] + Du[k]
+    \end{eqnarray*}
+\pagebreak
+
+\[
+\mathcal{C} = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+\]
+\pagebreak
+
+\[
+\text{rank}([B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]) = n
+\]
+\pagebreak
+
+\[
+\mathcal{O} = \begin{bmatrix} 
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix}
+\]
+\pagebreak
+
+\[
+\text{rank}\begin{bmatrix} 
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix} = n
+\]
+\pagebreak
+
+\[
+|\lambda_i(A)| < 1 \quad \forall i
+\]
+\pagebreak
+
+$\lambda_i(A)$
+\pagebreak
+
+\[
+\text{Re}(\lambda_i(A)) < 0 \quad \forall i
+\]
+\pagebreak
+
+$\text{Re}(\lambda) < 0$
+\pagebreak
+
+$\text{Re}(\lambda) = 0$
+\pagebreak
+
+$\text{Re}(\lambda) > 0$
+\pagebreak
+
+\[
+\text{rank}[sI - A \quad B] = n
+\]
+\pagebreak
+
+$\text{Re}(s) \geq 0$
+\pagebreak
+
+\end{document}

@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['q_0',['Q',['../structQRresult.html#a69afdbbeb479445ee57c7fc4289890f4',1,'QRresult']]],
-  ['qr_5ffact_1',['QR_fact',['../classMatrix.html#abeb94d21eaf4bb53308c20fe6b744ec0',1,'Matrix']]],
-  ['qr_5fresult_5fto_5fpass_2',['QR_result_to_pass',['../structQR__result__to__pass.html',1,'']]],
-  ['qrresult_3',['QRresult',['../structQRresult.html',1,'']]]
+  ['kalman_5fdecomp_0',['Kalman_Decomp',['../classAnalysis.html#a85fc5bc28fafaca32123b5097d3081df',1,'Analysis']]]
 ];

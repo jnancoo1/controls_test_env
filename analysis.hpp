@@ -9,8 +9,42 @@
 #include <Eigen/SVD>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
 
+/**
+ * @brief A class for analyzing properties of discrete-time state space systems
+ * 
+ * This class provides methods for analyzing fundamental system properties including:
+ * - Controllability: ability to drive the system to any desired state
+ * - Observability: ability to determine any initial state from output measurements
+ * - Stability: behavior of the system's free response
+ * - Stabilizability: ability to stabilize unstable modes through feedback
+ *
+ * For a discrete-time state space system:     * \f{eqnarray*}{
+     * x[k+1] &=& Ax[k] + Bu[k] \\
+     * y[k] &=& Cx[k] + Du[k]
+     * \f}
+ */
 class Analysis {
 public:
+    /**
+     * @brief Computes the controllability matrix for a discrete-time state space system
+     * 
+     * The controllability matrix is defined as:
+     * \f[
+     * \mathcal{C} = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+     * \f]
+     * 
+     * where:
+     * - n is the number of states
+     * - A is the state matrix
+     * - B is the input matrix
+     * 
+     * This matrix has size n × nm, where:
+     * - n is the number of states
+     * - m is the number of inputs
+     * 
+     * @param System The discrete state space system to analyze
+     * @return Eigen::MatrixXd The controllability matrix
+     */
     static Eigen::MatrixXd compute_controllability_matrix(const Discrete_StateSpace_System& System)
     {
         int n = System.A.rows();
@@ -24,6 +58,22 @@ public:
         return controllability_mat;
     }
 
+    /**
+     * @brief Checks if the system is controllable
+     * 
+     * A system is controllable if and only if its controllability matrix has full rank:
+     * \f[
+     * \text{rank}([B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]) = n
+     * \f]
+     * 
+     * where n is the number of states.
+     * 
+     * Controllability implies that there exists an input sequence that can transfer
+     * the system from any initial state to any final state in finite time.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if rank(C) = n, false otherwise
+     */
     bool is_controllable(const Discrete_StateSpace_System& System) 
     {
         Eigen::MatrixXd controllability_mat = compute_controllability_matrix(System);
@@ -31,6 +81,27 @@ public:
         return lu.rank() == System.n_states;
     }
 
+    /**
+     * @brief Computes the observability matrix for a discrete-time state space system
+     * 
+     * The observability matrix is defined as:
+     * \f[
+     * \mathcal{O} = \begin{bmatrix} 
+     * C \\
+     * CA \\
+     * CA^2 \\
+     * \vdots \\
+     * CA^{n-1}
+     * \end{bmatrix}
+     * \f]
+     * 
+     * This matrix has size pn × n, where:
+     * - n is the number of states
+     * - p is the number of outputs
+     * 
+     * @param System The discrete state space system to analyze
+     * @return Eigen::MatrixXd The observability matrix
+     */
     static Eigen::MatrixXd compute_observability_matrix(const Discrete_StateSpace_System& System)
     {
         int n = System.A.rows();
@@ -44,13 +115,53 @@ public:
         return observability_mat;
     }
 
+    /**
+     * @brief Checks if the system is observable
+     * 
+     * A system is observable if and only if its observability matrix has full rank:
+     * \f[
+     * \text{rank}\begin{bmatrix} 
+     * C \\
+     * CA \\
+     * CA^2 \\
+     * \vdots \\
+     * CA^{n-1}
+     * \end{bmatrix} = n
+     * \f]
+     * 
+     * Observability implies that the initial state can be determined from
+     * knowledge of the input and output over a finite time interval.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if rank(O) = n, false otherwise
+     */
     bool is_observable(const Discrete_StateSpace_System& System) 
     {
         Eigen::MatrixXd observability_mat = compute_observability_matrix(System);
         Eigen::FullPivLU<Eigen::MatrixXd> lu(observability_mat);
         return lu.rank() == System.n_states;
     }
-	bool Linear_Stability_discrete(const Discrete_StateSpace_System& System)
+	
+    /**
+     * @brief Checks the stability of a discrete-time linear system
+     * 
+     * For a discrete-time system, stability requires all eigenvalues
+     * to lie inside the unit circle:
+     * \f[
+     * |\lambda_i(A)| < 1 \quad \forall i
+     * \f]
+     * 
+     * where \f$\lambda_i(A)\f$ are the eigenvalues of matrix A.
+     * 
+     * Stability types:
+     * - |λ| < 1: Asymptotically stable
+     * - |λ| = 1: Marginally stable
+     * - |λ| > 1: Unstable
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if all eigenvalues have magnitude less than 1
+     */
+    bool Linear_Stability_discrete(const Discrete_StateSpace_System& System)
 	{
 		Eigen::VectorXcd eigenvals=System.A.eigenvalues();
 		for(int i=0;i<eigenvals.size();i++){
@@ -62,7 +173,26 @@ public:
 		}
 	return true;}
 
-static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
+    /**
+     * @brief Checks the stability of a continuous-time linear system
+     * 
+     * For a continuous-time system, stability requires all eigenvalues
+     * to lie in the left half-plane:
+     * \f[
+     * \text{Re}(\lambda_i(A)) < 0 \quad \forall i
+     * \f]
+     * 
+     * where \f$\lambda_i(A)\f$ are the eigenvalues of matrix A.
+     * 
+     * Stability types:
+     * - \f$\text{Re}(\lambda) < 0\f$: Asymptotically stable
+     * - \f$\text{Re}(\lambda) = 0\f$: Marginally stable
+     * - \f$\text{Re}(\lambda) > 0\f$: Unstable
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if all eigenvalues have negative real parts
+     */
+    static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 	{
     Eigen::VectorXcd eigenvals = System.A.eigenvalues();
     for (int i = 0; i < eigenvals.size(); ++i) {
@@ -75,6 +205,26 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
 
 
+    /**
+     * @brief Checks if the continuous-time system is stabilizable
+     * 
+     * A system is stabilizable if all uncontrollable modes are stable.
+     * This is checked using the Popov-Belevitch-Hautus (PBH) test:
+     * \f[
+     * \text{rank}[sI - A \quad B] = n
+     * \f]
+     * 
+     * for all eigenvalues s with \f$\text{Re}(s) \geq 0\f$, where:
+     * - n is the number of states
+     * - A is the state matrix
+     * - B is the input matrix
+     * 
+     * If this condition is satisfied for all unstable eigenvalues,
+     * then the system is stabilizable.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if the system is stabilizable
+     */
     bool is_stabalizable_cont(const Discrete_StateSpace_System &System){
         Eigen::VectorXcd eigs=System.A.eigenvalues();
         int f=eigs.size();
@@ -106,6 +256,15 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
 
 
+    /**
+     * @brief Checks if the continuous-time system is detectable
+     * 
+     * A system is detectable if all unobservable modes are stable.
+     * Uses the Popov-Belevitch-Hautus (PBH) test for each unstable eigenvalue.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if the system is detectable, false otherwise
+     */
     bool is_detectable_cont(const Discrete_StateSpace_System &System){
         Eigen::VectorXcd eigs=System.A.eigenvalues();
         int f=eigs.size();
@@ -136,6 +295,14 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
 
 
+    /**
+     * @brief Performs the minimality test for continuous-time systems
+     * 
+     * A system is minimal if it is both controllable and observable.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return bool True if the system is minimal, false otherwise
+     */
     bool minimality_test_cont(const Discrete_StateSpace_System &System){
 
         if (is_controllable(System) && is_observable(System)) {
@@ -147,6 +314,15 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         }
     }
 
+    /**
+     * @brief Computes the controllability decomposition of a discrete-time state space system
+     * 
+     * This method computes the controllability matrix and performs QR decomposition
+     * to find the invariant subspaces of the system.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> The controllable and uncontrollable subspaces
+     */
     std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> controllability_decomposition(const Discrete_StateSpace_System& System){
         Eigen::MatrixXd cont_mat=compute_controllability_matrix(System);
         int n=cont_mat.rows();
@@ -169,6 +345,15 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
 
 
+    /**
+     * @brief Computes the observability decomposition of a discrete-time state space system
+     * 
+     * This method computes the observability matrix and performs SVD to find the
+     * invariant subspaces of the system.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> The observable and unobservable subspaces
+     */
     std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> observability_decomposition(const Discrete_StateSpace_System& System){
 
         Eigen::MatrixXd obs_mat=compute_observability_matrix(System);
@@ -197,6 +382,16 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
     }
 
 		
+    /**
+     * @brief Computes the controllability gramian for a discrete-time state space system
+     * 
+     * The controllability gramian is computed using the formula:
+     * Wc = ∫ (Φ_A(t)B) (Φ_A(t)B)^T dt
+     * where Φ_A(t) is the state transition matrix.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return Eigen::MatrixXd The controllability gramian
+     */
     Eigen::MatrixXd compute_controllability_gramian(const Discrete_StateSpace_System& System) {
    
         Eigen::MatrixXd Q = System.B * System.B.transpose();
@@ -215,6 +410,16 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 }
  
 
+    /**
+     * @brief Computes the observability gramian for a discrete-time state space system
+     * 
+     * The observability gramian is computed using the formula:
+     * Wo = ∫ (CΦ_A(t))^T (CΦ_A(t)) dt
+     * where Φ_A(t) is the state transition matrix.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return Eigen::MatrixXd The observability gramian
+     */
     Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System){
        
         Eigen::MatrixXd Q = (System.C) * System.C.transpose();
@@ -232,6 +437,12 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         return W;
     }
 
+    /**
+     * @brief Computes the poles of the system (eigenvalues of A matrix)
+     * 
+     * @param System The discrete state space system to analyze
+     * @return std::vector<std::complex<double>> The eigenvalues of the A matrix
+     */
     std::vector<std::complex<double>> poles(const Discrete_StateSpace_System& System){
 
         Eigen::EigenSolver<Eigen::MatrixXd> eigen_solver(System.A);
@@ -242,6 +453,15 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
 
     }
 
+    /**
+     * @brief Generates a grid of points in the z-plane for root locus analysis
+     * 
+     * @param r_min The minimum radius for the grid
+     * @param r_max The maximum radius for the grid
+     * @param r_samples The number of radial samples
+     * @param theta_samples The number of angular samples
+     * @return std::vector<std::complex<double>> The grid of points in the z-plane
+     */
     std::vector<std::complex<double>> generate_z_grid(
     double r_min, double r_max,
     int r_samples,
@@ -261,6 +481,16 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         return z_grid;
 }
 
+    /**
+     * @brief Finds the zeros of the transfer function (poles of the closed-loop system)
+     * 
+     * @param System The discrete state space system to analyze
+     * @param r_min The minimum radius for the grid
+     * @param r_max The maximum radius for the grid
+     * @param r_samples The number of radial samples
+     * @param theta_samples The number of angular samples
+     * @return std::vector<std::complex<double>> The zeros of the transfer function
+     */
     std::vector<std::complex<double>> zeros(
         const Discrete_StateSpace_System& System,
         const double& r_min, const double& r_max,
@@ -300,6 +530,15 @@ static bool Linear_Stability_cont(const Discrete_StateSpace_System& System)
         return zeros;
     }
 
+    /**
+     * @brief Performs Kalman decomposition for state estimation
+     * 
+     * This method computes the observability and controllability decompositions,
+     * and then combines them to form a new state space realization.
+     * 
+     * @param System The discrete state space system to analyze
+     * @return Discrete_StateSpace_System The decomposed state space system
+     */
     Discrete_StateSpace_System Kalman_Decomp( const Discrete_StateSpace_System& System){
 
         std::tuple<Eigen::MatrixXd, Eigen::MatrixXd> Cont,Obs;

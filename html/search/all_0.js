@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['cols_0',['cols',['../classMatrix.html#a2067cc7ed367cc427cd869b3e1074ad7',1,'Matrix']]]
+  ['analysis_0',['Analysis',['../classAnalysis.html',1,'']]],
+  ['applypermutation_1',['ApplyPermutation',['../classLinear__Solvers.html#a03470944c99669cdcaf47ac4005c8df6',1,'Linear_Solvers']]]
 ];

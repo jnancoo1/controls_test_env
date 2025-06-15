@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['norm_0',['Norm',['../classMy__Vec.html#adab86f2e4346968587dc226f2bc28815',1,'My_Vec']]]
+  ['forms_0',['Forms',['../classForms.html',1,'']]],
+  ['forwardsubstitution_1',['ForwardSubstitution',['../classLinear__Solvers.html#acbf9dba388208d529c010ce93c385f9b',1,'Linear_Solvers']]]
 ];

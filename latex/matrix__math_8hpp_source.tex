@@ -249,8 +249,8 @@
 \DoxyCodeLine{00369\ \ \ \ \ \}}
 \DoxyCodeLine{00370\ }
 \DoxyCodeLine{00377\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMatrix}{Matrix}}\ \mbox{\hyperlink{classMatrix_a894b0e19cc83b572e7d5eac53817baf1}{Embed}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ Householder,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A)\ \{}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ Hp\ =\ \mbox{\hyperlink{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c}{eye}}(A.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}});}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ A.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}}\ -\/\ Householder.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}};}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ Hp\ =\ \mbox{\hyperlink{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c}{eye}}(A.rows);}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ A.rows\ -\/\ Householder.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}};}
 \DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ a\ =\ 0;\ a\ <\ Householder.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}};\ a++)\ \{}
 \DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ b\ =\ 0;\ b\ <\ Householder.\mbox{\hyperlink{classMatrix_a2067cc7ed367cc427cd869b3e1074ad7}{cols}};\ b++)\ \{}
 \DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Hp.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i+a][i+b]\ =\ Householder.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[a][b];}

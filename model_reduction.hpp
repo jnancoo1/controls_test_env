@@ -2,9 +2,9 @@
 #define MODEL_REDUCTION_HPP
 
 #include <Eigen/Dense>
+#include "discrete_state_space.hpp"
 #include <vector>
 #include <complex>
-#include "discrete_state_space.hpp"
 #include "analysis.hpp"
 
 class ModelReduction {

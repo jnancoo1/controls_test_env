@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Linear_Solvers Class Reference</title>
+<title>C++ controls toolbox test: Linear_Solvers Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">C++ controls toolbox test
    </div>
   </td>
  </tr>
@@ -70,7 +70,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="classLinear__Solvers-members.html">List of all members</a>  </div>
+<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle"><div class="title">Linear_Solvers Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -79,11 +79,455 @@ $(function() {
  <a href="classLinear__Solvers.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="matrix__math_8hpp_source.html">matrix_math.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a6b7ac0fe6105f0b9d62b8c2ad6b71c0e" id="r_a6b7ac0fe6105f0b9d62b8c2ad6b71c0e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#a6b7ac0fe6105f0b9d62b8c2ad6b71c0e">SolveLU</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:a6b7ac0fe6105f0b9d62b8c2ad6b71c0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a linear system using LU decomposition.  <br /></td></tr>
+<tr class="separator:a6b7ac0fe6105f0b9d62b8c2ad6b71c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad391edac0ee7d6aca0d24858142aab" id="r_acad391edac0ee7d6aca0d24858142aab"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#acad391edac0ee7d6aca0d24858142aab">SolveQR</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:acad391edac0ee7d6aca0d24858142aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a linear system using QR decomposition.  <br /></td></tr>
+<tr class="separator:acad391edac0ee7d6aca0d24858142aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7370e225ee1a7a9b877b286b6d128f9" id="r_ac7370e225ee1a7a9b877b286b6d128f9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMatrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#ac7370e225ee1a7a9b877b286b6d128f9">Inverse</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A)</td></tr>
+<tr class="memdesc:ac7370e225ee1a7a9b877b286b6d128f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the inverse of a matrix using LU decomposition.  <br /></td></tr>
+<tr class="separator:ac7370e225ee1a7a9b877b286b6d128f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbf9dba388208d529c010ce93c385f9b" id="r_acbf9dba388208d529c010ce93c385f9b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#acbf9dba388208d529c010ce93c385f9b">ForwardSubstitution</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;L_1, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:acbf9dba388208d529c010ce93c385f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs forward substitution to solve Lx = b.  <br /></td></tr>
+<tr class="separator:acbf9dba388208d529c010ce93c385f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc1fe57a9ab20bb6915ba1b6242ccc7" id="r_aefc1fe57a9ab20bb6915ba1b6242ccc7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#aefc1fe57a9ab20bb6915ba1b6242ccc7">BackwardSubstitution</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;U_1, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:aefc1fe57a9ab20bb6915ba1b6242ccc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs backward substitution to solve Ux = b.  <br /></td></tr>
+<tr class="separator:aefc1fe57a9ab20bb6915ba1b6242ccc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03470944c99669cdcaf47ac4005c8df6" id="r_a03470944c99669cdcaf47ac4005c8df6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#a03470944c99669cdcaf47ac4005c8df6">ApplyPermutation</a> (const std::vector&lt; int &gt; &amp;P, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;V)</td></tr>
+<tr class="memdesc:a03470944c99669cdcaf47ac4005c8df6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a permutation to a vector.  <br /></td></tr>
+<tr class="separator:a03470944c99669cdcaf47ac4005c8df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87d08f49d2b2a4a2b89934ebba27ecd" id="r_ac87d08f49d2b2a4a2b89934ebba27ecd"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#ac87d08f49d2b2a4a2b89934ebba27ecd">determinant</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A)</td></tr>
+<tr class="memdesc:ac87d08f49d2b2a4a2b89934ebba27ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the determinant of a matrix using LU decomposition.  <br /></td></tr>
+<tr class="separator:ac87d08f49d2b2a4a2b89934ebba27ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee1cefd8aadb86f285fa52b9e9416b5e" id="r_aee1cefd8aadb86f285fa52b9e9416b5e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#aee1cefd8aadb86f285fa52b9e9416b5e">solve_linear_system_LU</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:aee1cefd8aadb86f285fa52b9e9416b5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for SolveLU for solving linear systems.  <br /></td></tr>
+<tr class="separator:aee1cefd8aadb86f285fa52b9e9416b5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c8b6a6dff6ee7eda13fec63d7d992d0" id="r_a7c8b6a6dff6ee7eda13fec63d7d992d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMy__Vec.html">My_Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLinear__Solvers.html#a7c8b6a6dff6ee7eda13fec63d7d992d0">solve_linear_system_QR</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;A, const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;b)</td></tr>
+<tr class="memdesc:a7c8b6a6dff6ee7eda13fec63d7d992d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for SolveQR for solving linear systems.  <br /></td></tr>
+<tr class="separator:a7c8b6a6dff6ee7eda13fec63d7d992d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class containing static methods for solving linear systems. </p>
-<p>using various methods including LU and QR decomposition </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<p>Static class providing methods for solving linear systems.</p>
+<p>using various methods including LU and QR decomposition</p>
+<p>Implements various numerical methods for solving linear systems including:</p><ul>
+<li>LU decomposition based solver</li>
+<li>QR decomposition based solver</li>
+<li><a class="el" href="classMatrix.html" title="Matrix class implementation for mathematical operations.">Matrix</a> inversion</li>
+<li>Forward and backward substitution </li>
+</ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a03470944c99669cdcaf47ac4005c8df6" name="a03470944c99669cdcaf47ac4005c8df6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03470944c99669cdcaf47ac4005c8df6">&#9670;&#160;</a></span>ApplyPermutation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::ApplyPermutation </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>P</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>V</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Applies a permutation to a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">P</td><td>Permutation vector </td></tr>
+    <tr><td class="paramname">V</td><td>Vector to permute </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Permuted vector </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if permutation size doesn't match vector size </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aefc1fe57a9ab20bb6915ba1b6242ccc7" name="aefc1fe57a9ab20bb6915ba1b6242ccc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc1fe57a9ab20bb6915ba1b6242ccc7">&#9670;&#160;</a></span>BackwardSubstitution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::BackwardSubstitution </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>U_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs backward substitution to solve Ux = b. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">U_1</td><td>Upper triangular matrix </td></tr>
+    <tr><td class="paramname">b</td><td>Right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x </dd></dl>
+
+</div>
+</div>
+<a id="ac87d08f49d2b2a4a2b89934ebba27ecd" name="ac87d08f49d2b2a4a2b89934ebba27ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac87d08f49d2b2a4a2b89934ebba27ecd">&#9670;&#160;</a></span>determinant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double Linear_Solvers::determinant </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the determinant of a matrix using LU decomposition. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>Input matrix </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Determinant value </dd></dl>
+
+</div>
+</div>
+<a id="acbf9dba388208d529c010ce93c385f9b" name="acbf9dba388208d529c010ce93c385f9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbf9dba388208d529c010ce93c385f9b">&#9670;&#160;</a></span>ForwardSubstitution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::ForwardSubstitution </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>L_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs forward substitution to solve Lx = b. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">L_1</td><td>Lower triangular matrix </td></tr>
+    <tr><td class="paramname">b</td><td>Right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x </dd></dl>
+
+</div>
+</div>
+<a id="ac7370e225ee1a7a9b877b286b6d128f9" name="ac7370e225ee1a7a9b877b286b6d128f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7370e225ee1a7a9b877b286b6d128f9">&#9670;&#160;</a></span>Inverse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMatrix.html">Matrix</a> Linear_Solvers::Inverse </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the inverse of a matrix using LU decomposition. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The matrix to invert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The inverse of matrix A </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if matrix is singular </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aee1cefd8aadb86f285fa52b9e9416b5e" name="aee1cefd8aadb86f285fa52b9e9416b5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee1cefd8aadb86f285fa52b9e9416b5e">&#9670;&#160;</a></span>solve_linear_system_LU()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::solve_linear_system_LU </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias for SolveLU for solving linear systems. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The coefficient matrix </td></tr>
+    <tr><td class="paramname">b</td><td>The right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x where Ax = b </dd></dl>
+
+</div>
+</div>
+<a id="a7c8b6a6dff6ee7eda13fec63d7d992d0" name="a7c8b6a6dff6ee7eda13fec63d7d992d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c8b6a6dff6ee7eda13fec63d7d992d0">&#9670;&#160;</a></span>solve_linear_system_QR()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::solve_linear_system_QR </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias for SolveQR for solving linear systems. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The coefficient matrix </td></tr>
+    <tr><td class="paramname">b</td><td>The right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x where Ax = b </dd></dl>
+
+</div>
+</div>
+<a id="a6b7ac0fe6105f0b9d62b8c2ad6b71c0e" name="a6b7ac0fe6105f0b9d62b8c2ad6b71c0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b7ac0fe6105f0b9d62b8c2ad6b71c0e">&#9670;&#160;</a></span>SolveLU()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::SolveLU </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Solves a linear system using LU decomposition. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The coefficient matrix </td></tr>
+    <tr><td class="paramname">b</td><td>The right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x where Ax = b </dd></dl>
+
+</div>
+</div>
+<a id="acad391edac0ee7d6aca0d24858142aab" name="acad391edac0ee7d6aca0d24858142aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad391edac0ee7d6aca0d24858142aab">&#9670;&#160;</a></span>SolveQR()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classMy__Vec.html">My_Vec</a> Linear_Solvers::SolveQR </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classMatrix.html">Matrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classMy__Vec.html">My_Vec</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Solves a linear system using QR decomposition. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>The coefficient matrix </td></tr>
+    <tr><td class="paramname">b</td><td>The right-hand side vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector x where Ax = b </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="matrix__math_8hpp_source.html">matrix_math.hpp</a></li>
+<li><a class="el" href="linear__solvers_8hpp_source.html">linear_solvers.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

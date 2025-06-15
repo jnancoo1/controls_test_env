@@ -4,17 +4,54 @@
 #include <iostream>
 #include <cmath>
 #include <complex>
-#include <Eigen/Dense>
+#include <Eigen/Dense
 #include "discrete_state_space.hpp"
 #include "analysis.hpp"
 #include <Eigen/SVD>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
 
 
+/**
+ * @brief A class for transforming state space systems into various canonical forms
+ *
+ * This class provides methods to transform discrete-time state space systems
+ * into different canonical forms. Each transformation is achieved through similarity
+ * transformations of the form:
+ * - A_new = T^(-1)AT
+ * - B_new = T^(-1)B
+ * - C_new = CT
+ * where T is the transformation matrix specific to each form.
+ */
 class Forms{
 
     public:
-
+    /**
+     * @brief Transforms a state space system into controllable canonical form
+     * 
+     * The controllable canonical form transforms the system into the form:
+     * \f[
+     * A = \begin{bmatrix} 
+     * 0 & 1 & 0 & \cdots & 0 \\
+     * 0 & 0 & 1 & \cdots & 0 \\
+     * \vdots & \vdots & \vdots & \ddots & \vdots \\
+     * 0 & 0 & 0 & \cdots & 1 \\
+     * -a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
+     * \end{bmatrix}
+     * \f]
+     * 
+     * where \f$a_i\f$ are the coefficients of the characteristic polynomial:
+     * \f[
+     * p(s) = s^n + a_{n-1}s^{n-1} + \cdots + a_1s + a_0
+     * \f]
+     * 
+     * The transformation uses the controllability matrix:
+     * \f[
+     * T = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+     * \f]
+     * 
+     * @param System The discrete state space system to transform
+     * @return Discrete_StateSpace_System The transformed system in controllable canonical form
+     */
     Discrete_StateSpace_System Cont_Cannonical_form(const Discrete_StateSpace_System& System)
     {
 
@@ -75,6 +112,28 @@ class Forms{
     }
 
 
+        /**
+     * @brief Transforms a state space system into observable canonical form
+     * 
+     * The observable canonical form transforms the system into the form:
+     * \f{equation*}{
+     * A = \begin{pmatrix} 
+     * -a_{n-1} & -a_{n-2} & \cdots & -a_1 & -a_0 \\
+     * 1 & 0 & \cdots & 0 & 0 \\
+     * 0 & 1 & \cdots & 0 & 0 \\
+     * \vdots & \vdots & \ddots & \vdots & \vdots \\
+     * 0 & 0 & \cdots & 1 & 0
+     * \end{pmatrix}
+     * \f}
+     * 
+     * The transformation uses the observability matrix:
+     * \f[
+     * T = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
+     * \f]
+     * 
+     * @param System The discrete state space system to transform
+     * @return Discrete_StateSpace_System The transformed system in observable canonical form
+     */
         Discrete_StateSpace_System obs_Cannonical_form(const Discrete_StateSpace_System& System){
 
         int n = System.A.rows();
@@ -130,6 +189,22 @@ class Forms{
      }
 
 
+    /**
+     * @brief Transforms a state space system into phase variable form
+     * 
+     * The phase variable form represents the system in terms of a state vector
+     * containing successive derivatives (or differences in discrete-time):
+     * \f[
+     * x = \begin{bmatrix} y \\ \Delta y \\ \Delta^2 y \\ \vdots \\ \Delta^{n-1} y \end{bmatrix}
+     * \f]
+     * 
+     * This form requires the system to be controllable. The transformation matrix T
+     * is constructed from the controllability matrix.
+     * 
+     * @param System The discrete state space system to transform
+     * @return Discrete_StateSpace_System The transformed system in phase variable form
+     * @throw std::runtime_error if the system is not controllable
+     */
     Discrete_StateSpace_System Phase_Variable_Form(const Discrete_StateSpace_System& System) {
     int n = System.A.rows();
 
@@ -151,6 +226,25 @@ class Forms{
 }
 
 
+    /**
+     * @brief Transforms a state space system into Schur form
+     * 
+     * The Schur form uses an orthogonal similarity transformation Q to transform
+     * the system matrix A into an upper triangular matrix T:
+     * \f[
+     * T = Q^TAQ
+     * \f]
+     * 
+     * Properties of the Schur form:
+     * - T is upper triangular
+     * - The diagonal elements of T are the eigenvalues of A
+     * - Q is orthogonal (Q^TQ = QQ^T = I)
+     * 
+     * This form is numerically stable and preserves the eigenvalues of the original system.
+     * 
+     * @param System The discrete state space system to transform
+     * @return Discrete_StateSpace_System The transformed system in Schur form
+     */
     Discrete_StateSpace_System Schur_Form(const Discrete_StateSpace_System& System){
 
 
@@ -169,6 +263,30 @@ class Forms{
 }
 
 
+    /**
+     * @brief Transforms a state space system into diagonal form
+     * 
+     * The diagonal form represents the system using the eigenvector decomposition:
+     * \f[
+     * A = PDP^{-1}
+     * \f]
+     * where:
+     * - P is the matrix of eigenvectors
+     * - D is a diagonal matrix of eigenvalues
+     * - P^{-1} is the inverse of the eigenvector matrix
+     * 
+     * The transformed system has the properties:
+     * - A_new = D (diagonal matrix of eigenvalues)
+     * - B_new = P^{-1}B
+     * - C_new = CP
+     * 
+     * This form decouples the system into independent first-order subsystems,
+     * making it useful for stability analysis and control design.
+     * 
+     * @param System The discrete state space system to transform
+     * @return Discrete_StateSpace_System The transformed system in diagonal form
+     * @throw std::runtime_error if the matrix is not diagonalizable (eigenvectors are not linearly independent)
+     */
         Discrete_StateSpace_System Diagonalize(const Discrete_StateSpace_System& System) {
             Eigen::EigenSolver<Eigen::MatrixXd> es(System.A);
             Eigen::MatrixXcd eigenvectors = es.eigenvectors();

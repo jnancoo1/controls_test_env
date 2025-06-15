@@ -1,0 +1,145 @@
+\doxysection{linear\+\_\+solvers.\+hpp}
+\hypertarget{linear__solvers_8hpp_source}{}\label{linear__solvers_8hpp_source}\mbox{\hyperlink{linear__solvers_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ LINEAR\_SOLVER\_HPP}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ LINEAR\_SOLVER\_HPP}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{matrix__math_8hpp}{matrix\_math.hpp}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinear__Solvers}{Linear\_Solvers}}\ \{}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_a6b7ac0fe6105f0b9d62b8c2ad6b71c0e}{SolveLU}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structLUResult}{LUResult}}\ LU\_temp=A.L\_U();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structLUResult__to__pass}{LUResult\_to\_pass}}\ LU=conv\_LU(LU\_temp);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ pb=\ \mbox{\hyperlink{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6}{ApplyPermutation}}(LU.P,b);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ fwd\_sub=ForwardSubstitution(LU.L,pb);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ bck\_sub=BackwardSubstitution(LU.U,fwd\_sub);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bck\_sub;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_acad391edac0ee7d6aca0d24858142aab}{SolveQR}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structQRresult}{QRresult}}\ decomp\_temp=A.QR\_fact();}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structQR__result__to__pass}{QR\_result\_to\_pass}}\ decomp=conv\_QR(decomp\_temp);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ qTb=(decomp.Q.\mbox{\hyperlink{classMatrix_ad0c96cdea0d2ae3403653ca90aa70796}{Transpose}}()).multiply(b);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ x=BackwardSubstitution(decomp.R,qTb);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x;}
+\DoxyCodeLine{00056\ \ \ \ \ \};}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMatrix}{Matrix}}\ \mbox{\hyperlink{classLinear__Solvers_ac7370e225ee1a7a9b877b286b6d128f9}{Inverse}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A)\ \{}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ I=\mbox{\hyperlink{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c}{Matrix::eye}}(A.rows);}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structLUResult}{LUResult}}\ decomp\_temp=A.L\_U();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structLUResult__to__pass}{LUResult\_to\_pass}}\ decomp=conv\_LU(decomp\_temp);}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ L=decomp.L;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ U=decomp.U;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ e\_i\ =\ \mbox{\hyperlink{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10}{My\_Vec::ones}}(A.rows);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ inverse\_matrix=\mbox{\hyperlink{classMatrix_a8dba5ede58618671f7da3bf896a2b05c}{Matrix::Zeros}}(A.rows,A.cols);\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ j=0;j<I.\mbox{\hyperlink{classMatrix_a2067cc7ed367cc427cd869b3e1074ad7}{cols}};j++)\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ e\_i.\mbox{\hyperlink{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7}{Scalar\_Mul}}(0);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ e\_i.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[j]\ =\ 1;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ Pe\_j\ =\ \mbox{\hyperlink{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6}{ApplyPermutation}}(decomp.P,\ e\_i);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ F1=ForwardSubstitution(L,Pe\_j);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ B1=BackwardSubstitution(U,F1);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ row\ =\ 0;\ row\ <\ A.rows;\ row++)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ inverse\_matrix.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[row][j]\ =\ B1.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[row];}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ inverse\_matrix;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \};}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_acbf9dba388208d529c010ce93c385f9b}{ForwardSubstitution}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ L\_1,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ solution\_VEC=\mbox{\hyperlink{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10}{My\_Vec::ones}}(L\_1.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}});}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ solution\_VEC.\mbox{\hyperlink{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7}{Scalar\_Mul}}(0);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ L=\ L\_1;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ std::vector<double>\ knowns;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ new\_unknown;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<L.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}};i++)\{}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ known\_sum=0;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ j=0;j<i;j++)\{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ known\_sum+=L.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i][j]*solution\_VEC.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[j];}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ new\_unknown=(b.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[i]-\/known\_sum)/L.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i][i];}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ solution\_VEC.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[i]=new\_unknown;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ solution\_VEC;}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \};}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_aefc1fe57a9ab20bb6915ba1b6242ccc7}{BackwardSubstitution}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ U\_1,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ solution\_VEC=\mbox{\hyperlink{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10}{My\_Vec::ones}}(U\_1.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}});}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ solution\_VEC.\mbox{\hyperlink{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7}{Scalar\_Mul}}(0);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMatrix}{Matrix}}\ U=\ U\_1;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ std::vector<double>\ knowns;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ new\_unknown;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=U.\mbox{\hyperlink{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}{rows}}-\/1;i>=0;i-\/-\/)\{}
+\DoxyCodeLine{00133\ \ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ known\_sum=0;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ i\ +\ 1;\ j\ <\ U.\mbox{\hyperlink{classMatrix_a2067cc7ed367cc427cd869b3e1074ad7}{cols}};\ j++)\{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ known\_sum+=U.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i][j]*solution\_VEC.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[j];}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ new\_unknown=(b.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[i]-\/known\_sum)/U.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i][i];}
+\DoxyCodeLine{00139\ \ }
+\DoxyCodeLine{00140\ \ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ solution\_VEC.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[i]=new\_unknown;}
+\DoxyCodeLine{00142\ \ }
+\DoxyCodeLine{00143\ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ solution\_VEC;}
+\DoxyCodeLine{00147\ \ }
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6}{ApplyPermutation}}(\textcolor{keyword}{const}\ std::vector<int>\&\ P,\textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ V)\{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (P.size()\ !=\ V.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}.\ size())\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Permutation\ size\ must\ match\ vector\ size"{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ result;}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ result\ =\ \mbox{\hyperlink{classMy__Vec_a70ccdba5ec9aed61f22af7b233557acf}{My\_Vec::Zeros}}(V.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}.size());}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ P.size();\ i++)\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[i]\ =\ V.\mbox{\hyperlink{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}{myvector}}[P[i]];}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classLinear__Solvers_ac87d08f49d2b2a4a2b89934ebba27ecd}{determinant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \mbox{\hyperlink{structLUResult}{LUResult}}\ lu\_temp\ =\ A.L\_U();}
+\DoxyCodeLine{00179\ \ \ \ \ \mbox{\hyperlink{structLUResult__to__pass}{LUResult\_to\_pass}}\ lu=conv\_LU(lu\_temp);}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{double}\ det\ =\ 1.0;}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ A.rows;\ i++)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ det\ *=\ lu.U.\mbox{\hyperlink{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}{MyMAT}}[i][i];}
+\DoxyCodeLine{00183\ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{return}\ det;}
+\DoxyCodeLine{00185\ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_aee1cefd8aadb86f285fa52b9e9416b5e}{solve\_linear\_system\_LU}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{return}\ SolveLU(A,\ b);\ \ }
+\DoxyCodeLine{00196\ \}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\ \mbox{\hyperlink{classLinear__Solvers_a7c8b6a6dff6ee7eda13fec63d7d992d0}{solve\_linear\_system\_QR}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMatrix}{Matrix}}\&\ A,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classMy__Vec}{My\_Vec}}\&\ b)\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{return}\ SolveQR(A,\ b);\ \ }
+\DoxyCodeLine{00206\ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \};}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

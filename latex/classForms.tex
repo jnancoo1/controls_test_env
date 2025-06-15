@@ -1,0 +1,156 @@
+\doxysection{Forms Class Reference}
+\hypertarget{classForms}{}\label{classForms}\index{Forms@{Forms}}
+
+
+A class for transforming state space systems into various canonical forms.  
+
+
+
+
+{\ttfamily \#include $<$forms.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Discrete\+\_\+\+State\+Space\+\_\+\+System \mbox{\hyperlink{classForms_a4b78a65339371b6d870417e139ab8ee0}{Cont\+\_\+\+Cannonical\+\_\+form}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Transforms a state space system into controllable canonical form. \end{DoxyCompactList}\item 
+Discrete\+\_\+\+State\+Space\+\_\+\+System \mbox{\hyperlink{classForms_aee0cf89a199a9bcce8b07613921e6db0}{obs\+\_\+\+Cannonical\+\_\+form}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Transforms a state space system into observable canonical form. \end{DoxyCompactList}\item 
+Discrete\+\_\+\+State\+Space\+\_\+\+System \mbox{\hyperlink{classForms_ac43dcbd92e4095b3ec78e0636a1e749c}{Phase\+\_\+\+Variable\+\_\+\+Form}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Transforms a state space system into phase variable form. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classForms_afd5fcd3211e4ab4102a7e9d878624215}\label{classForms_afd5fcd3211e4ab4102a7e9d878624215} 
+Eigen\+::\+Matrix\+Xd {\bfseries T\+\_\+inv} = T.\+inverse()
+\item 
+\Hypertarget{classForms_ad6f8b2cfc14438429ece04c1504bbf6a}\label{classForms_ad6f8b2cfc14438429ece04c1504bbf6a} 
+Discrete\+\_\+\+State\+Space\+\_\+\+System {\bfseries new\+\_\+system} = System
+\item 
+\Hypertarget{classForms_ac492aee107b969af5529b74516796db5}\label{classForms_ac492aee107b969af5529b74516796db5} 
+new\+\_\+system {\bfseries A} = T\+\_\+inv \texorpdfstring{$\ast$}{*} System.\+A \texorpdfstring{$\ast$}{*} T
+\item 
+\Hypertarget{classForms_a2ad73dfc39ce3f21f47a870636fe9469}\label{classForms_a2ad73dfc39ce3f21f47a870636fe9469} 
+new\+\_\+system {\bfseries B} = T\+\_\+inv \texorpdfstring{$\ast$}{*} System.\+B
+\item 
+\Hypertarget{classForms_a9736c4f16f9e2623409f689da1187468}\label{classForms_a9736c4f16f9e2623409f689da1187468} 
+new\+\_\+system {\bfseries C} = System.\+C \texorpdfstring{$\ast$}{*} T
+\item 
+\Hypertarget{classForms_a7febcf8a4e06b5498cd8ed325b81d0ee}\label{classForms_a7febcf8a4e06b5498cd8ed325b81d0ee} 
+return {\bfseries new\+\_\+system}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class for transforming state space systems into various canonical forms. 
+
+This class provides methods to transform discrete-\/time state space systems into different canonical forms. Each transformation is achieved through similarity transformations of the form\+:
+\begin{DoxyItemize}
+\item A\+\_\+new = T\texorpdfstring{$^\wedge$}{\string^}(-\/1)AT
+\item B\+\_\+new = T\texorpdfstring{$^\wedge$}{\string^}(-\/1)B
+\item C\+\_\+new = CT where T is the transformation matrix specific to each form. 
+\end{DoxyItemize}
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classForms_a4b78a65339371b6d870417e139ab8ee0}\label{classForms_a4b78a65339371b6d870417e139ab8ee0} 
+\index{Forms@{Forms}!Cont\_Cannonical\_form@{Cont\_Cannonical\_form}}
+\index{Cont\_Cannonical\_form@{Cont\_Cannonical\_form}!Forms@{Forms}}
+\doxysubsubsection{\texorpdfstring{Cont\_Cannonical\_form()}{Cont\_Cannonical\_form()}}
+{\footnotesize\ttfamily Discrete\+\_\+\+State\+Space\+\_\+\+System Forms\+::\+Cont\+\_\+\+Cannonical\+\_\+form (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Transforms a state space system into controllable canonical form. 
+
+The controllable canonical form transforms the system into the form\+:  \[
+A = \begin{bmatrix} 
+0 & 1 & 0 & \cdots & 0 \\
+0 & 0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1 \\
+-a_0 & -a_1 & -a_2 & \cdots & -a_{n-1}
+\end{bmatrix}
+\]
+
+where $a_i$ are the coefficients of the characteristic polynomial\+:  \[
+p(s) = s^n + a_{n-1}s^{n-1} + \cdots + a_1s + a_0
+\]
+
+The transformation uses the controllability matrix\+:  \[
+T = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+\]
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to transform \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Discrete\+\_\+\+State\+Space\+\_\+\+System The transformed system in controllable canonical form 
+\end{DoxyReturn}
+\Hypertarget{classForms_aee0cf89a199a9bcce8b07613921e6db0}\label{classForms_aee0cf89a199a9bcce8b07613921e6db0} 
+\index{Forms@{Forms}!obs\_Cannonical\_form@{obs\_Cannonical\_form}}
+\index{obs\_Cannonical\_form@{obs\_Cannonical\_form}!Forms@{Forms}}
+\doxysubsubsection{\texorpdfstring{obs\_Cannonical\_form()}{obs\_Cannonical\_form()}}
+{\footnotesize\ttfamily Discrete\+\_\+\+State\+Space\+\_\+\+System Forms\+::obs\+\_\+\+Cannonical\+\_\+form (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Transforms a state space system into observable canonical form. 
+
+The observable canonical form transforms the system into the form\+:  \begin{equation*}
+A = \begin{pmatrix} 
+-a_{n-1} & -a_{n-2} & \cdots & -a_1 & -a_0 \\
+1 & 0 & \cdots & 0 & 0 \\
+0 & 1 & \cdots & 0 & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \cdots & 1 & 0
+\end{pmatrix}
+\end{equation*}
+
+The transformation uses the observability matrix\+:  \[
+T = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
+\]
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to transform \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Discrete\+\_\+\+State\+Space\+\_\+\+System The transformed system in observable canonical form 
+\end{DoxyReturn}
+\Hypertarget{classForms_ac43dcbd92e4095b3ec78e0636a1e749c}\label{classForms_ac43dcbd92e4095b3ec78e0636a1e749c} 
+\index{Forms@{Forms}!Phase\_Variable\_Form@{Phase\_Variable\_Form}}
+\index{Phase\_Variable\_Form@{Phase\_Variable\_Form}!Forms@{Forms}}
+\doxysubsubsection{\texorpdfstring{Phase\_Variable\_Form()}{Phase\_Variable\_Form()}}
+{\footnotesize\ttfamily Discrete\+\_\+\+State\+Space\+\_\+\+System Forms\+::\+Phase\+\_\+\+Variable\+\_\+\+Form (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Transforms a state space system into phase variable form. 
+
+The phase variable form represents the system in terms of a state vector containing successive derivatives (or differences in discrete-\/time)\+:  \[
+x = \begin{bmatrix} y \\ \Delta y \\ \Delta^2 y \\ \vdots \\ \Delta^{n-1} y \end{bmatrix}
+\]
+
+This form requires the system to be controllable. The transformation matrix T is constructed from the controllability matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to transform \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Discrete\+\_\+\+State\+Space\+\_\+\+System The transformed system in phase variable form 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the system is not controllable \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+forms.\+hpp\end{DoxyCompactItemize}

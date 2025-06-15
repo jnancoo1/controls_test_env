@@ -9,13 +9,234 @@ Class containing static methods for solving linear systems.
 
 {\ttfamily \#include $<$matrix\+\_\+math.\+hpp$>$}
 
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_a6b7ac0fe6105f0b9d62b8c2ad6b71c0e}{Solve\+LU}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Solves a linear system using LU decomposition. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_acad391edac0ee7d6aca0d24858142aab}{Solve\+QR}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Solves a linear system using QR decomposition. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classLinear__Solvers_ac7370e225ee1a7a9b877b286b6d128f9}{Inverse}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A)
+\begin{DoxyCompactList}\small\item\em Computes the inverse of a matrix using LU decomposition. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_acbf9dba388208d529c010ce93c385f9b}{Forward\+Substitution}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&L\+\_\+1, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Performs forward substitution to solve Lx = b. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_aefc1fe57a9ab20bb6915ba1b6242ccc7}{Backward\+Substitution}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&U\+\_\+1, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Performs backward substitution to solve Ux = b. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6}{Apply\+Permutation}} (const std\+::vector$<$ int $>$ \&P, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&V)
+\begin{DoxyCompactList}\small\item\em Applies a permutation to a vector. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classLinear__Solvers_ac87d08f49d2b2a4a2b89934ebba27ecd}{determinant}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A)
+\begin{DoxyCompactList}\small\item\em Computes the determinant of a matrix using LU decomposition. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_aee1cefd8aadb86f285fa52b9e9416b5e}{solve\+\_\+linear\+\_\+system\+\_\+\+LU}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Alias for Solve\+LU for solving linear systems. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classLinear__Solvers_a7c8b6a6dff6ee7eda13fec63d7d992d0}{solve\+\_\+linear\+\_\+system\+\_\+\+QR}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&A, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&b)
+\begin{DoxyCompactList}\small\item\em Alias for Solve\+QR for solving linear systems. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Class containing static methods for solving linear systems. 
 
-using various methods including LU and QR decomposition 
+Static class providing methods for solving linear systems.
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+using various methods including LU and QR decomposition
+
+Implements various numerical methods for solving linear systems including\+:
+\begin{DoxyItemize}
+\item LU decomposition based solver
+\item QR decomposition based solver
+\item \doxylink{classMatrix}{Matrix} inversion
+\item Forward and backward substitution 
+\end{DoxyItemize}
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6}\label{classLinear__Solvers_a03470944c99669cdcaf47ac4005c8df6} 
+\index{Linear\_Solvers@{Linear\_Solvers}!ApplyPermutation@{ApplyPermutation}}
+\index{ApplyPermutation@{ApplyPermutation}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{ApplyPermutation()}{ApplyPermutation()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::\+Apply\+Permutation (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{P,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{V }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Applies a permutation to a vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P} & Permutation vector \\
+\hline
+{\em V} & Vector to permute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Permuted vector 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if permutation size doesn\textquotesingle{}t match vector size \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classLinear__Solvers_aefc1fe57a9ab20bb6915ba1b6242ccc7}\label{classLinear__Solvers_aefc1fe57a9ab20bb6915ba1b6242ccc7} 
+\index{Linear\_Solvers@{Linear\_Solvers}!BackwardSubstitution@{BackwardSubstitution}}
+\index{BackwardSubstitution@{BackwardSubstitution}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{BackwardSubstitution()}{BackwardSubstitution()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::\+Backward\+Substitution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{U\+\_\+1,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Performs backward substitution to solve Ux = b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+\_\+1} & Upper triangular matrix \\
+\hline
+{\em b} & Right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_ac87d08f49d2b2a4a2b89934ebba27ecd}\label{classLinear__Solvers_ac87d08f49d2b2a4a2b89934ebba27ecd} 
+\index{Linear\_Solvers@{Linear\_Solvers}!determinant@{determinant}}
+\index{determinant@{determinant}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{determinant()}{determinant()}}
+{\footnotesize\ttfamily static double Linear\+\_\+\+Solvers\+::determinant (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Computes the determinant of a matrix using LU decomposition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Input matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Determinant value 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_acbf9dba388208d529c010ce93c385f9b}\label{classLinear__Solvers_acbf9dba388208d529c010ce93c385f9b} 
+\index{Linear\_Solvers@{Linear\_Solvers}!ForwardSubstitution@{ForwardSubstitution}}
+\index{ForwardSubstitution@{ForwardSubstitution}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{ForwardSubstitution()}{ForwardSubstitution()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::\+Forward\+Substitution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{L\+\_\+1,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Performs forward substitution to solve Lx = b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em L\+\_\+1} & Lower triangular matrix \\
+\hline
+{\em b} & Right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_ac7370e225ee1a7a9b877b286b6d128f9}\label{classLinear__Solvers_ac7370e225ee1a7a9b877b286b6d128f9} 
+\index{Linear\_Solvers@{Linear\_Solvers}!Inverse@{Inverse}}
+\index{Inverse@{Inverse}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{Inverse()}{Inverse()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Linear\+\_\+\+Solvers\+::\+Inverse (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Computes the inverse of a matrix using LU decomposition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & The matrix to invert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The inverse of matrix A 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if matrix is singular \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classLinear__Solvers_aee1cefd8aadb86f285fa52b9e9416b5e}\label{classLinear__Solvers_aee1cefd8aadb86f285fa52b9e9416b5e} 
+\index{Linear\_Solvers@{Linear\_Solvers}!solve\_linear\_system\_LU@{solve\_linear\_system\_LU}}
+\index{solve\_linear\_system\_LU@{solve\_linear\_system\_LU}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{solve\_linear\_system\_LU()}{solve\_linear\_system\_LU()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::solve\+\_\+linear\+\_\+system\+\_\+\+LU (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Alias for Solve\+LU for solving linear systems. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & The coefficient matrix \\
+\hline
+{\em b} & The right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x where Ax = b 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_a7c8b6a6dff6ee7eda13fec63d7d992d0}\label{classLinear__Solvers_a7c8b6a6dff6ee7eda13fec63d7d992d0} 
+\index{Linear\_Solvers@{Linear\_Solvers}!solve\_linear\_system\_QR@{solve\_linear\_system\_QR}}
+\index{solve\_linear\_system\_QR@{solve\_linear\_system\_QR}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{solve\_linear\_system\_QR()}{solve\_linear\_system\_QR()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::solve\+\_\+linear\+\_\+system\+\_\+\+QR (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Alias for Solve\+QR for solving linear systems. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & The coefficient matrix \\
+\hline
+{\em b} & The right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x where Ax = b 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_a6b7ac0fe6105f0b9d62b8c2ad6b71c0e}\label{classLinear__Solvers_a6b7ac0fe6105f0b9d62b8c2ad6b71c0e} 
+\index{Linear\_Solvers@{Linear\_Solvers}!SolveLU@{SolveLU}}
+\index{SolveLU@{SolveLU}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{SolveLU()}{SolveLU()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::\+Solve\+LU (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Solves a linear system using LU decomposition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & The coefficient matrix \\
+\hline
+{\em b} & The right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x where Ax = b 
+\end{DoxyReturn}
+\Hypertarget{classLinear__Solvers_acad391edac0ee7d6aca0d24858142aab}\label{classLinear__Solvers_acad391edac0ee7d6aca0d24858142aab} 
+\index{Linear\_Solvers@{Linear\_Solvers}!SolveQR@{SolveQR}}
+\index{SolveQR@{SolveQR}!Linear\_Solvers@{Linear\_Solvers}}
+\doxysubsubsection{\texorpdfstring{SolveQR()}{SolveQR()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Linear\+\_\+\+Solvers\+::\+Solve\+QR (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Solves a linear system using QR decomposition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & The coefficient matrix \\
+\hline
+{\em b} & The right-\/hand side vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution vector x where Ax = b 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{matrix__math_8hpp}{matrix\+\_\+math.\+hpp}}\end{DoxyCompactItemize}
+\mbox{\hyperlink{matrix__math_8hpp}{matrix\+\_\+math.\+hpp}}\item 
+\mbox{\hyperlink{linear__solvers_8hpp}{linear\+\_\+solvers.\+hpp}}\end{DoxyCompactItemize}

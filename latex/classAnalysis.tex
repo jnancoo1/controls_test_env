@@ -1,0 +1,501 @@
+\doxysection{Analysis Class Reference}
+\hypertarget{classAnalysis}{}\label{classAnalysis}\index{Analysis@{Analysis}}
+
+
+A class for analyzing properties of discrete-\/time state space systems.  
+
+
+
+
+{\ttfamily \#include $<$analysis.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classAnalysis_a94b56b189ff8c6fa06c7bbfb86e12d97}{is\+\_\+controllable}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks if the system is controllable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAnalysis_ae7495f993f5a8fa00f7c7ea21de25416}{is\+\_\+observable}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks if the system is observable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAnalysis_ab0d41bc4e251b302e1e741951575f13c}{Linear\+\_\+\+Stability\+\_\+discrete}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks the stability of a discrete-\/time linear system. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAnalysis_a293ee86f21954d6fa845bc9712d29bb1}{is\+\_\+stabalizable\+\_\+cont}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks if the continuous-\/time system is stabilizable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAnalysis_ad5179b7d195fb36c2a86c4b98031117b}{is\+\_\+detectable\+\_\+cont}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks if the continuous-\/time system is detectable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAnalysis_a7000ec1dd0d7a48150b9eb2ad00a0370}{minimality\+\_\+test\+\_\+cont}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Performs the minimality test for continuous-\/time systems. \end{DoxyCompactList}\item 
+std\+::tuple$<$ Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd $>$ \mbox{\hyperlink{classAnalysis_a1c4bc000dfb8e376cea20cdbc0d9b77d}{controllability\+\_\+decomposition}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the controllability decomposition of a discrete-\/time state space system. \end{DoxyCompactList}\item 
+std\+::tuple$<$ Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd $>$ \mbox{\hyperlink{classAnalysis_a9b58ab4ed9082da4bb92d41f0e545f40}{observability\+\_\+decomposition}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the observability decomposition of a discrete-\/time state space system. \end{DoxyCompactList}\item 
+Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{classAnalysis_a05db86c28140d109d60d0d2277c85b3f}{compute\+\_\+controllability\+\_\+gramian}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the controllability gramian for a discrete-\/time state space system. \end{DoxyCompactList}\item 
+Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{classAnalysis_ac24f7b8ecb30ddd0e310fe0d1fb77c29}{compute\+\_\+observability\+\_\+gramian}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the observability gramian for a discrete-\/time state space system. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::complex$<$ double $>$ $>$ \mbox{\hyperlink{classAnalysis_aa7a3ebd829a90065ebd03c314115d556}{poles}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the poles of the system (eigenvalues of A matrix) \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::complex$<$ double $>$ $>$ \mbox{\hyperlink{classAnalysis_a5a3ca3f22e0acdea5e15626b1fb54258}{generate\+\_\+z\+\_\+grid}} (double r\+\_\+min, double r\+\_\+max, int r\+\_\+samples, int theta\+\_\+samples)
+\begin{DoxyCompactList}\small\item\em Generates a grid of points in the z-\/plane for root locus analysis. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::complex$<$ double $>$ $>$ \mbox{\hyperlink{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}{zeros}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System, const double \&r\+\_\+min, const double \&r\+\_\+max, const int \&r\+\_\+samples, const int \&theta\+\_\+samples)
+\begin{DoxyCompactList}\small\item\em Finds the zeros of the transfer function (poles of the closed-\/loop system) \end{DoxyCompactList}\item 
+Discrete\+\_\+\+State\+Space\+\_\+\+System \mbox{\hyperlink{classAnalysis_a85fc5bc28fafaca32123b5097d3081df}{Kalman\+\_\+\+Decomp}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Performs Kalman decomposition for state estimation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{classAnalysis_ae25a24b6624cc7c55720dba254502e74}{compute\+\_\+controllability\+\_\+matrix}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the controllability matrix for a discrete-\/time state space system. \end{DoxyCompactList}\item 
+static Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a}{compute\+\_\+observability\+\_\+matrix}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Computes the observability matrix for a discrete-\/time state space system. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{classAnalysis_a1e182155106a782f71c899e9e77cb127}{Linear\+\_\+\+Stability\+\_\+cont}} (const Discrete\+\_\+\+State\+Space\+\_\+\+System \&System)
+\begin{DoxyCompactList}\small\item\em Checks the stability of a continuous-\/time linear system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class for analyzing properties of discrete-\/time state space systems. 
+
+This class provides methods for analyzing fundamental system properties including\+:
+\begin{DoxyItemize}
+\item Controllability\+: ability to drive the system to any desired state
+\item Observability\+: ability to determine any initial state from output measurements
+\item Stability\+: behavior of the system\textquotesingle{}s free response
+\item Stabilizability\+: ability to stabilize unstable modes through feedback
+\end{DoxyItemize}
+
+For a discrete-\/time state space system\+: \texorpdfstring{$\ast$}{*} \begin{eqnarray*}
+    x[k+1] &=& Ax[k] + Bu[k] \\
+    y[k] &=& Cx[k] + Du[k]
+    \end{eqnarray*} 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classAnalysis_a05db86c28140d109d60d0d2277c85b3f}\label{classAnalysis_a05db86c28140d109d60d0d2277c85b3f} 
+\index{Analysis@{Analysis}!compute\_controllability\_gramian@{compute\_controllability\_gramian}}
+\index{compute\_controllability\_gramian@{compute\_controllability\_gramian}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{compute\_controllability\_gramian()}{compute\_controllability\_gramian()}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix\+Xd Analysis\+::compute\+\_\+controllability\+\_\+gramian (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the controllability gramian for a discrete-\/time state space system. 
+
+The controllability gramian is computed using the formula\+: Wc = ∫ (Φ\+\_\+\+A(t)B) (Φ\+\_\+\+A(t)B)\texorpdfstring{$^\wedge$}{\string^}T dt where Φ\+\_\+\+A(t) is the state transition matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen\+::\+Matrix\+Xd The controllability gramian 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ae25a24b6624cc7c55720dba254502e74}\label{classAnalysis_ae25a24b6624cc7c55720dba254502e74} 
+\index{Analysis@{Analysis}!compute\_controllability\_matrix@{compute\_controllability\_matrix}}
+\index{compute\_controllability\_matrix@{compute\_controllability\_matrix}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{compute\_controllability\_matrix()}{compute\_controllability\_matrix()}}
+{\footnotesize\ttfamily static Eigen\+::\+Matrix\+Xd Analysis\+::compute\+\_\+controllability\+\_\+matrix (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Computes the controllability matrix for a discrete-\/time state space system. 
+
+The controllability matrix is defined as\+:  \[
+\mathcal{C} = [B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]
+\]
+
+where\+:
+\begin{DoxyItemize}
+\item n is the number of states
+\item A is the state matrix
+\item B is the input matrix
+\end{DoxyItemize}
+
+This matrix has size n × nm, where\+:
+\begin{DoxyItemize}
+\item n is the number of states
+\item m is the number of inputs
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen\+::\+Matrix\+Xd The controllability matrix 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ac24f7b8ecb30ddd0e310fe0d1fb77c29}\label{classAnalysis_ac24f7b8ecb30ddd0e310fe0d1fb77c29} 
+\index{Analysis@{Analysis}!compute\_observability\_gramian@{compute\_observability\_gramian}}
+\index{compute\_observability\_gramian@{compute\_observability\_gramian}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{compute\_observability\_gramian()}{compute\_observability\_gramian()}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix\+Xd Analysis\+::compute\+\_\+observability\+\_\+gramian (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the observability gramian for a discrete-\/time state space system. 
+
+The observability gramian is computed using the formula\+: Wo = ∫ (CΦ\+\_\+\+A(t))\texorpdfstring{$^\wedge$}{\string^}T (CΦ\+\_\+\+A(t)) dt where Φ\+\_\+\+A(t) is the state transition matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen\+::\+Matrix\+Xd The observability gramian 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a}\label{classAnalysis_a1eae0c57c2eb8b52dbee14574535680a} 
+\index{Analysis@{Analysis}!compute\_observability\_matrix@{compute\_observability\_matrix}}
+\index{compute\_observability\_matrix@{compute\_observability\_matrix}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{compute\_observability\_matrix()}{compute\_observability\_matrix()}}
+{\footnotesize\ttfamily static Eigen\+::\+Matrix\+Xd Analysis\+::compute\+\_\+observability\+\_\+matrix (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Computes the observability matrix for a discrete-\/time state space system. 
+
+The observability matrix is defined as\+:  \[
+\mathcal{O} = \begin{bmatrix} 
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix}
+\]
+
+This matrix has size pn × n, where\+:
+\begin{DoxyItemize}
+\item n is the number of states
+\item p is the number of outputs
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen\+::\+Matrix\+Xd The observability matrix 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a1c4bc000dfb8e376cea20cdbc0d9b77d}\label{classAnalysis_a1c4bc000dfb8e376cea20cdbc0d9b77d} 
+\index{Analysis@{Analysis}!controllability\_decomposition@{controllability\_decomposition}}
+\index{controllability\_decomposition@{controllability\_decomposition}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{controllability\_decomposition()}{controllability\_decomposition()}}
+{\footnotesize\ttfamily std\+::tuple$<$ Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd $>$ Analysis\+::controllability\+\_\+decomposition (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the controllability decomposition of a discrete-\/time state space system. 
+
+This method computes the controllability matrix and performs QR decomposition to find the invariant subspaces of the system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::tuple$<$\+Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd$>$ The controllable and uncontrollable subspaces 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a5a3ca3f22e0acdea5e15626b1fb54258}\label{classAnalysis_a5a3ca3f22e0acdea5e15626b1fb54258} 
+\index{Analysis@{Analysis}!generate\_z\_grid@{generate\_z\_grid}}
+\index{generate\_z\_grid@{generate\_z\_grid}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{generate\_z\_grid()}{generate\_z\_grid()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::complex$<$ double $>$ $>$ Analysis\+::generate\+\_\+z\+\_\+grid (\begin{DoxyParamCaption}\item[{double}]{r\+\_\+min,  }\item[{double}]{r\+\_\+max,  }\item[{int}]{r\+\_\+samples,  }\item[{int}]{theta\+\_\+samples }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generates a grid of points in the z-\/plane for root locus analysis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r\+\_\+min} & The minimum radius for the grid \\
+\hline
+{\em r\+\_\+max} & The maximum radius for the grid \\
+\hline
+{\em r\+\_\+samples} & The number of radial samples \\
+\hline
+{\em theta\+\_\+samples} & The number of angular samples \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$std\+::complex$<$double$>$$>$ The grid of points in the z-\/plane 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a94b56b189ff8c6fa06c7bbfb86e12d97}\label{classAnalysis_a94b56b189ff8c6fa06c7bbfb86e12d97} 
+\index{Analysis@{Analysis}!is\_controllable@{is\_controllable}}
+\index{is\_controllable@{is\_controllable}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{is\_controllable()}{is\_controllable()}}
+{\footnotesize\ttfamily bool Analysis\+::is\+\_\+controllable (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the system is controllable. 
+
+A system is controllable if and only if its controllability matrix has full rank\+:  \[
+\text{rank}([B \quad AB \quad A^2B \quad \cdots \quad A^{n-1}B]) = n
+\]
+
+where n is the number of states.
+
+Controllability implies that there exists an input sequence that can transfer the system from any initial state to any final state in finite time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if rank(\+C) = n, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ad5179b7d195fb36c2a86c4b98031117b}\label{classAnalysis_ad5179b7d195fb36c2a86c4b98031117b} 
+\index{Analysis@{Analysis}!is\_detectable\_cont@{is\_detectable\_cont}}
+\index{is\_detectable\_cont@{is\_detectable\_cont}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{is\_detectable\_cont()}{is\_detectable\_cont()}}
+{\footnotesize\ttfamily bool Analysis\+::is\+\_\+detectable\+\_\+cont (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the continuous-\/time system is detectable. 
+
+A system is detectable if all unobservable modes are stable. Uses the Popov-\/\+Belevitch-\/\+Hautus (PBH) test for each unstable eigenvalue.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the system is detectable, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ae7495f993f5a8fa00f7c7ea21de25416}\label{classAnalysis_ae7495f993f5a8fa00f7c7ea21de25416} 
+\index{Analysis@{Analysis}!is\_observable@{is\_observable}}
+\index{is\_observable@{is\_observable}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{is\_observable()}{is\_observable()}}
+{\footnotesize\ttfamily bool Analysis\+::is\+\_\+observable (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the system is observable. 
+
+A system is observable if and only if its observability matrix has full rank\+:  \[
+\text{rank}\begin{bmatrix} 
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix} = n
+\]
+
+Observability implies that the initial state can be determined from knowledge of the input and output over a finite time interval.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if rank(\+O) = n, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a293ee86f21954d6fa845bc9712d29bb1}\label{classAnalysis_a293ee86f21954d6fa845bc9712d29bb1} 
+\index{Analysis@{Analysis}!is\_stabalizable\_cont@{is\_stabalizable\_cont}}
+\index{is\_stabalizable\_cont@{is\_stabalizable\_cont}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{is\_stabalizable\_cont()}{is\_stabalizable\_cont()}}
+{\footnotesize\ttfamily bool Analysis\+::is\+\_\+stabalizable\+\_\+cont (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the continuous-\/time system is stabilizable. 
+
+A system is stabilizable if all uncontrollable modes are stable. This is checked using the Popov-\/\+Belevitch-\/\+Hautus (PBH) test\+:  \[
+\text{rank}[sI - A \quad B] = n
+\]
+
+for all eigenvalues s with $\text{Re}(s) \geq 0$, where\+:
+\begin{DoxyItemize}
+\item n is the number of states
+\item A is the state matrix
+\item B is the input matrix
+\end{DoxyItemize}
+
+If this condition is satisfied for all unstable eigenvalues, then the system is stabilizable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the system is stabilizable 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a85fc5bc28fafaca32123b5097d3081df}\label{classAnalysis_a85fc5bc28fafaca32123b5097d3081df} 
+\index{Analysis@{Analysis}!Kalman\_Decomp@{Kalman\_Decomp}}
+\index{Kalman\_Decomp@{Kalman\_Decomp}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{Kalman\_Decomp()}{Kalman\_Decomp()}}
+{\footnotesize\ttfamily Discrete\+\_\+\+State\+Space\+\_\+\+System Analysis\+::\+Kalman\+\_\+\+Decomp (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Performs Kalman decomposition for state estimation. 
+
+This method computes the observability and controllability decompositions, and then combines them to form a new state space realization.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Discrete\+\_\+\+State\+Space\+\_\+\+System The decomposed state space system 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a1e182155106a782f71c899e9e77cb127}\label{classAnalysis_a1e182155106a782f71c899e9e77cb127} 
+\index{Analysis@{Analysis}!Linear\_Stability\_cont@{Linear\_Stability\_cont}}
+\index{Linear\_Stability\_cont@{Linear\_Stability\_cont}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{Linear\_Stability\_cont()}{Linear\_Stability\_cont()}}
+{\footnotesize\ttfamily static bool Analysis\+::\+Linear\+\_\+\+Stability\+\_\+cont (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Checks the stability of a continuous-\/time linear system. 
+
+For a continuous-\/time system, stability requires all eigenvalues to lie in the left half-\/plane\+:  \[
+\text{Re}(\lambda_i(A)) < 0 \quad \forall i
+\]
+
+where $\lambda_i(A)$ are the eigenvalues of matrix A.
+
+Stability types\+:
+\begin{DoxyItemize}
+\item $\text{Re}(\lambda) < 0$\+: Asymptotically stable
+\item $\text{Re}(\lambda) = 0$\+: Marginally stable
+\item $\text{Re}(\lambda) > 0$\+: Unstable
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if all eigenvalues have negative real parts 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ab0d41bc4e251b302e1e741951575f13c}\label{classAnalysis_ab0d41bc4e251b302e1e741951575f13c} 
+\index{Analysis@{Analysis}!Linear\_Stability\_discrete@{Linear\_Stability\_discrete}}
+\index{Linear\_Stability\_discrete@{Linear\_Stability\_discrete}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{Linear\_Stability\_discrete()}{Linear\_Stability\_discrete()}}
+{\footnotesize\ttfamily bool Analysis\+::\+Linear\+\_\+\+Stability\+\_\+discrete (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks the stability of a discrete-\/time linear system. 
+
+For a discrete-\/time system, stability requires all eigenvalues to lie inside the unit circle\+:  \[
+|\lambda_i(A)| < 1 \quad \forall i
+\]
+
+where $\lambda_i(A)$ are the eigenvalues of matrix A.
+
+Stability types\+:
+\begin{DoxyItemize}
+\item \texorpdfstring{$\vert$}{|}λ\texorpdfstring{$\vert$}{|} \texorpdfstring{$<$}{<} 1\+: Asymptotically stable
+\item \texorpdfstring{$\vert$}{|}λ\texorpdfstring{$\vert$}{|} = 1\+: Marginally stable
+\item \texorpdfstring{$\vert$}{|}λ\texorpdfstring{$\vert$}{|} \texorpdfstring{$>$}{>} 1\+: Unstable
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if all eigenvalues have magnitude less than 1 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a7000ec1dd0d7a48150b9eb2ad00a0370}\label{classAnalysis_a7000ec1dd0d7a48150b9eb2ad00a0370} 
+\index{Analysis@{Analysis}!minimality\_test\_cont@{minimality\_test\_cont}}
+\index{minimality\_test\_cont@{minimality\_test\_cont}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{minimality\_test\_cont()}{minimality\_test\_cont()}}
+{\footnotesize\ttfamily bool Analysis\+::minimality\+\_\+test\+\_\+cont (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Performs the minimality test for continuous-\/time systems. 
+
+A system is minimal if it is both controllable and observable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the system is minimal, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_a9b58ab4ed9082da4bb92d41f0e545f40}\label{classAnalysis_a9b58ab4ed9082da4bb92d41f0e545f40} 
+\index{Analysis@{Analysis}!observability\_decomposition@{observability\_decomposition}}
+\index{observability\_decomposition@{observability\_decomposition}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{observability\_decomposition()}{observability\_decomposition()}}
+{\footnotesize\ttfamily std\+::tuple$<$ Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd $>$ Analysis\+::observability\+\_\+decomposition (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the observability decomposition of a discrete-\/time state space system. 
+
+This method computes the observability matrix and performs SVD to find the invariant subspaces of the system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::tuple$<$\+Eigen\+::\+Matrix\+Xd, Eigen\+::\+Matrix\+Xd$>$ The observable and unobservable subspaces 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_aa7a3ebd829a90065ebd03c314115d556}\label{classAnalysis_aa7a3ebd829a90065ebd03c314115d556} 
+\index{Analysis@{Analysis}!poles@{poles}}
+\index{poles@{poles}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{poles()}{poles()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::complex$<$ double $>$ $>$ Analysis\+::poles (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the poles of the system (eigenvalues of A matrix) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$std\+::complex$<$double$>$$>$ The eigenvalues of the A matrix 
+\end{DoxyReturn}
+\Hypertarget{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3}\label{classAnalysis_ab918086ae7d702b38c4a646bd2f3b1a3} 
+\index{Analysis@{Analysis}!zeros@{zeros}}
+\index{zeros@{zeros}!Analysis@{Analysis}}
+\doxysubsubsection{\texorpdfstring{zeros()}{zeros()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::complex$<$ double $>$ $>$ Analysis\+::zeros (\begin{DoxyParamCaption}\item[{const Discrete\+\_\+\+State\+Space\+\_\+\+System \&}]{System,  }\item[{const double \&}]{r\+\_\+min,  }\item[{const double \&}]{r\+\_\+max,  }\item[{const int \&}]{r\+\_\+samples,  }\item[{const int \&}]{theta\+\_\+samples }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Finds the zeros of the transfer function (poles of the closed-\/loop system) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em System} & The discrete state space system to analyze \\
+\hline
+{\em r\+\_\+min} & The minimum radius for the grid \\
+\hline
+{\em r\+\_\+max} & The maximum radius for the grid \\
+\hline
+{\em r\+\_\+samples} & The number of radial samples \\
+\hline
+{\em theta\+\_\+samples} & The number of angular samples \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$std\+::complex$<$double$>$$>$ The zeros of the transfer function 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+analysis.\+hpp\end{DoxyCompactItemize}
