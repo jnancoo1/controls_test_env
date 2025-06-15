@@ -73,14 +73,14 @@ Detailed documentation is available in the generated \`refman.pdf\` file. This i
 - Implementation details
 
 To generate fresh documentation:
-\`\`\`bash
+```bash
 doxygen
 cd latex
 make
-\`\`\`
+```
 
 
-\`\`\`cpp
+```cpp
 #include "discrete_state_space.hpp"
 #include "analysis.hpp"
 
@@ -101,7 +101,7 @@ int main() {
     
     return 0;
 }
-\`\`\`
+```
 
 
 This library is under active development. Upcoming features include:
