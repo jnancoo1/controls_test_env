@@ -5,7 +5,7 @@
 #include "discrete_state_space.hpp"
 #include <cmath>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
-
+#include <complex>
 
 class Norms {
 public:
@@ -65,7 +65,7 @@ public:
     };
 
     // Compute Frobenius norm of a matrix
-    static double frobenius_norm(const Eigen::MatrixXd& M)}{double sum = 0.0;
+    static double frobenius_norm(const Eigen::MatrixXd& M){double sum = 0.0;
     for (int i = 0; i < M.rows(); ++i) {
         for (int j = 0; j < M.cols(); ++j) {
             sum += M(i, j) * M(i, j);
@@ -74,11 +74,79 @@ public:
     return std::sqrt(sum);
 };
 
-    // Compute spectral norm (2-norm) of a matrix
-    static double spectral_norm(const Eigen::MatrixXd& M);
+    //generate range of frequencies
+    static std::vector<std::complex<double>> frequency_range(double low,double high,int n){
+
+        std::vector<std::complex<double>> out;
+        std::complex<double> temp;
+        std::complex<double> onei(0.0,1.0);
+        double w;
+        for(int i=0;i<n;i++){
+
+            w = low * pow(high / low, static_cast<double>(i) / (n - 1));
+            std::complex<double> s = std::complex<double>(0, w); // jω
+            out.push_back(w);
+        }
+        return out;
+
+    }
+
+    // Compute Frobenius norm of a State space
+    static double frobenius_norm_state_space(const Discrete_StateSpace_System& System,int n){
+        Eigen::MatrixXcd Identity=Eigen::MatrixXcd::Identity(System.A.rows(),System.A.cols());
+        std::vector<std::complex<double>> jw=frequency_range(0.001,1000,1000);
+        std::vector<std::complex<double>> Gjw_all;
+        Eigen::MatrixXcd Gjwi;
+        double total=0;
+        for(int i=0;i<n;i++){
+
+            Gjwi=System.C*((jw[i]*Identity-System.A).fullPivLu().inverse())*System.B;
+            total+=(Gjwi.squaredNorm());
+        }
+        return std::sqrt(total / n);
+        
+    }
+    // Compute spectral norm (2-norm)
+    static double spectral_norm(const Discrete_StateSpace_System& System,double freq){
+
+        Eigen::MatrixXcd Identity=Eigen::MatrixXcd::Identity(System.A.rows(),System.A.cols());
+        double w=2*M_PI*freq;
+        std::complex<double> jw=std::complex<double>(0, w);
+        Eigen::MatrixXcd Gjw;
+        
+
+        Gjw=System.C*((jw*Identity-System.A).fullPivLu().inverse())*System.B;
+       double val=(Gjw.jacobiSvd().singularValues()(0));
+        
+        return val;
+        
+
+    };
 
     // Compute induced 1-norm of a matrix
-    static double induced_one_norm(const Eigen::MatrixXd& M);
+    static double induced_one_norm(const Discrete_StateSpace_System& System,double freq){
+    
+        Eigen::MatrixXcd Identity=Eigen::MatrixXcd::Identity(System.A.rows(),System.A.cols());
+        double w=2*M_PI*freq;
+        std::complex<double> jw=std::complex<double>(0, w);
+        Eigen::MatrixXcd Gjw;
+        Gjw=System.C*((jw*Identity-System.A).fullPivLu().inverse())*System.B;
+        int cols=Gjw.cols();
+        int rows=Gjw.rows();
+        double max_col_sum = 0.0;
+
+
+        for (int j = 0; j < cols; ++j) {
+            double col_sum = 0.0;
+            for (int i = 0; i < rows; ++i) {
+                col_sum += std::abs(Gjw(i, j)); // abs for complex or real
+            }
+            if (col_sum > max_col_sum) {
+                max_col_sum = col_sum;
+            }
+    }
+    return max_col_sum;
+    }
 
     // Compute induced infinity norm of a matrix
     static double induced_infinity_norm(const Eigen::MatrixXd& M);
