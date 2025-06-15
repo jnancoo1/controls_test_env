@@ -1,17 +1,35 @@
+/**
+ * @file linear_solvers.hpp
+ * @brief Linear system solvers implementation
+ * @details Contains implementations of various methods for solving linear systems,
+ *          including LU decomposition, QR decomposition, and direct matrix inversion.
+ */
 
 #ifndef LINEAR_SOLVER_HPP
 #define LINEAR_SOLVER_HPP
-
 
 #include <iostream>
 #include <cmath>
 #include "matrix_math.hpp"
 
-
-
-class Linear_Solvers{
+/**
+ * @class Linear_Solvers
+ * @brief Static class providing methods for solving linear systems
+ * @details Implements various numerical methods for solving linear systems including:
+ *          - LU decomposition based solver
+ *          - QR decomposition based solver
+ *          - Matrix inversion
+ *          - Forward and backward substitution
+ */
+class Linear_Solvers {
 public:
-    static My_Vec SolveLU(const Matrix& A, const My_Vec& b){
+    /**
+     * @brief Solves a linear system using LU decomposition
+     * @param A The coefficient matrix
+     * @param b The right-hand side vector
+     * @return Solution vector x where Ax = b
+     */
+    static My_Vec SolveLU(const Matrix& A, const My_Vec& b) {
 
         LUResult LU_temp=A.L_U();
         LUResult_to_pass LU=conv_LU(LU_temp);
@@ -22,7 +40,13 @@ public:
         return bck_sub;
 
     }
-    static My_Vec SolveQR(const Matrix& A, const My_Vec& b){
+    /**
+     * @brief Solves a linear system using QR decomposition
+     * @param A The coefficient matrix
+     * @param b The right-hand side vector
+     * @return Solution vector x where Ax = b
+     */
+    static My_Vec SolveQR(const Matrix& A, const My_Vec& b) {
 
         QRresult decomp_temp=A.QR_fact();
         QR_result_to_pass decomp=conv_QR(decomp_temp);
@@ -30,7 +54,13 @@ public:
         My_Vec x=BackwardSubstitution(decomp.R,qTb);
         return x;
     };
-    static Matrix Inverse(const Matrix& A){
+    /**
+     * @brief Computes the inverse of a matrix using LU decomposition
+     * @param A The matrix to invert
+     * @return The inverse of matrix A
+     * @throw std::runtime_error if matrix is singular
+     */
+    static Matrix Inverse(const Matrix& A) {
 
         Matrix I=Matrix::eye(A.rows);
         LUResult decomp_temp=A.L_U();
@@ -54,7 +84,13 @@ public:
         return inverse_matrix;
 
     };
-    static My_Vec ForwardSubstitution(const Matrix& L_1, const My_Vec& b){
+    /**
+     * @brief Performs forward substitution to solve Lx = b
+     * @param L_1 Lower triangular matrix
+     * @param b Right-hand side vector
+     * @return Solution vector x
+     */
+    static My_Vec ForwardSubstitution(const Matrix& L_1, const My_Vec& b) {
 
        My_Vec solution_VEC=My_Vec::ones(L_1.rows);
        solution_VEC.Scalar_Mul(0);
@@ -80,7 +116,13 @@ public:
 
 
     };
-    static My_Vec BackwardSubstitution(const Matrix& U_1, const My_Vec& b){
+    /**
+     * @brief Performs backward substitution to solve Ux = b
+     * @param U_1 Upper triangular matrix
+     * @param b Right-hand side vector
+     * @return Solution vector x
+     */
+    static My_Vec BackwardSubstitution(const Matrix& U_1, const My_Vec& b) {
         My_Vec solution_VEC=My_Vec::ones(U_1.rows);
         solution_VEC.Scalar_Mul(0);
 
@@ -105,6 +147,13 @@ public:
  
 
      };
+    /**
+     * @brief Applies a permutation to a vector
+     * @param P Permutation vector
+     * @param V Vector to permute
+     * @return Permuted vector
+     * @throw std::invalid_argument if permutation size doesn't match vector size
+     */
      static My_Vec ApplyPermutation(const std::vector<int>& P,const My_Vec& V){
         if (P.size() != V.myvector. size()) {
             throw std::invalid_argument("Permutation size must match vector size");
@@ -120,6 +169,11 @@ public:
         return result;
     }
 
+    /**
+     * @brief Computes the determinant of a matrix using LU decomposition
+     * @param A Input matrix
+     * @return Determinant value
+     */
     static double determinant(const Matrix& A) {
     LUResult lu_temp = A.L_U();
     LUResult_to_pass lu=conv_LU(lu_temp);
@@ -131,11 +185,23 @@ public:
 }
 
 
-static My_Vec solve_linear_system_LU(const Matrix& A, const My_Vec& b) {
+    /**
+     * @brief Alias for SolveLU for solving linear systems
+     * @param A The coefficient matrix
+     * @param b The right-hand side vector
+     * @return Solution vector x where Ax = b
+     */
+    static My_Vec solve_linear_system_LU(const Matrix& A, const My_Vec& b) {
     return SolveLU(A, b);  
 }
 
-static My_Vec solve_linear_system_QR(const Matrix& A, const My_Vec& b) {
+    /**
+     * @brief Alias for SolveQR for solving linear systems
+     * @param A The coefficient matrix
+     * @param b The right-hand side vector
+     * @return Solution vector x where Ax = b
+     */
+    static My_Vec solve_linear_system_QR(const Matrix& A, const My_Vec& b) {
     return SolveQR(A, b);  
 }
 
