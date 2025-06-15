@@ -1,0 +1,48 @@
+name: Generate Doxygen PDF
+
+on:
+  push:
+    branches:
+      - master # Trigger on pushes to your main branch
+  workflow_dispatch: # Allows you to manually run the workflow from GitHub's UI
+
+permissions:
+  contents: read # Only need read access to checkout code and read Doxyfile
+  # No 'write' permission needed if only uploading artifact, not pushing to a branch
+
+jobs:
+  build_pdf:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Action to clone your repository
+
+      - name: Install Doxygen and Graphviz (if not already on runner)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Install TeX Live (LaTeX distribution)
+        # This is crucial for pdflatex and related tools
+        run: |
+          sudo apt-get install -y texlive-full make
+
+      - name: Run Doxygen (to generate LaTeX files)
+        # This step generates the .tex files and the Makefile
+        run: doxygen Doxyfile # Assumes Doxyfile is in the repo root
+
+      - name: Compile LaTeX to PDF
+        # Navigate to the LaTeX output directory and run 'make'
+        run: |
+          cd docs/latex/ # Adjust 'docs/latex/' if your OUTPUT_DIRECTORY is different
+          make
+        working-directory: ${{ github.workspace }} # Ensures path is relative to repo root
+
+      - name: Upload Generated PDF as Artifact
+        # This action makes the PDF available for download from the workflow run summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-documentation-pdf
+          path: docs/latex/refman.pdf # Adjust this path if your OUTPUT_DIRECTORY is different
+          retention-days: 7 # Optional: How long to keep the artifact (e.g., 7 days)
