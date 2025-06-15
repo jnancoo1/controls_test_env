@@ -146,10 +146,31 @@ public:
             }
     }
     return max_col_sum;
-    }
+    } 
 
     // Compute induced infinity norm of a matrix
-    static double induced_infinity_norm(const Eigen::MatrixXd& M);
+    static double induced_infinity_norm(const Discrete_StateSpace_System& System,const double& frequency){
+
+        Eigen::MatrixXcd Identity=Eigen::MatrixXcd::Identity(System.A.rows(),System.A.cols());
+        double w=2*M_PI*frequency;
+        std::complex<double> jw=std::complex<double>(0, w);
+        Eigen::MatrixXcd Gjw;
+        Gjw=System.C*((jw*Identity-System.A).fullPivLu().inverse())*System.B;
+        Eigen::MatrixXd Gjwabs=Gjw.cwiseAbs();
+
+        double Max_R_sum=0;
+        double curr_R_sum=0;
+        for(int i=0;i<Gjw.rows();i++){
+
+             curr_R_sum=Gjwabs.row(i).sum();
+
+             if(Max_R_sum<curr_R_sum){
+                Max_R_sum=curr_R_sum;
+             }
+        }
+        return Max_R_sum;
+
+    }
 
     // Approximate H-infinity norm (upper bound estimate)
     static double Hinf_norm_approximate(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
