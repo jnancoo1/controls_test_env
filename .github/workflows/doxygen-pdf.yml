@@ -35,7 +35,7 @@ jobs:
       - name: Compile LaTeX to PDF
         # Navigate to the LaTeX output directory and run 'make'
         run: |
-          cd docs/latex/ # Adjust 'docs/latex/' if your OUTPUT_DIRECTORY is different
+          cd latex/ # Adjust 'docs/latex/' if your OUTPUT_DIRECTORY is different
           make
         working-directory: ${{ github.workspace }} # Ensures path is relative to repo root
 
