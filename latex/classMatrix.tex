@@ -1,0 +1,403 @@
+\doxysection{Matrix Class Reference}
+\hypertarget{classMatrix}{}\label{classMatrix}\index{Matrix@{Matrix}}
+
+
+\doxylink{classMatrix}{Matrix} class implementation for mathematical operations.  
+
+
+
+
+{\ttfamily \#include $<$matrix\+\_\+math.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMatrix_a87dcf63dff83eae86b92635f00432171}{Matrix}} (int rs=1, int cs=1)
+\begin{DoxyCompactList}\small\item\em Constructor for \doxylink{classMatrix}{Matrix}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix_abcf708e864ed3d9db2c3b317c5e529ab}{Matrix}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor for \doxylink{classMatrix}{Matrix}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \& \mbox{\hyperlink{classMatrix_a3e40db12ae78b7616ee3f099bb15f13d}{operator=}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator for \doxylink{classMatrix}{Matrix}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_afc7858a535ebcebf445e91bccd75d197}{operator+}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&other) const
+\begin{DoxyCompactList}\small\item\em \doxylink{classMatrix}{Matrix} addition operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_abb44986f4d7b2ac6465fed5b5db019e8}{operator-\/}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&other) const
+\begin{DoxyCompactList}\small\item\em \doxylink{classMatrix}{Matrix} subtraction operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structLUResult}{LUResult}} \mbox{\hyperlink{classMatrix_ae4a072111aa8ac70681abca3a12e83f3}{L\+\_\+U}} () const
+\begin{DoxyCompactList}\small\item\em Computes the LU Decomposition of the matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQRresult}{QRresult}} \mbox{\hyperlink{classMatrix_abeb94d21eaf4bb53308c20fe6b744ec0}{QR\+\_\+fact}} () const
+\begin{DoxyCompactList}\small\item\em Computes the QR Decomposition of the matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_ab4f8e22e8db0983d75e090542f4d1f7a}{operator\texorpdfstring{$\ast$}{*}}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&other) const
+\begin{DoxyCompactList}\small\item\em \doxylink{classMatrix}{Matrix} multiplication operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMatrix_a6e0cbca289e6d945ad9765035abc3fb5}{multiply}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&x) const
+\begin{DoxyCompactList}\small\item\em Multiplies the matrix with a vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_ad0c96cdea0d2ae3403653ca90aa70796}{Transpose}} () const
+\begin{DoxyCompactList}\small\item\em Transposes the matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_a5086d5fa9c00e21bc003536add84c520}{Scalar\+\_\+\+Mul}} (double k) const
+\begin{DoxyCompactList}\small\item\em Scalar multiplication of the matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMatrix_af83080c116446c351a690cbf0b85ff79}{UV}} (int i, int L)
+\begin{DoxyCompactList}\small\item\em Creates a unit vector with a 1 at position i. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_a894b0e19cc83b572e7d5eac53817baf1}{Embed}} (const \mbox{\hyperlink{classMatrix}{Matrix}} \&Householder, const \mbox{\hyperlink{classMatrix}{Matrix}} \&A)
+\begin{DoxyCompactList}\small\item\em Embeds a Householder matrix into a larger identity matrix. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_a9eac690f05e2444817b912625ed56a07}{Outer\+\_\+\+Product}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&u, const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&v)
+\begin{DoxyCompactList}\small\item\em Static method to compute the outer product of two vectors. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c}{eye}} (int a)
+\begin{DoxyCompactList}\small\item\em Static method to create an identity matrix of size a. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_a9f3f46a1d9b8de03c13aa67178dfde67}{Ones}} (int a, int b)
+\begin{DoxyCompactList}\small\item\em Static method to create a matrix of ones. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMatrix}{Matrix}} \mbox{\hyperlink{classMatrix_a8dba5ede58618671f7da3bf896a2b05c}{Zeros}} (int a, int b)
+\begin{DoxyCompactList}\small\item\em Static method to create a matrix of zeros. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9}\label{classMatrix_a994b1578e9a64d5cc3c4d0b11d7532a9} 
+int {\bfseries rows}
+\begin{DoxyCompactList}\small\item\em Number of rows in the matrix. \end{DoxyCompactList}\item 
+\Hypertarget{classMatrix_a2067cc7ed367cc427cd869b3e1074ad7}\label{classMatrix_a2067cc7ed367cc427cd869b3e1074ad7} 
+int {\bfseries cols}
+\begin{DoxyCompactList}\small\item\em Number of columns in the matrix. \end{DoxyCompactList}\item 
+\Hypertarget{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08}\label{classMatrix_a03a28ec60fe1be4f341ebf9ed5cace08} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries My\+MAT}
+\begin{DoxyCompactList}\small\item\em Internal matrix storage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{classMatrix}{Matrix} class implementation for mathematical operations. 
+
+Provides basic matrix operations including addition, subtraction, multiplication, and various matrix factorizations (LU, QR) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMatrix_a87dcf63dff83eae86b92635f00432171}\label{classMatrix_a87dcf63dff83eae86b92635f00432171} 
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{int}]{rs = {\ttfamily 1},  }\item[{int}]{cs = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for \doxylink{classMatrix}{Matrix}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rs} & Number of rows (defaults to 1) \\
+\hline
+{\em cs} & Number of columns (defaults to 1) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMatrix_abcf708e864ed3d9db2c3b317c5e529ab}\label{classMatrix_abcf708e864ed3d9db2c3b317c5e529ab} 
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor for \doxylink{classMatrix}{Matrix}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to copy \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMatrix_a894b0e19cc83b572e7d5eac53817baf1}\label{classMatrix_a894b0e19cc83b572e7d5eac53817baf1} 
+\index{Matrix@{Matrix}!Embed@{Embed}}
+\index{Embed@{Embed}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Embed()}{Embed()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Embed (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{Householder,  }\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Embeds a Householder matrix into a larger identity matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Householder} & The Householder matrix to embed \\
+\hline
+{\em A} & The original matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The embedded matrix 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c}\label{classMatrix_ac6bb9a8d37616ef221e21e9cf48c8a4c} 
+\index{Matrix@{Matrix}!eye@{eye}}
+\index{eye@{eye}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{eye()}{eye()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::eye (\begin{DoxyParamCaption}\item[{int}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Static method to create an identity matrix of size a. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Size of the matrix (number of rows and columns) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Identity matrix of size a 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_ae4a072111aa8ac70681abca3a12e83f3}\label{classMatrix_ae4a072111aa8ac70681abca3a12e83f3} 
+\index{Matrix@{Matrix}!L\_U@{L\_U}}
+\index{L\_U@{L\_U}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{L\_U()}{L\_U()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structLUResult}{LUResult}} Matrix\+::\+L\+\_\+U (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the LU Decomposition of the matrix. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{structLUResult}{LUResult} structure containing L, U matrices and P vector 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if the matrix is not square \\
+\hline
+{\em std\+::runtime\+\_\+error} & if the matrix is singular or nearly singular \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMatrix_a6e0cbca289e6d945ad9765035abc3fb5}\label{classMatrix_a6e0cbca289e6d945ad9765035abc3fb5} 
+\index{Matrix@{Matrix}!multiply@{multiply}}
+\index{multiply@{multiply}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{multiply()}{multiply()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Matrix\+::multiply (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{x }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Multiplies the matrix with a vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The vector to multiply with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting vector after multiplication 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if dimensions are not compatible \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMatrix_a9f3f46a1d9b8de03c13aa67178dfde67}\label{classMatrix_a9f3f46a1d9b8de03c13aa67178dfde67} 
+\index{Matrix@{Matrix}!Ones@{Ones}}
+\index{Ones@{Ones}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Ones()}{Ones()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Ones (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Static method to create a matrix of ones. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Number of rows \\
+\hline
+{\em b} & Number of columns \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classMatrix}{Matrix} of size a x b with all elements set to 1 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_ab4f8e22e8db0983d75e090542f4d1f7a}\label{classMatrix_ab4f8e22e8db0983d75e090542f4d1f7a} 
+\index{Matrix@{Matrix}!operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}}
+\index{operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}()}{operator*()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::operator\texorpdfstring{$\ast$}{*} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxylink{classMatrix}{Matrix} multiplication operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to multiply with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting matrix after multiplication 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if dimensions are not compatible \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMatrix_afc7858a535ebcebf445e91bccd75d197}\label{classMatrix_afc7858a535ebcebf445e91bccd75d197} 
+\index{Matrix@{Matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxylink{classMatrix}{Matrix} addition operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to add \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting matrix after addition 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if matrices have different dimensions \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMatrix_abb44986f4d7b2ac6465fed5b5db019e8}\label{classMatrix_abb44986f4d7b2ac6465fed5b5db019e8} 
+\index{Matrix@{Matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxylink{classMatrix}{Matrix} subtraction operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to subtract \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resulting matrix after subtraction 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if matrices have different dimensions \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMatrix_a3e40db12ae78b7616ee3f099bb15f13d}\label{classMatrix_a3e40db12ae78b7616ee3f099bb15f13d} 
+\index{Matrix@{Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} \& Matrix\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMatrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator for \doxylink{classMatrix}{Matrix}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to assign \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to this matrix 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_a9eac690f05e2444817b912625ed56a07}\label{classMatrix_a9eac690f05e2444817b912625ed56a07} 
+\index{Matrix@{Matrix}!Outer\_Product@{Outer\_Product}}
+\index{Outer\_Product@{Outer\_Product}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Outer\_Product()}{Outer\_Product()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Outer\+\_\+\+Product (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{u,  }\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Static method to compute the outer product of two vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & First vector \\
+\hline
+{\em v} & Second vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classMatrix}{Matrix} resulting from the outer product 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_abeb94d21eaf4bb53308c20fe6b744ec0}\label{classMatrix_abeb94d21eaf4bb53308c20fe6b744ec0} 
+\index{Matrix@{Matrix}!QR\_fact@{QR\_fact}}
+\index{QR\_fact@{QR\_fact}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{QR\_fact()}{QR\_fact()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQRresult}{QRresult}} Matrix\+::\+QR\+\_\+fact (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the QR Decomposition of the matrix. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{structQRresult}{QRresult} structure containing Q, R matrices 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_a5086d5fa9c00e21bc003536add84c520}\label{classMatrix_a5086d5fa9c00e21bc003536add84c520} 
+\index{Matrix@{Matrix}!Scalar\_Mul@{Scalar\_Mul}}
+\index{Scalar\_Mul@{Scalar\_Mul}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Scalar\_Mul()}{Scalar\_Mul()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Scalar\+\_\+\+Mul (\begin{DoxyParamCaption}\item[{double}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Scalar multiplication of the matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & Scalar value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+New matrix resulting from scalar multiplication 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_ad0c96cdea0d2ae3403653ca90aa70796}\label{classMatrix_ad0c96cdea0d2ae3403653ca90aa70796} 
+\index{Matrix@{Matrix}!Transpose@{Transpose}}
+\index{Transpose@{Transpose}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Transpose()}{Transpose()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Transpose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Transposes the matrix. 
+
+\begin{DoxyReturn}{Returns}
+New matrix that is the transpose of this matrix 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_af83080c116446c351a690cbf0b85ff79}\label{classMatrix_af83080c116446c351a690cbf0b85ff79} 
+\index{Matrix@{Matrix}!UV@{UV}}
+\index{UV@{UV}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{UV()}{UV()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} Matrix\+::\+UV (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{L }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Creates a unit vector with a 1 at position i. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the 1 in the unit vector \\
+\hline
+{\em L} & Total length of the vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Unit vector with 1 at position i 
+\end{DoxyReturn}
+\Hypertarget{classMatrix_a8dba5ede58618671f7da3bf896a2b05c}\label{classMatrix_a8dba5ede58618671f7da3bf896a2b05c} 
+\index{Matrix@{Matrix}!Zeros@{Zeros}}
+\index{Zeros@{Zeros}!Matrix@{Matrix}}
+\doxysubsubsection{\texorpdfstring{Zeros()}{Zeros()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMatrix}{Matrix}} Matrix\+::\+Zeros (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Static method to create a matrix of zeros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Number of rows \\
+\hline
+{\em b} & Number of columns \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classMatrix}{Matrix} of size a x b with all elements set to 0 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{matrix__math_8hpp}{matrix\+\_\+math.\+hpp}}\end{DoxyCompactItemize}

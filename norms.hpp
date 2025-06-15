@@ -65,7 +65,14 @@ public:
     };
 
     // Compute Frobenius norm of a matrix
-    static double frobenius_norm(const Eigen::MatrixXd& M);
+    static double frobenius_norm(const Eigen::MatrixXd& M)}{double sum = 0.0;
+    for (int i = 0; i < M.rows(); ++i) {
+        for (int j = 0; j < M.cols(); ++j) {
+            sum += M(i, j) * M(i, j);
+        }
+    }
+    return std::sqrt(sum);
+};
 
     // Compute spectral norm (2-norm) of a matrix
     static double spectral_norm(const Eigen::MatrixXd& M);

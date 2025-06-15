@@ -1,0 +1,268 @@
+\doxysection{My\+\_\+\+Vec Class Reference}
+\hypertarget{classMy__Vec}{}\label{classMy__Vec}\index{My\_Vec@{My\_Vec}}
+
+
+Vector class for mathematical operations.  
+
+
+
+
+{\ttfamily \#include $<$matrix\+\_\+math.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMy__Vec_abc81feb8eb2e19a325d140b4e7e68ab1}{My\+\_\+\+Vec}} (int l=1)
+\begin{DoxyCompactList}\small\item\em Construct a new vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_ab115f2b74601e84c1806dd8c2bf2bd8a}{operator+}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&other) const
+\begin{DoxyCompactList}\small\item\em Add two vectors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_a1e8d2cd563431b5fbc4109f850a3055c}{operator-\/}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&other) const
+\begin{DoxyCompactList}\small\item\em Vector subtraction operator. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classMy__Vec_adab86f2e4346968587dc226f2bc28815}{Norm}} () const
+\begin{DoxyCompactList}\small\item\em Computes the Euclidean norm (magnitude) of the vector. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classMy__Vec_aecb1cca00365138b6540cc8564a76034}{dot}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&other) const
+\begin{DoxyCompactList}\small\item\em Computes the dot product with another vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7}{Scalar\+\_\+\+Mul}} (double k) const
+\begin{DoxyCompactList}\small\item\em Scalar multiplication of the vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec_ad844ac5d958e854ff120f3e442ac2264}{My\+\_\+\+Vec}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor for \doxylink{classMy__Vec}{My\+\_\+\+Vec}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \& \mbox{\hyperlink{classMy__Vec_a7e387f61c8916791659ee96229307520}{operator=}} (const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator for \doxylink{classMy__Vec}{My\+\_\+\+Vec}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10}{ones}} (int a)
+\begin{DoxyCompactList}\small\item\em Creates a vector of ones. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_aa5165fc1013f4386aa51a50285cde91c}{unit\+\_\+vec}} (int i, int L)
+\begin{DoxyCompactList}\small\item\em Creates a unit vector with a 1 at position i. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \mbox{\hyperlink{classMy__Vec_a70ccdba5ec9aed61f22af7b233557acf}{Zeros}} (const int \&i)
+\begin{DoxyCompactList}\small\item\em Creates a zero vector of length i. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMy__Vec_a0b033a90ef0bdc91d55f40a271db0cfc}\label{classMy__Vec_a0b033a90ef0bdc91d55f40a271db0cfc} 
+int {\bfseries length}
+\begin{DoxyCompactList}\small\item\em Length of the vector. \end{DoxyCompactList}\item 
+\Hypertarget{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656}\label{classMy__Vec_acb8e28501cfba1f8bf71d6d90c990656} 
+std\+::vector$<$ double $>$ {\bfseries myvector}
+\begin{DoxyCompactList}\small\item\em Vector data storage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Vector class for mathematical operations. 
+
+Implements a mathematical vector with common operations like addition, subtraction, dot product, and scalar multiplication 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMy__Vec_abc81feb8eb2e19a325d140b4e7e68ab1}\label{classMy__Vec_abc81feb8eb2e19a325d140b4e7e68ab1} 
+\index{My\_Vec@{My\_Vec}!My\_Vec@{My\_Vec}}
+\index{My\_Vec@{My\_Vec}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{My\_Vec()}{My\_Vec()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily My\+\_\+\+Vec\+::\+My\+\_\+\+Vec (\begin{DoxyParamCaption}\item[{int}]{l = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & Length of the vector (defaults to 1) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classMy__Vec_ad844ac5d958e854ff120f3e442ac2264}\label{classMy__Vec_ad844ac5d958e854ff120f3e442ac2264} 
+\index{My\_Vec@{My\_Vec}!My\_Vec@{My\_Vec}}
+\index{My\_Vec@{My\_Vec}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{My\_Vec()}{My\_Vec()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily My\+\_\+\+Vec\+::\+My\+\_\+\+Vec (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor for \doxylink{classMy__Vec}{My\+\_\+\+Vec}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The vector to copy \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classMy__Vec_aecb1cca00365138b6540cc8564a76034}\label{classMy__Vec_aecb1cca00365138b6540cc8564a76034} 
+\index{My\_Vec@{My\_Vec}!dot@{dot}}
+\index{dot@{dot}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily double My\+\_\+\+Vec\+::dot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the dot product with another vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The other vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dot product result 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if vectors have different lengths \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMy__Vec_adab86f2e4346968587dc226f2bc28815}\label{classMy__Vec_adab86f2e4346968587dc226f2bc28815} 
+\index{My\_Vec@{My\_Vec}!Norm@{Norm}}
+\index{Norm@{Norm}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{Norm()}{Norm()}}
+{\footnotesize\ttfamily double My\+\_\+\+Vec\+::\+Norm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the Euclidean norm (magnitude) of the vector. 
+
+\begin{DoxyReturn}{Returns}
+Norm of the vector 
+\end{DoxyReturn}
+\Hypertarget{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10}\label{classMy__Vec_acc232051ccef3d91f09b4d2cdf148e10} 
+\index{My\_Vec@{My\_Vec}!ones@{ones}}
+\index{ones@{ones}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{ones()}{ones()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::ones (\begin{DoxyParamCaption}\item[{int}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Creates a vector of ones. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Length of the vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector with all elements set to 1 
+\end{DoxyReturn}
+\Hypertarget{classMy__Vec_ab115f2b74601e84c1806dd8c2bf2bd8a}\label{classMy__Vec_ab115f2b74601e84c1806dd8c2bf2bd8a} 
+\index{My\_Vec@{My\_Vec}!operator+@{operator+}}
+\index{operator+@{operator+}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add two vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Vector to add to this one \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+New vector containing the sum 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if vectors have different lengths \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMy__Vec_a1e8d2cd563431b5fbc4109f850a3055c}\label{classMy__Vec_a1e8d2cd563431b5fbc4109f850a3055c} 
+\index{My\_Vec@{My\_Vec}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Vector subtraction operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The vector to subtract \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Result of vector subtraction 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & if vectors have different lengths \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classMy__Vec_a7e387f61c8916791659ee96229307520}\label{classMy__Vec_a7e387f61c8916791659ee96229307520} 
+\index{My\_Vec@{My\_Vec}!operator=@{operator=}}
+\index{operator=@{operator=}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \& My\+\_\+\+Vec\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator for \doxylink{classMy__Vec}{My\+\_\+\+Vec}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The vector to assign \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to this vector 
+\end{DoxyReturn}
+\Hypertarget{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7}\label{classMy__Vec_a6f73d93dad2c2e769f10319355b3a0b7} 
+\index{My\_Vec@{My\_Vec}!Scalar\_Mul@{Scalar\_Mul}}
+\index{Scalar\_Mul@{Scalar\_Mul}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{Scalar\_Mul()}{Scalar\_Mul()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::\+Scalar\+\_\+\+Mul (\begin{DoxyParamCaption}\item[{double}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Scalar multiplication of the vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & Scalar value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+New vector resulting from scalar multiplication 
+\end{DoxyReturn}
+\Hypertarget{classMy__Vec_aa5165fc1013f4386aa51a50285cde91c}\label{classMy__Vec_aa5165fc1013f4386aa51a50285cde91c} 
+\index{My\_Vec@{My\_Vec}!unit\_vec@{unit\_vec}}
+\index{unit\_vec@{unit\_vec}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{unit\_vec()}{unit\_vec()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::unit\+\_\+vec (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{L }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Creates a unit vector with a 1 at position i. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Position of the 1 in the unit vector \\
+\hline
+{\em L} & Total length of the vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Unit vector with 1 at position i 
+\end{DoxyReturn}
+\Hypertarget{classMy__Vec_a70ccdba5ec9aed61f22af7b233557acf}\label{classMy__Vec_a70ccdba5ec9aed61f22af7b233557acf} 
+\index{My\_Vec@{My\_Vec}!Zeros@{Zeros}}
+\index{Zeros@{Zeros}!My\_Vec@{My\_Vec}}
+\doxysubsubsection{\texorpdfstring{Zeros()}{Zeros()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}} My\+\_\+\+Vec\+::\+Zeros (\begin{DoxyParamCaption}\item[{const int \&}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Creates a zero vector of length i. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Length of the zero vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero vector of length i 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{matrix__math_8hpp}{matrix\+\_\+math.\+hpp}}\end{DoxyCompactItemize}

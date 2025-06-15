@@ -1,0 +1,44 @@
+\doxysection{matrix\+\_\+math.\+hpp File Reference}
+\hypertarget{matrix__math_8hpp}{}\label{matrix__math_8hpp}\index{matrix\_math.hpp@{matrix\_math.hpp}}
+
+
+Linear algebra and matrix mathematics library.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+Include dependency graph for matrix\+\_\+math.\+hpp\+:
+% FIG 0
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structLUResult}{LUResult}}
+\begin{DoxyCompactList}\small\item\em Result of LU decomposition of a matrix. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structQRresult}{QRresult}}
+\begin{DoxyCompactList}\small\item\em Result of QR decomposition of a matrix. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classMy__Vec}{My\+\_\+\+Vec}}
+\begin{DoxyCompactList}\small\item\em Vector class for mathematical operations. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classMatrix}{Matrix}}
+\begin{DoxyCompactList}\small\item\em \doxylink{classMatrix}{Matrix} class implementation for mathematical operations. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classLinear__Solvers}{Linear\+\_\+\+Solvers}}
+\begin{DoxyCompactList}\small\item\em Class containing static methods for solving linear systems. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structLUResult__to__pass}{LUResult\+\_\+to\+\_\+pass}}
+\item 
+struct \mbox{\hyperlink{structQR__result__to__pass}{QR\+\_\+result\+\_\+to\+\_\+pass}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{matrix__math_8hpp_aadaab75865fb60a6f4d29b32fa1bf177}\label{matrix__math_8hpp_aadaab75865fb60a6f4d29b32fa1bf177} 
+\mbox{\hyperlink{structLUResult__to__pass}{LUResult\+\_\+to\+\_\+pass}} {\bfseries conv\+\_\+\+LU} (const \mbox{\hyperlink{structLUResult}{LUResult}} \&LU)
+\item 
+\Hypertarget{matrix__math_8hpp_a2cce24759fc2f2924eab7376ae114110}\label{matrix__math_8hpp_a2cce24759fc2f2924eab7376ae114110} 
+\mbox{\hyperlink{structQR__result__to__pass}{QR\+\_\+result\+\_\+to\+\_\+pass}} {\bfseries conv\+\_\+\+QR} (const \mbox{\hyperlink{structQRresult}{QRresult}} \&QR)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Linear algebra and matrix mathematics library. 
+
+This library provides implementation for basic linear algebra operations, including matrix operations, LU decomposition, and QR factorization. 

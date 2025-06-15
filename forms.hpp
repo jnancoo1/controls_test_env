@@ -5,11 +5,11 @@
 #include <cmath>
 #include <complex>
 #include <Eigen/Dense>
-#include "analysis.hpp"
 #include "discrete_state_space.hpp"
+#include "analysis.hpp"
 #include <Eigen/SVD>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
-#include <Eigen/RealSchur>
+
 
 class Forms{
 
