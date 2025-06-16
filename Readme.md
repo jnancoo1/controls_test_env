@@ -51,7 +51,7 @@ sudo apt-get install libgtest-dev
 
 1. Clone the repository:
 ```bash
-git clone [your-repository-url]
+git clone https://github.com/jnancoo1/controls_test_env.git
 cd controls_library
 ```
 
