@@ -50,22 +50,22 @@ sudo apt-get install libgtest-dev
 ## Installation
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone [your-repository-url]
 cd controls_library
-\`\`\`
+```
 
 2. Create a build directory:
-\`\`\`bash
+```bash
 mkdir build
 cd build
-\`\`\`
+```
 
 3. Configure and build:
-\`\`\`bash
+```bash
 cmake ..
 make
-\`\`\`
+```
 
 
 Detailed documentation is available in the generated \`refman.pdf\` file. This includes:
