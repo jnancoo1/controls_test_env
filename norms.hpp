@@ -21,6 +21,7 @@ public:
 
         return norm;
     }
+
     // Compute H2 norm for stable discrete-time systems
     static double H2_norm_discrete(const Discrete_StateSpace_System& System) {
         Eigen::MatrixXd Q = System.B * System.B.transpose();
@@ -185,7 +186,7 @@ public:
     double gamma_test = (gamma_min + gamma_max) / 2.0;
     double k=0;
     
-while ((gamma_max - gamma_min) > tol && k < iter){
+    while ((gamma_max - gamma_min) > tol && k < iter){
         gamma_test = (gamma_min + gamma_max) / 2.0;
 
 
@@ -293,7 +294,6 @@ while ((gamma_max - gamma_min) > tol && k < iter){
 }
 
 
-
 static std::vector<Eigen::MatrixXd> simulate_impulse_response(
     const Discrete_StateSpace_System& System,
     double t_h, int samples)
@@ -339,19 +339,30 @@ static std::vector<Eigen::MatrixXd> simulate_impulse_response(
 
 
     static double impulse_response_L2_norm(const Discrete_StateSpace_System& System) {
-        double t_h=20;
-        double samples=1000;
-        std::vector<Eigen::MatrixXd> impulse_responses = simulate_impulse_response(System, t_h, samples);
-        double total_norm = 0.0;
-        for (const auto& response : impulse_responses) {
-            // Compute L2 norm for each impulse response
-            double norm = response.norm();  // Frobenius norm
-            total_norm += norm * norm * (t_h / samples);  
+    double t_h = 20.0;
+    int samples = 1000;
+    std::vector<Eigen::MatrixXd> impulse_responses = simulate_impulse_response(System, t_h, samples);
+    
+    double dt = t_h / samples;
+    double total_norm_sq = 0.0;
+    
+    for (int k = 0; k <= samples; ++k) {
+        double time_step_norm_sq = 0.0;
+        
+        for (int input_idx = 0; input_idx < impulse_responses.size(); ++input_idx) {
+            Eigen::VectorXd y_k = impulse_responses[input_idx].col(k);
+            time_step_norm_sq += y_k.squaredNorm();  
         }
-        return std::sqrt(total_norm);
+        
+        double weight = (k == 0 || k == samples) ? 0.5 : 1.0;
+        total_norm_sq += weight * time_step_norm_sq * dt;
     }
+    
+    return std::sqrt(total_norm_sq);
+}
 
-    //Hankel Singular Value Decomposition
+
+    //Hankel Norm
     static double hankel_morm(const Discrete_StateSpace_System& System){
 
         //Grammians 
@@ -377,16 +388,59 @@ static std::vector<Eigen::MatrixXd> simulate_impulse_response(
        return val;
 
     }
+
+
+    static double one_norm_mat(const Eigen::MatrixXd& Mat){
+
+        double one_norm = Mat.cwiseAbs().colwise().sum().maxCoeff();
+        return one_norm;
     
+    }
 
 
-    // Compute condition number w.r.t. a given norm (default spectral norm)
+
+    double compute_system_L1_norm(
+    const Discrete_StateSpace_System& System,
+    double t_h, int samples)
+{
+    auto impulse_responses = simulate_impulse_response(System, t_h, samples);
+    double dt = t_h / samples;
+
+    int m = impulse_responses.size();      // number of inputs
+    int p = impulse_responses[0].rows();  // number of outputs
+    int time_steps = impulse_responses[0].cols(); // samples + 1
+
+    std::vector<double> input_integrals(m, 0.0);
+
+    for (int input_idx = 0; input_idx < m; ++input_idx) {
+        // Sum of absolute outputs at each time step
+        std::vector<double> abs_output_sums(time_steps, 0.0);
+
+        for (int k = 0; k < time_steps; ++k) {
+            double sum_abs = 0.0;
+            for (int output_idx = 0; output_idx < p; ++output_idx) {
+                sum_abs += std::abs(impulse_responses[input_idx](output_idx, k));
+            }
+            abs_output_sums[k] = sum_abs;
+        }
+
+        double integral = 0.0;
+        for (int k = 0; k < time_steps - 1; ++k) {
+            integral += 0.5 * (abs_output_sums[k] + abs_output_sums[k+1]) * dt;
+        }
+        input_integrals[input_idx] = integral;
+    }
+
+    return *std::max_element(input_integrals.begin(), input_integrals.end());
+}
+
+
+/*  to think about
     static double condition_number(const Eigen::MatrixXd& M);
-
-
     // Compute system norm bounds (returns lower and upper bounds)
     static std::pair<double, double> system_norm_bounds(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
 
+*/
 
 };
 
