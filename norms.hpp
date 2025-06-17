@@ -351,17 +351,42 @@ static std::vector<Eigen::MatrixXd> simulate_impulse_response(
         return std::sqrt(total_norm);
     }
 
+    //Hankel Singular Value Decomposition
+    static double hankel_morm(const Discrete_StateSpace_System& System){
+
+        //Grammians 
+        Eigen::MatrixXd BBT=System.B*System.B.transpose();
+        Eigen::MatrixXd P=(solve_lyapunov(System.A,BBT));
+
+        Eigen::MatrixXd CCT=System.C*System.C.transpose();
+        Eigen::MatrixXd Q=(solve_lyapunov(System.A.transpose(),CCT));
+
+
+
+        Eigen::MatrixXd PQ=P*Q;
+
+    Eigen::VectorXcd eigenvalues_PQ = PQ.eigenvalues(); 
+    double max_eigenvalue_real_part = 0.0;
+    for (int i = 0; i < eigenvalues_PQ.size(); ++i) {
+        if (eigenvalues_PQ(i).real() > max_eigenvalue_real_part) {
+            max_eigenvalue_real_part = eigenvalues_PQ(i).real();
+        }
+    }
+    double val = sqrt(max_eigenvalue_real_part);
+
+       return val;
+
+    }
+    
+
+
     // Compute condition number w.r.t. a given norm (default spectral norm)
     static double condition_number(const Eigen::MatrixXd& M);
 
-    // Compute Hankel singular values for balanced truncation
-    static Eigen::VectorXd hankel_singular_values(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
 
     // Compute system norm bounds (returns lower and upper bounds)
     static std::pair<double, double> system_norm_bounds(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
 
-    // Compute the Hankel norm of a stable continuous-time system
-    static double hankel_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
 
 };
 
