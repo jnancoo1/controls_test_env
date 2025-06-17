@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <complex>
-#include <Eigen/Dense
+#include <Eigen/Dense>
 #include "discrete_state_space.hpp"
 #include "analysis.hpp"
 #include <Eigen/SVD>
