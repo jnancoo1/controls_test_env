@@ -1,8 +1,8 @@
-# C++ Controls Library
+# C++ Controls Library WORK UNDER PROGRESS 
 
 A C++ library for control systems engineering, providing tools for state space analysis, system transformations, and mathematical operations.
 
-I was kinda doing this on kicks
+I mostly kinda doing this on kicks
 
 detailed documentatio [https://github.com/jnancoo1/controls_test_env/blob/master/latex/refman.pdf]
 ## Features
