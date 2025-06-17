@@ -5,11 +5,13 @@
 #include "discrete_state_space.hpp"
 #include <cmath>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
+#include <eigen3/unsupported/Eigen/MatrixFunctions>
+
 #include <complex>
 #include "analysis.hpp"
 class Norms {
 public:
-    // Compute H2 norm for stable continuous-time systems: sqrt(trace(C * P * C^T))
+
     static double H2_norm_continuous(const Discrete_StateSpace_System& System){
 
         Eigen::MatrixXd Q=System.B*System.B.transpose();
@@ -292,12 +294,61 @@ while ((gamma_max - gamma_min) > tol && k < iter){
 
 
 
-    // Compute L2 norm of impulse response (energy)
-    static double approx_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C) {
-        // For a simple system, this could be approximated as sqrt(trace(C * P * C^T)), where P solves the Lyapunov equation
-        Eigen::MatrixXd Q = B * B.transpose();
-        Eigen::MatrixXd P = Norms::solve_lyapunov(A, Q);
-        return std::sqrt((C * P * C.transpose()).trace());
+static std::vector<Eigen::MatrixXd> simulate_impulse_response(
+    const Discrete_StateSpace_System& System,
+    double t_h, int samples)
+{
+    const int n = System.A.rows();  // state dim
+    const int m = System.B.cols();  // input dim
+    const int p = System.C.rows();  // output dim
+
+    double dt = t_h / samples;
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n, n);
+
+    std::vector<Eigen::MatrixXd> impulse_responses(m);  
+
+    for (int input_idx = 0; input_idx < m; ++input_idx) {
+        // Initialize state and input
+        Eigen::MatrixXd X(n, samples + 1);
+        Eigen::MatrixXd Y(p, samples + 1);
+        X.col(0).setZero();
+
+        for (int k = 0; k < samples; ++k) {
+            Eigen::VectorXd u_k = Eigen::VectorXd::Zero(m);
+            Eigen::VectorXd u_k1 = Eigen::VectorXd::Zero(m);
+
+            if (k == 0) u_k(input_idx) = 1.0 / dt;  // impulse input
+
+            // Crank–Nicolson integration
+            Eigen::MatrixXd M = I - (dt / 2.0) * System.A;
+            Eigen::VectorXd RHS = (I + (dt / 2.0) * System.A) * X.col(k)
+                + (dt / 2.0) * System.B * (u_k + u_k1);
+            X.col(k + 1) = M.colPivHouseholderQr().solve(RHS);
+
+            Y.col(k) = System.C * X.col(k) + System.D * u_k;
+        }
+
+        Y.col(samples) = System.C * X.col(samples);  // D*u = 0 at final step
+
+        impulse_responses[input_idx] = Y;  // Store for this input
+    }
+
+    return impulse_responses;
+}
+
+
+
+    static double impulse_response_L2_norm(const Discrete_StateSpace_System& System) {
+        double t_h=20;
+        double samples=1000;
+        std::vector<Eigen::MatrixXd> impulse_responses = simulate_impulse_response(System, t_h, samples);
+        double total_norm = 0.0;
+        for (const auto& response : impulse_responses) {
+            // Compute L2 norm for each impulse response
+            double norm = response.norm();  // Frobenius norm
+            total_norm += norm * norm * (t_h / samples);  
+        }
+        return std::sqrt(total_norm);
     }
 
     // Compute condition number w.r.t. a given norm (default spectral norm)
