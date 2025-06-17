@@ -293,8 +293,7 @@ while ((gamma_max - gamma_min) > tol && k < iter){
 
 
     // Compute L2 norm of impulse response (energy)
-    static double impulse_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C) {
-        // Example implementation: computes the L2 norm of the impulse response
+    static double approx_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C) {
         // For a simple system, this could be approximated as sqrt(trace(C * P * C^T)), where P solves the Lyapunov equation
         Eigen::MatrixXd Q = B * B.transpose();
         Eigen::MatrixXd P = Norms::solve_lyapunov(A, Q);
