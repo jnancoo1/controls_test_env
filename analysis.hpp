@@ -422,13 +422,13 @@ public:
      */
     Eigen::MatrixXd compute_observability_gramian(const Discrete_StateSpace_System& System){
        
-        Eigen::MatrixXd Q = (System.C) * System.C.transpose();
+        Eigen::MatrixXd Q = (System.C.transpose()) * System.C;
         int n = System.A.rows();
         Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n, n);
         Eigen::VectorXd vecQ = Eigen::Map<const Eigen::VectorXd>(Q.data(), Q.size());
 
-        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(System.A, I);
-        Eigen::MatrixXd kron2 = Eigen::kroneckerProduct(I, System.A);
+        Eigen::MatrixXd kron1 = Eigen::kroneckerProduct(System.A.transopse(), I);
+        Eigen::MatrixXd kron2 = Eigen::kroneckerProduct(I, System.A.transpose());
 
         Eigen::VectorXd w = (kron1 + kron2).fullPivLu().solve(-vecQ);
 
