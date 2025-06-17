@@ -172,11 +172,134 @@ public:
 
     }
 
-    static double H_inf_norm(const Discrete_StateSpace_System& System);
+    static double H_inf_norm(const Discrete_StateSpace_System& System,
+                                double low_guess,
+                                double high_guess){
+
+    double gamma_min=low_guess;
+    double gamma_max=high_guess;
+    double tol=10e-6;
+    double iter =1000;
+    double gamma_test = (gamma_min + gamma_max) / 2.0;
+    double k=0;
+    
+while ((gamma_max - gamma_min) > tol && k < iter){
+        gamma_test = (gamma_min + gamma_max) / 2.0;
+
+
+            int n = System.A.rows();  // state dimension
+
+    Eigen::MatrixXd Q = System.C.transpose() * System.C;
+    Eigen::MatrixXd R = System.D.transpose() * System.D - gamma_test * gamma_test * Eigen::MatrixXd::Identity(System.D.cols(), System.D.cols());
+
+    Eigen::MatrixXd R_inv = R.inverse();
+
+    Eigen::MatrixXd Acl = System.A - System.B * R_inv * System.D.transpose() * System.C;
+    Eigen::MatrixXd S = System.B * R_inv * System.B.transpose();
+    Eigen::MatrixXd T = Q - System.C.transpose() * System.D * R_inv * System.D.transpose() * System.C;
+
+    Eigen::MatrixXd H(2 * n, 2 * n);
+    H.topLeftCorner(n, n)     = Acl;
+    H.topRightCorner(n, n)    = -S;
+    H.bottomLeftCorner(n, n)  = -T;
+    H.bottomRightCorner(n, n) = -Acl.transpose();
+    bool has_unit_circle_eigenvalue=false;
+   
+    Eigen::EigenSolver<Eigen::MatrixXd> es(H);
+            
+    for (int i = 0; i < es.eigenvalues().size(); ++i) {
+        std::complex<double> lambda = es.eigenvalues()(i);
+        if (std::abs(std::abs(lambda) - 1.0) < tol) {
+            has_unit_circle_eigenvalue = true;
+            break;
+            }
+
+        if (has_unit_circle_eigenvalue) {
+        gamma_min = gamma_test;                } 
+                else {
+                    gamma_max = gamma_test;
+                }
+        
+    }
+    k++;
+    if(k==iter){
+            break;
+        }
+}
+       return gamma_max;
+ }
+
+
+ static double H_inf_norm_discrete(const Discrete_StateSpace_System& System,
+                                   double gamma_min_init,
+                                   double gamma_max_init,
+                                   double tol = 1e-6,
+                                   int max_iter = 100) {
+    using namespace Eigen;
+
+    int n = System.A.rows();
+    int m = System.B.cols();
+    int p = System.C.rows();
+
+    double gamma_min = gamma_min_init;
+    double gamma_max = gamma_max_init;
+    double gamma_test = 0.0;
+
+    for (int iter = 0; iter < max_iter && (gamma_max - gamma_min) > tol; ++iter) {
+        gamma_test = 0.5 * (gamma_min + gamma_max);
+
+        MatrixXd R = System.D.transpose() * System.D - gamma_test * gamma_test * MatrixXd::Identity(m, m);
+
+        FullPivLU<MatrixXd> lu(R);
+        if (!lu.isInvertible()) {
+            gamma_min = gamma_test;
+            continue;
+        }
+
+        MatrixXd R_inv = R.inverse();
+        MatrixXd Q = System.C.transpose() * System.C;
+
+        MatrixXd Acl = System.A - System.B * R_inv * System.D.transpose() * System.C;
+        MatrixXd S = System.B * R_inv * System.B.transpose();
+        MatrixXd T = Q - System.C.transpose() * System.D * R_inv * System.D.transpose() * System.C;
+
+        MatrixXd H(2 * n, 2 * n);
+        H.topLeftCorner(n, n) = Acl;
+        H.topRightCorner(n, n) = -S;
+        H.bottomLeftCorner(n, n) = -T;
+        H.bottomRightCorner(n, n) = Acl.transpose();
+
+        EigenSolver<MatrixXd> es(H);
+        bool has_unit_circle_eigenvalue = false;
+
+        for (int i = 0; i < es.eigenvalues().size(); ++i) {
+            double abs_val = std::abs(es.eigenvalues()[i]);
+            if (std::abs(abs_val - 1.0) < tol) {
+                has_unit_circle_eigenvalue = true;
+                break;
+            }
+        }
+
+        if (has_unit_circle_eigenvalue) {
+            gamma_min = gamma_test;
+        } else {
+            gamma_max = gamma_test;
+        }
+    }
+
+    return gamma_max;
+}
+
 
 
     // Compute L2 norm of impulse response (energy)
-    static double impulse_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C);
+    static double impulse_response_L2_norm(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C) {
+        // Example implementation: computes the L2 norm of the impulse response
+        // For a simple system, this could be approximated as sqrt(trace(C * P * C^T)), where P solves the Lyapunov equation
+        Eigen::MatrixXd Q = B * B.transpose();
+        Eigen::MatrixXd P = Norms::solve_lyapunov(A, Q);
+        return std::sqrt((C * P * C.transpose()).trace());
+    }
 
     // Compute condition number w.r.t. a given norm (default spectral norm)
     static double condition_number(const Eigen::MatrixXd& M);
