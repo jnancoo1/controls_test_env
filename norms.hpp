@@ -435,44 +435,35 @@ static std::vector<Eigen::MatrixXd> simulate_impulse_response(
 }
 
 
-double compute_L1_norm_of_specific_output_signal(
+double compute_system_L1_norm(
     const Discrete_StateSpace_System& System,
-    double t_h,
-    int samples,
-    int input_source_idx,   // New parameter: which input to excite
-    int output_target_idx)  // New parameter: which output to observe
+    double t_h, int samples)
 {
-    // Simulate impulse responses for ALL inputs as before,
     auto impulse_responses = simulate_impulse_response(System, t_h, samples);
     double dt = t_h / samples;
 
-    if (input_source_idx < 0 || input_source_idx >= impulse_responses.size()) {
-        return -1.0; 
-    }
+    int m = impulse_responses.size();      // number of inputs
+    int p = impulse_responses[0].rows();  // number of outputs
+    int time_steps = impulse_responses[0].cols(); // samples + 1
 
-    int p = impulse_responses[0].rows(); 
-    if (output_target_idx < 0 || output_target_idx >= p) {
-        return -1.0; 
-    }
-
-
-    const auto& impulse_response_matrix_for_input = impulse_responses[input_source_idx];
-        
-    double l1_norm = 0.0;
-    int time_steps = impulse_response_matrix_for_input.cols(); // samples + 1
-
-    std::vector<double> abs_signal_values(time_steps);
-    for (int k = 0; k < time_steps; ++k) {
-        abs_signal_values[k] = std::abs(impulse_response_matrix_for_input(output_target_idx, k));
-    }
-
+    double total_integral = 0.0;
 
     for (int k = 0; k < time_steps - 1; ++k) {
-        l1_norm += 0.5 * (abs_signal_values[k] + abs_signal_values[k+1]) * dt;
-    }
-    return l1_norm;
-}
+        double norm1_k = 0.0, norm1_kp1 = 0.0;
 
+        // Sum over all entries of h(t) at time step k
+        for (int input_idx = 0; input_idx < m; ++input_idx) {
+            for (int output_idx = 0; output_idx < p; ++output_idx) {
+                norm1_k    += std::abs(impulse_responses[input_idx](output_idx, k));
+                norm1_kp1  += std::abs(impulse_responses[input_idx](output_idx, k+1));
+            }
+        }
+
+        total_integral += 0.5 * (norm1_k + norm1_kp1) * dt;
+    }
+
+    return total_integral;
+}
 
 
 
