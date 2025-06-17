@@ -399,7 +399,7 @@ static std::vector<Eigen::MatrixXd> simulate_impulse_response(
 
 
 
-    double compute_system_L1_norm(
+    double compute_system_L1_induced_norm(
     const Discrete_StateSpace_System& System,
     double t_h, int samples)
 {
