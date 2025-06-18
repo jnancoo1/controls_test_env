@@ -4,6 +4,7 @@
 #include <vector>
 #include <complex>
 #include <optional>
+#include<Eigen/Dense>
 
 namespace TransferFunctions {
 
@@ -26,17 +27,67 @@ namespace TransferFunctions {
 
     public:
         // Constructor
-        TransferFunction(const std::vector<double>& num, const std::vector<double>& den);
+        TransferFunction(const std::vector<double>& num, const std::vector<double>& den){
+            numerator=num;
+            denominator=den;
+
+        }
 
         // Factory methods for common transfer functions
-        static TransferFunction createFirstOrder(double K, double tau);
-        static TransferFunction createSecondOrder(double K, double wn, double zeta);
+        static TransferFunction createFirstOrder(double K, double tau){
+
+            std::vector<double> num = {K};
+            std::vector<double> den = {tau, 1.0};
+            return TransferFunction(num, den);
+        };
+        static TransferFunction createSecondOrder(double K, double wn, double zeta){
+
+            std::vector<double> num = {K};
+            std::vector<double> den = {1,2*zeta*wn,wn*wn};
+
+            return TransferFunction(num, den);
+
+        };
 
         // Evaluate the transfer function at a given frequency (s-domain)
         std::complex<double> evaluate(std::complex<double> s) const;
 
-        // Get the poles of the transfer function
-        std::vector<std::complex<double>> getPoles() const;
+        const std::vector<std::complex<double>> getPoles() const{
+            int n=this->denominator.size();
+            std::vector<std::complex<double>> output;
+
+            std::vector<double> normed_poles(this->denominator.size()); 
+
+            double temp;
+            if (this->denominator.size()==0||this->denominator.size()==1){
+                output.push_back(0);
+                return output;
+            }
+            else{
+                //normalise
+                for(int i=0;i<this->denominator.size();i++){
+
+                    temp=this->denominator[0];
+
+                    
+                        normed_poles[i]=this->denominator[i]/temp;
+                
+                }
+                
+        Eigen::MatrixXcd Accf = Eigen::MatrixXcd::Zero(n, n);
+        for(int i=0;i<n-1;i++){
+            Accf(i,i+1)=1;
+        }
+        for(int j=0;j<n;j++){
+            Accf(n-1,j)=-normed_poles[j];
+        }
+            Eigen::EigenSolver<Eigen::MatrixXcd> es(Accf);
+            for (int i = 0; i < es.eigenvalues().size(); ++i) {
+                output.push_back(es.eigenvalues()[i]);
+            }
+            return output;
+            }
+        };
 
         // Get the zeros of the transfer function
         std::vector<std::complex<double>> getZeros() const;
