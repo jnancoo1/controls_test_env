@@ -49,9 +49,6 @@ namespace TransferFunctions {
 
         };
 
-        // Evaluate the transfer function at a given frequency (s-domain)
-        std::complex<double> evaluate(std::complex<double> s) const;
-
         const std::vector<std::complex<double>> getPoles() const{
             int n=this->denominator.size();
             std::vector<std::complex<double>> output;
