@@ -137,9 +137,86 @@ namespace TransferFunctions {
 
             }
 
+        std::vector<double> Get_freq_response(TransferFunction tf,const double& start,const double end,int n){
+
+
+            std::vector<std::complex<double>> freq_responses=frequency_sweep_jw(start,end,n);
+            int num_size=tf.numerator.size();
+            int denom_size=tf.denominator.size();
+            std::complex <double> num_temp;
+
+            std::complex <double> acc(0,0);
+            std::complex <double> acc2(0,0);
+            std::complex <double> acc3(0,0);
+            std::vector<double> store;
+
+
+        for(int iter=0;iter<n;iter++){
+
+            for(int i=0;i<num_size;i++){
+
+                num_temp=tf.numerator[i]*pow(freq_responses[iter],i);
+                acc+=num_temp;
+                }
+
+            for(int j=0;j<denom_size;j++){
+
+                num_temp=tf.denominator[j]*pow(freq_responses[iter],j);
+                acc2+=num_temp;
+                }
+                acc3=acc/acc2;
+                acc=0;
+                acc2=0;
+                store.push_back(std::arg(acc3));
+            }
+             return store;
+
+            }
+
+        
         
         // Get the zeros of the transfer function
-        std::vector<std::complex<double>> getZeros() const;
+        std::vector<std::complex<double>> getZeros() const{
+
+            int n=this->denominator.size();
+            std::vector<std::complex<double>> output;
+
+            std::vector<double> normed_zeros(this->numerator.size()); 
+
+            double temp;
+            if (this->denominator.size()==0||this->numerator.size()==1){
+                output.push_back(0);
+                return output;
+            }
+            else{
+                //normalise
+                for(int i=0;i<this->numerator.size();i++){
+
+                    temp=this->numerator[0];
+
+                    
+                        normed_zeros[i]=this->numerator[i]/temp;
+                
+                }
+                
+        Eigen::MatrixXcd Accf = Eigen::MatrixXcd::Zero(n, n);
+        for(int i=0;i<n-1;i++){
+            Accf(i,i+1)=1;
+        }
+        for(int j=0;j<n;j++){
+            Accf(n-1,j)=-numerator[j];
+        }
+            Eigen::EigenSolver<Eigen::MatrixXcd> es(Accf);
+            for (int i = 0; i < es.eigenvalues().size(); ++i) {
+                output.push_back(es.eigenvalues()[i]);
+            }
+            return output;
+            }
+        };
+
+
+
+        };
 
 
         // System identification methods
