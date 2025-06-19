@@ -10,6 +10,14 @@
 #include <Eigen/SVD>
 #include <eigen3/unsupported/Eigen/KroneckerProduct>
 
+struct StateSpace_System {
+
+    Eigen::MatrixXd A;
+    Eigen::MatrixXd B;
+    Eigen::MatrixXd C;
+    Eigen::MatrixXd D;
+
+};
 
 /**
  * @brief A class for transforming state space systems into various canonical forms
@@ -50,9 +58,9 @@ class Forms{
      * \f]
      * 
      * @param System The discrete state space system to transform
-     * @return Discrete_StateSpace_System The transformed system in controllable canonical form
+     * @return StateSpace_System The transformed system in controllable canonical form
      */
-    Discrete_StateSpace_System Cont_Cannonical_form(const Discrete_StateSpace_System& System)
+    StateSpace_System Cont_Cannonical_form(const StateSpace_System& System)
     {
 
 
@@ -99,7 +107,7 @@ class Forms{
         Eigen::MatrixXd T_inv=T.inverse();
 
         // Ensure the constructor matches the expected signature, e.g. (A, B, C, D)
-        Discrete_StateSpace_System new_system = System;
+        StateSpace_System new_system = System;
         new_system.A = Accf;
         new_system.B = T_inv * System.B;
         new_system.C = System.C * T;
@@ -132,9 +140,9 @@ class Forms{
      * \f]
      * 
      * @param System The discrete state space system to transform
-     * @return Discrete_StateSpace_System The transformed system in observable canonical form
+     * @return StateSpace_System The transformed system in observable canonical form
      */
-        Discrete_StateSpace_System obs_Cannonical_form(const Discrete_StateSpace_System& System){
+        StateSpace_System obs_Cannonical_form(const StateSpace_System& System){
 
         int n = System.A.rows();
         Eigen::MatrixXd B0 = Eigen::MatrixXd::Identity(n, n);
@@ -177,7 +185,7 @@ class Forms{
         Eigen::MatrixXd T_inv=T.inverse();
 
         // Ensure the constructor matches the expected signature, e.g. (A, B, C, D)
-        Discrete_StateSpace_System new_system = System;
+        StateSpace_System new_system = System;
         new_system.A = Aocf;
         new_system.B = T_inv * System.B;
         new_system.C = System.C * T;
@@ -202,10 +210,10 @@ class Forms{
      * is constructed from the controllability matrix.
      * 
      * @param System The discrete state space system to transform
-     * @return Discrete_StateSpace_System The transformed system in phase variable form
+     * @return StateSpace_System The transformed system in phase variable form
      * @throw std::runtime_error if the system is not controllable
      */
-    Discrete_StateSpace_System Phase_Variable_Form(const Discrete_StateSpace_System& System) {
+    StateSpace_System Phase_Variable_Form(const StateSpace_System& System) {
     int n = System.A.rows();
 
     // Build controllability matrix and check invertibility
@@ -216,7 +224,7 @@ class Forms{
     Eigen::MatrixXd T_inv = T.inverse();
 
     // Transform system to phase variable form
-    Discrete_StateSpace_System new_system = System;
+    StateSpace_System new_system = System;
     new_system.A = T_inv * System.A * T;
     new_system.B = T_inv * System.B;
     new_system.C = System.C * T;
@@ -243,9 +251,9 @@ class Forms{
      * This form is numerically stable and preserves the eigenvalues of the original system.
      * 
      * @param System The discrete state space system to transform
-     * @return Discrete_StateSpace_System The transformed system in Schur form
+     * @return StateSpace_System The transformed system in Schur form
      */
-    Discrete_StateSpace_System Schur_Form(const Discrete_StateSpace_System& System){
+    StateSpace_System Schur_Form(const StateSpace_System& System){
 
 
         Eigen::RealSchur<Eigen::MatrixXd> Schur(System.A)
@@ -254,7 +262,7 @@ class Forms{
 
         Eigen::MatrixXd Q_inv=Q.transpose();
 
-        Discrete_StateSpace_System new_system = System;
+        StateSpace_System new_system = System;
         new_system.A = T;
         new_system.B = Q_inv * System.B;
         new_system.C = System.C * Q;
@@ -284,10 +292,10 @@ class Forms{
      * making it useful for stability analysis and control design.
      * 
      * @param System The discrete state space system to transform
-     * @return Discrete_StateSpace_System The transformed system in diagonal form
+     * @return StateSpace_System The transformed system in diagonal form
      * @throw std::runtime_error if the matrix is not diagonalizable (eigenvectors are not linearly independent)
      */
-        Discrete_StateSpace_System Diagonalize(const Discrete_StateSpace_System& System) {
+        StateSpace_System Diagonalize(const StateSpace_System& System) {
             Eigen::EigenSolver<Eigen::MatrixXd> es(System.A);
             Eigen::MatrixXcd eigenvectors = es.eigenvectors();
             Eigen::VectorXcd eigenvalues = es.eigenvalues();
@@ -302,7 +310,7 @@ class Forms{
 
             Eigen::MatrixXcd D = eigenvalues.asDiagonal();
 
-            Discrete_StateSpace_System new_system;
+            StateSpace_System new_system;
 
             new_system.A = (P_inv * System.A.cast<std::complex<double>>() * P).real();
             new_system.B = (P_inv * System.B.cast<std::complex<double>>()).real();

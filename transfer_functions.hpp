@@ -89,11 +89,61 @@ namespace TransferFunctions {
             }
         };
 
+        static std::vector<std::complex<double>> frequency_sweep_jw(const double& start,const double end,int n){
+
+            std::vector<std::complex<double>> ans;
+            double step=((end-start)/n);
+            double temp=start;
+            std::complex<double> temp2;std::complex<double> temp3(0,1);
+            for(int i=0;i<n;i++){
+
+                temp=+(i*step);//Hz
+                temp2=temp*2*M_PI*temp3;
+                ans.push_back(temp2);
+            }
+            return ans;
+        }
+
+        std::vector<double> Get_Mag_Response(TransferFunction tf,const double& start,const double end,int n){
+
+
+            std::vector<std::complex<double>> freq_responses=frequency_sweep_jw(start,end,n);
+            int num_size=tf.numerator.size();
+            int denom_size=tf.denominator.size();
+            std::complex <double> num_temp;
+
+            std::complex <double> acc(0,0);
+            std::complex <double> acc2(0,0);
+            std::complex <double> acc3(0,0);
+            std::vector<double> store;
+
+
+        for(int iter=0;iter<n;iter++){
+
+            for(int i=0;i<num_size;i++){
+
+                num_temp=tf.numerator[i]*pow(freq_responses[iter],i);
+                acc+=num_temp;
+                }
+
+            for(int j=0;j<denom_size;j++){
+
+                num_temp=tf.denominator[j]*pow(freq_responses[iter],j);
+                acc2+=num_temp;
+                }
+                acc3=acc/acc2;
+                acc=0;
+                acc2=0;
+                store.push_back(std::abs(acc3));
+            }
+             return store;
+
+            }
+
+        
         // Get the zeros of the transfer function
         std::vector<std::complex<double>> getZeros() const;
 
-        // Compute the frequency response at a given frequency
-        std::complex<double> frequencyResponse(double omega) const;
 
         // System identification methods
         std::optional<FirstOrderParams> identifyFirstOrder() const;
@@ -113,6 +163,7 @@ namespace TransferFunctions {
     double computeTimeConstant(const TransferFunction& tf);
     double computeSettlingTime(const TransferFunction& tf, double settlingPercentage = 0.02); // 2% by default
     double computeRiseTime(const TransferFunction& tf, double startPercentage = 0.1, double endPercentage = 0.9);
+    //add max overshoot
 
     // Second-order system characteristics
     double computeNaturalFrequency(const TransferFunction& tf);
