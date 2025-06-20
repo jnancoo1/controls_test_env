@@ -66,26 +66,21 @@ class Forms{
 
         int n = System.A.rows();
         Eigen::MatrixXd B0 = Eigen::MatrixXd::Identity(n, n);
-        Eigen::MatrixXd Bk;
+        Eigen::MatrixXd Bk=B0;
         std::vector<double> coeffs;
         double ak_1 = 0;
         double trk = 0;
 
         for (int k = 1; k <= n; k++) {
-            if (k == 1) {
                 // First iteration: trace(A), a0 coefficient, initialize Bk
-                trk = System.A.diagonal().sum();  // trace(A)
+                trk = (System.A*Bk).diagonal().sum();  // trace(A)
                 ak_1 = -trk / k;
                 coeffs.push_back(ak_1);
-                Bk = B0;
-            } else {
-                // Subsequent iterations: compute Bk, trace, and coefficient
-                Eigen::MatrixXd Bk_1 = System.A * Bk + ak_1 * B0;
-                trk = (System.A * Bk_1).diagonal().sum();
-                ak_1 = -trk / k;
-                coeffs.push_back(ak_1);
-                Bk = Bk_1;
-            }
+
+                if (k < n) {
+            Bk = System.A * Bk + ak_1 * B0;
+        }
+
         };
 
 
@@ -109,7 +104,8 @@ class Forms{
         // Ensure the constructor matches the expected signature, e.g. (A, B, C, D)
         StateSpace_System new_system = System;
         new_system.A = Accf;
-        new_system.B = T_inv * System.B;
+        new_system.B = Eigen::MatrixXd::Zero(n, System.B.cols());
+        new_system.B(n-1, 0) = 1.0; 
         new_system.C = System.C * T;
         new_system.D = System.D;
 

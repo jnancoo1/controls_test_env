@@ -17,6 +17,8 @@ add_subdirectory(gtest)
 
 # Link with Google Test and pthread
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(unit_test
     gtest
     gtest_main

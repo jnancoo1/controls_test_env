@@ -5,8 +5,18 @@
 #include <complex>
 #include <optional>
 #include<Eigen/Dense>
+#include "discrete_state_space.hpp"
 
 namespace TransferFunctions {
+
+    struct StateSpace_System {
+
+    Eigen::MatrixXcd A;
+    Eigen::MatrixXcd B;
+    Eigen::MatrixXcd C;
+    double D;
+
+};
 
     // First Order System Parameters
     struct FirstOrderParams {
@@ -210,18 +220,70 @@ namespace TransferFunctions {
             for (int i = 0; i < es.eigenvalues().size(); ++i) {
                 output.push_back(es.eigenvalues()[i]);
             }
-            return output;
             }
-        };
+            return output;//check this over
+
+        }
+        
+
+        StateSpace_System TF2SS(const TransferFunction tf){
 
 
+            std::vector<double> normed_coeff(this->denominator.size()); 
+            double temp = tf.denominator[0];
+            for (int i = 0; i < tf.denominator.size(); i++) {
+                normed_coeff[i] = tf.denominator[i] / temp;
+            }
 
-        };
+            
+        int n=tf.denominator.size()-1;
+        Eigen::MatrixXcd Accf = Eigen::MatrixXcd::Zero(n, n);
+        for(int i=0;i<n-1;i++){
+            Accf(i,i+1)=1;
+        }
+        for(int j=0;j<n;j++){
+            Accf(n-1,j)=-normed_coeff[j];
+        }
+
+        Eigen::MatrixXd B(Accf.rows(), 1);
+        B.setZero();
+        B.row(Accf.rows()-1).setConstant(1.0);
+
+        
+        Eigen::MatrixXd C(1,Accf.rows());
+        int n = tf.denominator.size();
+        int m = tf.numerator.size();
+
+        std::vector<double> num_padded(n, 0.0);
+        for(int i = 0; i < m; i++) {
+            num_padded[i] = tf.numerator[i] / temp; // normalize numerator by same leading denominator coeff
+        }
+
+        double bn = (m == n) ? num_padded[n - 1] : 0.0;
+
+        for(int i = 0; i < n; i++) {
+            double a_i_plus_1 = (i + 1 < n) ? normed_coeff[i + 1] : 0.0;
+            C(0,i) = num_padded[i] - bn * a_i_plus_1;
+        }
+
+        
+        double D = (m == n) ? bn : 0.0;
+
+
+        StateSpace_System Trs;
+        Trs.A=Accf;
+        Trs.B=B;
+        Trs.C=C; 
+        Trs.D=D;
+        return Trs;
+
+        
+        }
 
 
         // System identification methods
-        std::optional<FirstOrderParams> identifyFirstOrder() const;
-        std::optional<SecondOrderParams> identifySecondOrder() const;
+        std::optional<FirstOrderParams> identifyFirstOrder();
+        std::optional<SecondOrderParams> identifySecondOrder();
     };
 
     // Time-domain response computations
