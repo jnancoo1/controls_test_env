@@ -16,6 +16,16 @@ namespace TransferFunctions {
     Eigen::MatrixXcd C;
     double D;
 
+    
+    Eigen::VectorXd output(const Eigen::VectorXd& x, const Eigen::VectorXd& u) const {
+        return C * x + D * u;
+    }
+
+    Eigen::VectorXd dxdt(const Eigen::VectorXd& x, const Eigen::VectorXd& u) const {
+        return A * x + B * u;
+    }
+
+
 };
 
     // First Order System Parameters
@@ -279,7 +289,77 @@ namespace TransferFunctions {
 
         
         }
+        
+        std::vector<double> convolve(const std::vector<double>& x, const std::vector<double>& h) {
+    
+            int N = x.size();
+            int M = h.size();
+            int outputSize = N + M - 1;
 
+            std::vector<double> y(outputSize, 0.0);
+
+            for (int n = 0; n < outputSize; ++n) {
+                for (int k = 0; k < N; ++k) {
+                    if (n - k >= 0 && n - k < M) {
+                        y[n] += x[k] * h[n - k];
+                    }
+                }
+            }
+
+    return y;
+}
+
+
+std::vector<Eigen::VectorXd> simulateStepResponseRK4(
+    const StateSpace_System& sys,
+    double dt,
+    int steps
+) {
+    std::vector<Eigen::VectorXd> h(steps);
+    Eigen::VectorXd x = sys.x0;
+    Eigen::VectorXd step = Eigen::VectorXd::Ones(sys.B.cols());
+
+    for (int t = 0; t < steps; ++t) {
+        h[t] = sys.output(x, step);
+        x = rk4_step(sys, x, step, dt);
+    }
+
+    return h;
+}
+
+
+        Eigen::VectorXd rk4_step(
+            const StateSpace_System& sys,
+            const Eigen::VectorXd& x,
+            const Eigen::VectorXd& u,
+            double dt
+        ) {
+            Eigen::VectorXd k1 = sys.dxdt(x, u);
+            Eigen::VectorXd k2 = sys.dxdt(x + 0.5 * dt * k1, u);
+            Eigen::VectorXd k3 = sys.dxdt(x + 0.5 * dt * k2, u);
+            Eigen::VectorXd k4 = sys.dxdt(x + dt * k3, u);
+            return x + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4);
+        }
+
+
+        std::vector<Eigen::VectorXd> convolve_input_with_step_response(
+    const StateSpace_System& sys,
+    const std::vector<Eigen::VectorXd>& u,
+    double dt
+) {
+    int steps = u.size();
+    std::vector<Eigen::VectorXd> h = simulateStepResponseRK4(sys, dt, steps);
+    std::vector<Eigen::VectorXd> y(steps, Eigen::VectorXd::Zero(sys.C.rows()));
+
+    for (int t = 0; t < steps; ++t) {
+        for (int k = 0; k <= t; ++k) {
+            y[t] += h[k].cwiseProduct(u[t - k]);
+        }
+        y[t] *= dt;
+    }
+
+    return y;
+}
 
         // System identification methods
         std::optional<FirstOrderParams> identifyFirstOrder();
